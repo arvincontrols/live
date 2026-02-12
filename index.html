@@ -998,6 +998,78 @@ table tr:last-child td {
 /* highlight row for transaction view */
 .credit-text { color: var(--success-green); font-weight: 600; }
 .debit-text { color: var(--accounts-expense); font-weight: 600; }
+
+/* ===== MODAL POPUP FOR ACCOUNTS SUB TAB ===== */
+.accounts-sub-popup-modal {
+    display: none;
+    position: fixed;
+    z-index: 3000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(20,20,20,0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    overflow-y: auto;
+    padding: 15px;
+}
+.accounts-sub-popup-content {
+    background: white;
+    margin: 30px auto;
+    padding: 30px 25px;
+    width: 95%;
+    max-width: 1000px;
+    border-radius: 24px;
+    position: relative;
+    box-shadow: 0 25px 50px -8px rgba(0,0,0,0.3);
+    border-top: 8px solid;
+    animation: popFade 0.25s ease;
+}
+@keyframes popFade {
+    from { opacity: 0.5; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+}
+.accounts-sub-popup-close {
+    position: absolute;
+    right: 25px;
+    top: 20px;
+    font-size: 35px;
+    font-weight: 300;
+    cursor: pointer;
+    color: #aaa;
+    line-height: 1;
+    transition: color 0.2s;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.accounts-sub-popup-close:hover {
+    color: var(--fire-red);
+    background: #f5f5f5;
+}
+.accounts-popup-title {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 0 0 15px 0;
+    padding-bottom: 15px;
+    border-bottom: 3px solid;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.accounts-popup-summary {
+    margin-bottom: 30px;
+    background: #fafbfc;
+    padding: 20px;
+    border-radius: 18px;
+}
+.accounts-popup-body {
+    width: 100%;
+    overflow-x: auto;
+}
 </style>
 </head>
 
@@ -1009,7 +1081,6 @@ table tr:last-child td {
     </div>
 
     <nav class="tab-nav" id="folder-grid">
-        <!-- INDIVIDUAL COLOR applied via inline style border-bottom and stroke colors enhanced -->
         <button class="tab-link" onclick="openTab('quotation-tab')" style="border-bottom-color: #e67e22;">
             <svg viewBox="0 0 24 24" fill="none" stroke="#e67e22" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
             <strong style="color:#e67e22;">Quotation</strong>
@@ -1049,18 +1120,6 @@ table tr:last-child td {
         <button class="tab-link" onclick="openTab('letter-tab')" style="border-bottom-color: #2980b9;">
             <svg viewBox="0 0 24 24" fill="none" stroke="#2980b9" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             <strong style="color:#2980b9;">Letter</strong>
-        </button>
-        <button class="tab-link" onclick="openTab('documents-tab')" style="border-bottom-color: #7f8c8d;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#7f8c8d" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-            <strong style="color:#7f8c8d;">Docs</strong>
-        </button>
-        <button class="tab-link" onclick="openTab('projects-tab')" style="border-bottom-color: #c0392b;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-            <strong style="color:#c0392b;">Projects</strong>
-        </button>
-        <button class="tab-link" onclick="openTab('work-order-tab')" style="border-bottom-color: #16a085;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#16a085" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
-            <strong style="color:#16a085;">Work Order</strong>
         </button>
         <button class="tab-link" onclick="openTab('accounts-tab')" style="border-bottom-color: #2c3e50;">
             <svg viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
@@ -1229,43 +1288,38 @@ table tr:last-child td {
             <div class="placeholder-msg" id="noLettersMsg" style="display:none;"><h3>No Letters</h3><p>Draft company letters.</p></div>
         </div>
         
-        <div id="documents-tab" class="tab-content"><button class="btn-back" onclick="closeTabs()">← Back</button><div class="placeholder-msg"><h3>Document Repository</h3><p>Compliance certificates storage.</p></div></div>
-        <div id="projects-tab" class="tab-content"><button class="btn-back" onclick="closeTabs()">← Back</button><div class="placeholder-msg"><h3>Active Projects</h3><p>Installation milestones.</p></div></div>
-        <div id="work-order-tab" class="tab-content"><button class="btn-back" onclick="closeTabs()">← Back</button><div class="placeholder-msg"><h3>Work Orders</h3><p>Assign technical tasks.</p></div></div>
-        
         <!-- ========== ACCOUNTS TAB with colorful sub folders ========== -->
         <div id="accounts-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">← Back</button>
             <h2 style="margin-top:0; color: var(--charcoal);">Accounts & Finance</h2>
             
-            <!-- Colorful Sub-Folder Navigation -->
+            <!-- Colorful Sub-Folder Navigation - now triggers popup window -->
             <div class="accounts-sub-nav">
-                <div class="accounts-sub-link" onclick="openAccountsSubTab('accounts-workorder')" style="border-top: 6px solid var(--accounts-workorder);">
+                <div class="accounts-sub-link" onclick="openAccountsSubPopup('accounts-workorder')" style="border-top: 6px solid var(--accounts-workorder);">
                     <svg viewBox="0 0 24 24" fill="none" stroke="var(--accounts-workorder)" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
                     <span style="color: var(--accounts-workorder);">Work Orders</span>
                 </div>
-                <div class="accounts-sub-link" onclick="openAccountsSubTab('accounts-income')" style="border-top: 6px solid var(--accounts-income);">
+                <div class="accounts-sub-link" onclick="openAccountsSubPopup('accounts-income')" style="border-top: 6px solid var(--accounts-income);">
                     <svg viewBox="0 0 24 24" fill="none" stroke="var(--accounts-income)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                     <span style="color: var(--accounts-income);">Income</span>
                 </div>
-                <div class="accounts-sub-link" onclick="openAccountsSubTab('accounts-expense')" style="border-top: 6px solid var(--accounts-expense);">
+                <div class="accounts-sub-link" onclick="openAccountsSubPopup('accounts-expense')" style="border-top: 6px solid var(--accounts-expense);">
                     <svg viewBox="0 0 24 24" fill="none" stroke="var(--accounts-expense)" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                     <span style="color: var(--accounts-expense);">Expense</span>
                 </div>
-                <div class="accounts-sub-link" onclick="openAccountsSubTab('accounts-transaction')" style="border-top: 6px solid var(--accounts-transaction);">
+                <div class="accounts-sub-link" onclick="openAccountsSubPopup('accounts-transaction')" style="border-top: 6px solid var(--accounts-transaction);">
                     <svg viewBox="0 0 24 24" fill="none" stroke="var(--accounts-transaction)" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                     <span style="color: var(--accounts-transaction);">Transactions</span>
                 </div>
             </div>
             
-            <!-- Sub Tab Content Panels - all default hidden, active class toggled -->
-            <!-- WORK ORDER SUB TAB with modal data entry + SUMMARY CARDS (single line adjusted) -->
-            <div id="accounts-workorder" class="accounts-sub-content">
+            <!-- Sub Tab Content Panels - now hidden; they are only used to clone for popup (or remain as fallback) but we will keep them as source for popup content -->
+            <!-- WORK ORDER SUB TAB (hidden from main view, but we keep structure to copy) -->
+            <div id="accounts-workorder" class="accounts-sub-content" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom:15px;">
                     <h3 style="color: var(--accounts-workorder); margin:0;">📋 Work Orders (Financial Summary)</h3>
                     <button class="add-new-btn" style="max-width: 180px; background: var(--accounts-workorder);" onclick="showWorkOrderModal()">+ New Work Order</button>
                 </div>
-                <!-- Summary Cards for Work Orders - single line flex with adjusted fonts -->
                 <div class="summary-cards" id="wo-summary-container">
                     <div class="summary-card wo-card">
                         <span class="card-title">Total Value</span>
@@ -1283,7 +1337,7 @@ table tr:last-child td {
                         <span class="card-sub">Value - Cost</span>
                     </div>
                 </div>
-                <div class="table-container" style="margin-top:20px;">
+                <div class="table-container">
                     <table>
                         <thead><tr><th>SL</th><th>Client</th><th>Date</th><th>WO Type</th><th>WO Value</th><th>WO Cost</th><th>Profit</th><th>Action</th></tr></thead>
                         <tbody id="workorder-table-body"></tbody>
@@ -1291,13 +1345,12 @@ table tr:last-child td {
                 </div>
             </div>
             
-            <!-- INCOME SUB TAB with modal data entry + SUMMARY CARDS (single line) -->
-            <div id="accounts-income" class="accounts-sub-content">
+            <!-- INCOME SUB TAB (hidden) -->
+            <div id="accounts-income" class="accounts-sub-content" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom:15px;">
                     <h3 style="color: var(--accounts-income); margin:0;">💰 Income Register</h3>
                     <button class="add-new-btn" style="max-width: 180px; background: var(--accounts-income);" onclick="showIncomeModal()">+ Record Income</button>
                 </div>
-                <!-- Summary Cards for Income - single line -->
                 <div class="summary-cards" id="income-summary-container">
                     <div class="summary-card income-card">
                         <span class="card-title">Total Income</span>
@@ -1315,7 +1368,7 @@ table tr:last-child td {
                         <span class="card-sub">Year to date</span>
                     </div>
                 </div>
-                <div class="table-container" style="margin-top:20px;">
+                <div class="table-container">
                     <table>
                         <thead><tr><th>SL</th><th>Date</th><th>Purpose</th><th>Amount</th><th>Action</th></tr></thead>
                         <tbody id="income-table-body"></tbody>
@@ -1323,13 +1376,12 @@ table tr:last-child td {
                 </div>
             </div>
             
-            <!-- EXPENSE SUB TAB with modal data entry + SUMMARY CARDS (single line) -->
-            <div id="accounts-expense" class="accounts-sub-content">
+            <!-- EXPENSE SUB TAB (hidden) -->
+            <div id="accounts-expense" class="accounts-sub-content" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom:15px;">
                     <h3 style="color: var(--accounts-expense); margin:0;">💸 Expense Ledger</h3>
                     <button class="add-new-btn" style="max-width: 180px; background: var(--accounts-expense);" onclick="showExpenseModal()">+ Record Expense</button>
                 </div>
-                <!-- Summary Cards for Expense - single line -->
                 <div class="summary-cards" id="expense-summary-container">
                     <div class="summary-card expense-card">
                         <span class="card-title">Total Expense</span>
@@ -1347,7 +1399,7 @@ table tr:last-child td {
                         <span class="card-sub">Year to date</span>
                     </div>
                 </div>
-                <div class="table-container" style="margin-top:20px;">
+                <div class="table-container">
                     <table>
                         <thead><tr><th>SL</th><th>Date</th><th>Purpose</th><th>Amount</th><th>Action</th></tr></thead>
                         <tbody id="expense-table-body"></tbody>
@@ -1355,12 +1407,11 @@ table tr:last-child td {
                 </div>
             </div>
             
-            <!-- TRANSACTIONS SUB TAB combined from income & expense + SUMMARY CARDS (single line) -->
-            <div id="accounts-transaction" class="accounts-sub-content">
+            <!-- TRANSACTIONS SUB TAB (hidden) -->
+            <div id="accounts-transaction" class="accounts-sub-content" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom:15px;">
                     <h3 style="color: var(--accounts-transaction); margin:0;">🔄 Transaction History</h3>
                 </div>
-                <!-- Summary Cards for Transactions - single line -->
                 <div class="summary-cards" id="transaction-summary-container">
                     <div class="summary-card trans-card">
                         <span class="card-title">Total Income</span>
@@ -1378,7 +1429,7 @@ table tr:last-child td {
                         <span class="card-sub">Income - Expense</span>
                     </div>
                 </div>
-                <div class="table-container" style="margin-top:20px;">
+                <div class="table-container">
                     <table>
                         <thead><tr><th>Date</th><th>Type</th><th>Purpose / Client</th><th>Credit</th><th>Debit</th><th>Balance</th></tr></thead>
                         <tbody id="transaction-table-body"></tbody>
@@ -1791,6 +1842,14 @@ table tr:last-child td {
     </div>
 </div>
 
+<!-- ===== ACCOUNTS SUB POPUP MODAL (DYNAMIC) ===== -->
+<div id="accountsSubPopupModal" class="accounts-sub-popup-modal">
+    <div class="accounts-sub-popup-content" id="accountsPopupContent">
+        <span class="accounts-sub-popup-close" onclick="closeAccountsSubPopup()">&times;</span>
+        <div id="accountsPopupInner"></div>
+    </div>
+</div>
+
 <!-- PRINT AREA -->
 <div id="print-area">
     <div class="header-content">
@@ -1981,7 +2040,7 @@ function saveWorkOrder() {
     if (idx !== '') workOrders[idx] = wo; else workOrders.push(wo);
     saveWorkOrdersToStorage();
     renderWorkOrders();
-    renderTransactions(); // update transaction view if needed
+    renderTransactions(); 
     closeWorkOrderModal();
     showToast('Work Order saved');
 }
@@ -2037,7 +2096,7 @@ function saveIncome() {
     if (idx !== '') incomeRecords[idx] = inc; else incomeRecords.push(inc);
     saveIncomeToStorage();
     renderIncome();
-    renderTransactions(); // update transaction view
+    renderTransactions();
     closeIncomeModal();
     showToast('Income saved');
 }
@@ -2144,7 +2203,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderInventory(); 
     loadPurchaseOrders(); 
     loadInvoices(); loadDeliveryChallans(); loadMoneyReceipts(); loadLetters();
-    // Load accounts data
     workOrders = JSON.parse(localStorage.getItem('faithWorkOrders') || '[]');
     incomeRecords = JSON.parse(localStorage.getItem('faithIncomeRecords') || '[]');
     expenseRecords = JSON.parse(localStorage.getItem('faithExpenseRecords') || '[]');
@@ -2152,11 +2210,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderIncome();
     renderExpense();
     renderTransactions();
-    // Accounts sub tabs default: show work orders, hide others via active class
-    const accSubs = document.querySelectorAll('.accounts-sub-content');
-    accSubs.forEach(el => el.classList.remove('active'));
-    const defaultAcc = document.getElementById('accounts-workorder');
-    if(defaultAcc) defaultAcc.classList.add('active');
 });
 
 // Tab Navigation
@@ -2176,11 +2229,7 @@ function openTab(tabName) {
     if (tabName === 'receipt-tab') loadMoneyReceipts();
     if (tabName === 'letter-tab') loadLetters();
     if (tabName === 'accounts-tab') {
-        // ensure only one sub tab visible: default to workorder active
-        document.querySelectorAll('.accounts-sub-content').forEach(el => el.classList.remove('active'));
-        const work = document.getElementById('accounts-workorder');
-        if(work) work.classList.add('active');
-        renderWorkOrders(); renderIncome(); renderExpense(); renderTransactions();
+        // no need to show sub content inside main tab – popup only
     }
 }
 
@@ -2191,18 +2240,45 @@ function closeTabs() {
     window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-// Accounts Sub Tab opener - HIDE OTHERS, SHOW ONLY SELECTED
-function openAccountsSubTab(subId) {
-    // Remove active from all sub contents
-    document.querySelectorAll('.accounts-sub-content').forEach(el => el.classList.remove('active'));
-    // Add active to selected sub tab
-    const activeSub = document.getElementById(subId);
-    if(activeSub) activeSub.classList.add('active');
-    // Refresh data & summary cards
+// ===== ACCOUNTS SUB POPUP: displays full content in a new professional window =====
+function openAccountsSubPopup(subId) {
+    // get the source hidden content
+    const sourceDiv = document.getElementById(subId);
+    if (!sourceDiv) return;
+    
+    // clone the entire div to avoid modifying original
+    const cloneContent = sourceDiv.cloneNode(true);
+    cloneContent.style.display = 'block'; // make visible inside popup
+    cloneContent.classList.remove('accounts-sub-content');
+    cloneContent.classList.add('accounts-sub-content'); // keep style
+    
+    // Inject into popup inner container
+    const popupInner = document.getElementById('accountsPopupInner');
+    popupInner.innerHTML = '';
+    popupInner.appendChild(cloneContent);
+    
+    // set border color based on subId
+    const popupContentDiv = document.getElementById('accountsPopupContent');
+    let borderColor = '';
+    if (subId === 'accounts-workorder') borderColor = 'var(--accounts-workorder)';
+    else if (subId === 'accounts-income') borderColor = 'var(--accounts-income)';
+    else if (subId === 'accounts-expense') borderColor = 'var(--accounts-expense)';
+    else if (subId === 'accounts-transaction') borderColor = 'var(--accounts-transaction)';
+    popupContentDiv.style.borderTopColor = borderColor;
+    
+    // show modal
+    document.getElementById('accountsSubPopupModal').style.display = 'block';
+    
+    // ensure summary cards appear horizontal on mobile – already flex-wrap
+    // refresh data inside popup (data already rendered in hidden tables, but we need ensure they reflect)
     if (subId === 'accounts-workorder') renderWorkOrders();
     if (subId === 'accounts-income') renderIncome();
     if (subId === 'accounts-expense') renderExpense();
     if (subId === 'accounts-transaction') renderTransactions();
+}
+
+function closeAccountsSubPopup() {
+    document.getElementById('accountsSubPopupModal').style.display = 'none';
 }
 
 // ========== CONTACTS (CLIENTS/SUPPLIERS) ==========
@@ -2567,7 +2643,6 @@ function loadQuotations() {
                     <button class="action-btn edit-btn" onclick="showQuotationModal(${actualIndex})">Edit</button>
                     <button class="action-btn del-btn" onclick="deleteQuotation(${actualIndex})">Delete</button>
                     <button class="action-btn" style="background:var(--success-green);color:white;" onclick="printQuotation(${actualIndex})">Print PDF</button>
-                    <!-- DOWNLOAD BUTTON REMOVED -->
                 </div>
             </div>`;
         container.appendChild(card);
@@ -2675,7 +2750,6 @@ function loadInvoices() {
             <button class="action-btn edit-btn" onclick="showInvoiceModal(${actualIndex})">Edit</button>
             <button class="action-btn del-btn" onclick="deleteInvoice(${actualIndex})">Del</button>
             <button class="action-btn" style="background:var(--success-green);color:white;" onclick="printInvoice(${actualIndex})">Print PDF</button>
-            <!-- DOWNLOAD BUTTON REMOVED -->
             `;
         container.appendChild(card);
     });
@@ -2759,7 +2833,6 @@ function loadDeliveryChallans() {
             <button class="action-btn edit-btn" onclick="showDeliveryChallanModal(${actualIndex})">Edit</button>
             <button class="action-btn del-btn" onclick="deleteDelivery(${actualIndex})">Del</button>
             <button class="action-btn" style="background:var(--success-green);color:white;" onclick="printDeliveryChallan(${actualIndex})">Print PDF</button>
-            <!-- DOWNLOAD BUTTON REMOVED -->
             `;
         container.appendChild(card);
     });
@@ -2850,7 +2923,6 @@ function loadPurchaseOrders() {
             <button class="action-btn edit-btn" onclick="showPurchaseOrderModal(${actualIndex})">Edit</button>
             <button class="action-btn del-btn" onclick="deletePO(${actualIndex})">Del</button>
             <button class="action-btn" style="background:var(--success-green);color:white;" onclick="printPurchaseOrder(${actualIndex})">Print PDF</button>
-            <!-- DOWNLOAD BUTTON REMOVED -->
             `;
         container.appendChild(card);
     });
@@ -2926,7 +2998,6 @@ function loadMoneyReceipts() {
             <button class="action-btn edit-btn" onclick="showMoneyReceiptModal(${actualIndex})">Edit</button>
             <button class="action-btn del-btn" onclick="deleteReceipt(${actualIndex})">Del</button>
             <button class="action-btn" style="background:var(--success-green);color:white;" onclick="printMoneyReceipt(${actualIndex})">Print PDF</button>
-            <!-- DOWNLOAD BUTTON REMOVED -->
             `;
         container.appendChild(card);
     });
@@ -2976,7 +3047,6 @@ function loadLetters() {
             <button class="action-btn edit-btn" onclick="showLetterModal(${actualIndex})">Edit</button>
             <button class="action-btn del-btn" onclick="deleteLetter(${actualIndex})">Del</button>
             <button class="action-btn" style="background:var(--success-green);color:white;" onclick="printLetter(${actualIndex})">Print PDF</button>
-            <!-- DOWNLOAD BUTTON REMOVED -->
             `;
         container.appendChild(card);
     });
@@ -3095,8 +3165,6 @@ function printQuotation(index) {
     setTimeout(()=>window.print(), 300);
 }
 
-// Download functions removed as per requirement.
-
 function getInvoiceHTML(index) {
     let invs = JSON.parse(localStorage.getItem('faithInvoices')||'[]'), inv = invs[index];
     let s = JSON.parse(localStorage.getItem('faithSettings')||'{}'), cur = s.currency||'₹';
@@ -3157,12 +3225,10 @@ function getPurchaseHTML(index){
 }
 function printPurchaseOrder(index){ let s=JSON.parse(localStorage.getItem('faithSettings')||'{}'); document.getElementById('print-comp-name').innerText=s.name||'Faith Engineering'; document.getElementById('print-comp-address').innerText=s.address||''; document.getElementById('print-comp-contact').innerText=`Mobile : ${s.mobile||''} | Email : ${s.email||''} | Website : ${s.website||''}`; document.getElementById('pdf-title-val').innerText='PURCHASE ORDER'; document.getElementById('pdf-content-val').innerHTML=getPurchaseHTML(index); document.getElementById('print-footer-slogan').innerText=s.slogan||''; setTimeout(()=>window.print(),300); }
 
-// ========== PROFESSIONAL MONEY RECEIPT PDF ==========
 function getReceiptHTML(index) {
     let recs = JSON.parse(localStorage.getItem('faithReceipts') || '[]'), r = recs[index];
     let s = JSON.parse(localStorage.getItem('faithSettings') || '{}'), cur = s.currency || '₹';
     let formattedDate = formatDateToOrdinal(r.date);
-    // professional layout with borders, proper alignment, amount block, signature area
     return `
         <div style="border:2px solid #cc0000; padding:20px; border-radius:6px; background:#fff; box-shadow: 0 0 12px rgba(0,0,0,0.05);">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #cc0000; padding-bottom:10px; margin-bottom:20px;">
