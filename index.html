@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-<title>Faith Engineering | Fire Safety Portal</title>
+<title>Arvin Controls | Fire Safety Portal</title>
 
 <style>
 :root { 
@@ -999,7 +999,7 @@ table tr:last-child td {
 .credit-text { color: var(--success-green); font-weight: 600; }
 .debit-text { color: var(--accounts-expense); font-weight: 600; }
 
-/* ===== MODAL POPUP FOR ACCOUNTS SUB TAB - FULLSCREEN STYLE ===== */
+/* ===== MODAL POPUP FOR ACCOUNTS SUB TAB ===== */
 .accounts-sub-popup-modal {
     display: none;
     position: fixed;
@@ -1008,22 +1008,23 @@ table tr:last-child td {
     top: 0;
     width: 100%;
     height: 100%;
-    background: white; /* solid white for full-screen card feel */
+    background: rgba(20,20,20,0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     overflow-y: auto;
-    padding: 0;
+    padding: 15px;
 }
 .accounts-sub-popup-content {
     background: white;
-    width: 100%;
-    min-height: 100vh;
-    padding: 20px 25px 40px;
+    margin: 30px auto;
+    padding: 30px 25px;
+    width: 95%;
+    max-width: 1000px;
+    border-radius: 24px;
     position: relative;
-    box-shadow: none;
+    box-shadow: 0 25px 50px -8px rgba(0,0,0,0.3);
     border-top: 8px solid;
-    animation: none;
-    margin: 0;
-    border-radius: 0;
-    max-width: 100%;
+    animation: popFade 0.25s ease;
 }
 @keyframes popFade {
     from { opacity: 0.5; transform: scale(0.97); }
@@ -1069,32 +1070,6 @@ table tr:last-child td {
     width: 100%;
     overflow-x: auto;
 }
-/* Fullscreen back button inside popup */
-.popup-back-btn {
-    background: #333;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-radius: 40px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: 0.2s;
-}
-.popup-back-btn:hover {
-    background: #555;
-}
-.popup-back-btn::before {
-    content: "←";
-    font-size: 18px;
-    font-weight: bold;
-}
 </style>
 </head>
 
@@ -1102,11 +1077,14 @@ table tr:last-child td {
 
 <div class="container" id="main-ui">
     <div class="interface-bar">
-        <h1>Faith Engineering</h1>
+        <h1>Arvin Controls</h1>
     </div>
 
     <nav class="tab-nav" id="folder-grid">
-        <!-- NEW ORDER: Quotation moved to 5th position -->
+        <button class="tab-link" onclick="openTab('quotation-tab')" style="border-bottom-color: #e67e22;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e67e22" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <strong style="color:#e67e22;">Quotation</strong>
+        </button>
         <button class="tab-link" onclick="openTab('clients-tab')" style="border-bottom-color: #3498db;">
             <svg viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             <strong style="color:#3498db;">Clients</strong>
@@ -1122,11 +1100,6 @@ table tr:last-child td {
         <button class="tab-link" onclick="openTab('inventory-tab')" style="border-bottom-color: #f1c40f;">
             <svg viewBox="0 0 24 24" fill="none" stroke="#f1c40f" stroke-width="2"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v1.5"></path><path d="M21 12H3"></path><path d="M3 18v1.5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V18"></path><rect x="9" y="8" width="6" height="8"></rect></svg>
             <strong style="color:#f1c40f;">Inventory</strong>
-        </button>
-        <!-- Quotation tab now 5th -->
-        <button class="tab-link" onclick="openTab('quotation-tab')" style="border-bottom-color: #e67e22;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#e67e22" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            <strong style="color:#e67e22;">Quotation</strong>
         </button>
         <button class="tab-link" onclick="openTab('invoice-tab')" style="border-bottom-color: #e74c3c;">
             <svg viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
@@ -1320,7 +1293,7 @@ table tr:last-child td {
             <button class="btn-back" onclick="closeTabs()">← Back</button>
             <h2 style="margin-top:0; color: var(--charcoal);">Accounts & Finance</h2>
             
-            <!-- Colorful Sub-Folder Navigation - now triggers fullscreen popup with back button -->
+            <!-- Colorful Sub-Folder Navigation - now triggers popup window -->
             <div class="accounts-sub-nav">
                 <div class="accounts-sub-link" onclick="openAccountsSubPopup('accounts-workorder')" style="border-top: 6px solid var(--accounts-workorder);">
                     <svg viewBox="0 0 24 24" fill="none" stroke="var(--accounts-workorder)" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
@@ -1340,8 +1313,9 @@ table tr:last-child td {
                 </div>
             </div>
             
-            <!-- Hidden source divs for accounts sub content – will be cloned into fullscreen popup -->
-            <div id="accounts-workorder" style="display:none;">
+            <!-- Sub Tab Content Panels - now hidden; they are only used to clone for popup (or remain as fallback) but we will keep them as source for popup content -->
+            <!-- WORK ORDER SUB TAB (hidden from main view, but we keep structure to copy) -->
+            <div id="accounts-workorder" class="accounts-sub-content" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom:15px;">
                     <h3 style="color: var(--accounts-workorder); margin:0;">📋 Work Orders (Financial Summary)</h3>
                     <button class="add-new-btn" style="max-width: 180px; background: var(--accounts-workorder);" onclick="showWorkOrderModal()">+ New Work Order</button>
@@ -1371,7 +1345,8 @@ table tr:last-child td {
                 </div>
             </div>
             
-            <div id="accounts-income" style="display:none;">
+            <!-- INCOME SUB TAB (hidden) -->
+            <div id="accounts-income" class="accounts-sub-content" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom:15px;">
                     <h3 style="color: var(--accounts-income); margin:0;">💰 Income Register</h3>
                     <button class="add-new-btn" style="max-width: 180px; background: var(--accounts-income);" onclick="showIncomeModal()">+ Record Income</button>
@@ -1401,7 +1376,8 @@ table tr:last-child td {
                 </div>
             </div>
             
-            <div id="accounts-expense" style="display:none;">
+            <!-- EXPENSE SUB TAB (hidden) -->
+            <div id="accounts-expense" class="accounts-sub-content" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom:15px;">
                     <h3 style="color: var(--accounts-expense); margin:0;">💸 Expense Ledger</h3>
                     <button class="add-new-btn" style="max-width: 180px; background: var(--accounts-expense);" onclick="showExpenseModal()">+ Record Expense</button>
@@ -1431,7 +1407,8 @@ table tr:last-child td {
                 </div>
             </div>
             
-            <div id="accounts-transaction" style="display:none;">
+            <!-- TRANSACTIONS SUB TAB (hidden) -->
+            <div id="accounts-transaction" class="accounts-sub-content" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom:15px;">
                     <h3 style="color: var(--accounts-transaction); margin:0;">🔄 Transaction History</h3>
                 </div>
@@ -1470,7 +1447,7 @@ table tr:last-child td {
             <div class="grid-2">
                 <div class="form-group">
                     <label>Company Name</label>
-                    <input type="text" id="setCompanyName" placeholder="Faith Engineering Ltd.">
+                    <input type="text" id="setCompanyName" placeholder="Arvin Controls Ltd.">
                 </div>
                 <div class="form-group">
                     <label>Slogan / Tagline</label>
@@ -1484,7 +1461,7 @@ table tr:last-child td {
             <div class="grid-2">
                 <div class="form-group">
                     <label>Official Email</label>
-                    <input type="email" id="setEmail" placeholder="info@faith-engineering.com">
+                    <input type="email" id="setEmail" placeholder="info@Arvin Controls.com">
                 </div>
                 <div class="form-group">
                     <label>Mobile Number</label>
@@ -1492,7 +1469,7 @@ table tr:last-child td {
                 </div>
                 <div class="form-group">
                     <label>Website URL</label>
-                    <input type="text" id="setWebsite" placeholder="www.faith-engineering.com">
+                    <input type="text" id="setWebsite" placeholder="www.Arvin Controls.com">
                 </div>
             </div>
 
@@ -1865,13 +1842,10 @@ table tr:last-child td {
     </div>
 </div>
 
-<!-- ===== ACCOUNTS SUB POPUP MODAL (FULLSCREEN) ===== -->
+<!-- ===== ACCOUNTS SUB POPUP MODAL (DYNAMIC) ===== -->
 <div id="accountsSubPopupModal" class="accounts-sub-popup-modal">
     <div class="accounts-sub-popup-content" id="accountsPopupContent">
-        <!-- Back button inside popup – full screen -->
-        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
-            <button class="popup-back-btn" onclick="closeAccountsSubPopup()">Back to Accounts</button>
-        </div>
+        <span class="accounts-sub-popup-close" onclick="closeAccountsSubPopup()">&times;</span>
         <div id="accountsPopupInner"></div>
     </div>
 </div>
@@ -1880,7 +1854,7 @@ table tr:last-child td {
 <div id="print-area">
     <div class="header-content">
         <div class="pdf-header-wrapper">
-            <h1 id="print-comp-name">Faith Engineering</h1>
+            <h1 id="print-comp-name">Arvin Controls</h1>
             <div id="print-comp-address" class="company-details"></div>
             <div id="print-comp-contact" class="company-details"></div>
         </div>
@@ -1937,13 +1911,13 @@ function debounceInventory() {
 }
 
 // ========== ACCOUNTS SUB FOLDERS DATA ==========
-let workOrders = JSON.parse(localStorage.getItem('faithWorkOrders') || '[]');
-let incomeRecords = JSON.parse(localStorage.getItem('faithIncomeRecords') || '[]');
-let expenseRecords = JSON.parse(localStorage.getItem('faithExpenseRecords') || '[]');
+let workOrders = JSON.parse(localStorage.getItem('ArvinWorkOrders') || '[]');
+let incomeRecords = JSON.parse(localStorage.getItem('ArvinIncomeRecords') || '[]');
+let expenseRecords = JSON.parse(localStorage.getItem('ArvinExpenseRecords') || '[]');
 
-function saveWorkOrdersToStorage() { localStorage.setItem('faithWorkOrders', JSON.stringify(workOrders)); }
-function saveIncomeToStorage() { localStorage.setItem('faithIncomeRecords', JSON.stringify(incomeRecords)); }
-function saveExpenseToStorage() { localStorage.setItem('faithExpenseRecords', JSON.stringify(expenseRecords)); }
+function saveWorkOrdersToStorage() { localStorage.setItem('ArvinWorkOrders', JSON.stringify(workOrders)); }
+function saveIncomeToStorage() { localStorage.setItem('ArvinIncomeRecords', JSON.stringify(incomeRecords)); }
+function saveExpenseToStorage() { localStorage.setItem('ArvinExpenseRecords', JSON.stringify(expenseRecords)); }
 
 // ===== SUMMARY CARD UPDATE FUNCTIONS =====
 function updateWorkOrderSummary() {
@@ -2229,9 +2203,9 @@ document.addEventListener('DOMContentLoaded', () => {
     renderInventory(); 
     loadPurchaseOrders(); 
     loadInvoices(); loadDeliveryChallans(); loadMoneyReceipts(); loadLetters();
-    workOrders = JSON.parse(localStorage.getItem('faithWorkOrders') || '[]');
-    incomeRecords = JSON.parse(localStorage.getItem('faithIncomeRecords') || '[]');
-    expenseRecords = JSON.parse(localStorage.getItem('faithExpenseRecords') || '[]');
+    workOrders = JSON.parse(localStorage.getItem('ArvinWorkOrders') || '[]');
+    incomeRecords = JSON.parse(localStorage.getItem('ArvinIncomeRecords') || '[]');
+    expenseRecords = JSON.parse(localStorage.getItem('ArvinExpenseRecords') || '[]');
     renderWorkOrders();
     renderIncome();
     renderExpense();
@@ -2255,7 +2229,7 @@ function openTab(tabName) {
     if (tabName === 'receipt-tab') loadMoneyReceipts();
     if (tabName === 'letter-tab') loadLetters();
     if (tabName === 'accounts-tab') {
-        // nothing else
+        // no need to show sub content inside main tab – popup only
     }
 }
 
@@ -2266,18 +2240,24 @@ function closeTabs() {
     window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-// ===== ACCOUNTS SUB POPUP: FULLSCREEN with back button =====
+// ===== ACCOUNTS SUB POPUP: displays full content in a new professional window =====
 function openAccountsSubPopup(subId) {
+    // get the source hidden content
     const sourceDiv = document.getElementById(subId);
     if (!sourceDiv) return;
     
+    // clone the entire div to avoid modifying original
     const cloneContent = sourceDiv.cloneNode(true);
-    cloneContent.style.display = 'block';
+    cloneContent.style.display = 'block'; // make visible inside popup
+    cloneContent.classList.remove('accounts-sub-content');
+    cloneContent.classList.add('accounts-sub-content'); // keep style
     
+    // Inject into popup inner container
     const popupInner = document.getElementById('accountsPopupInner');
     popupInner.innerHTML = '';
     popupInner.appendChild(cloneContent);
     
+    // set border color based on subId
     const popupContentDiv = document.getElementById('accountsPopupContent');
     let borderColor = '';
     if (subId === 'accounts-workorder') borderColor = 'var(--accounts-workorder)';
@@ -2286,9 +2266,11 @@ function openAccountsSubPopup(subId) {
     else if (subId === 'accounts-transaction') borderColor = 'var(--accounts-transaction)';
     popupContentDiv.style.borderTopColor = borderColor;
     
+    // show modal
     document.getElementById('accountsSubPopupModal').style.display = 'block';
     
-    // refresh data inside popup
+    // ensure summary cards appear horizontal on mobile – already flex-wrap
+    // refresh data inside popup (data already rendered in hidden tables, but we need ensure they reflect)
     if (subId === 'accounts-workorder') renderWorkOrders();
     if (subId === 'accounts-income') renderIncome();
     if (subId === 'accounts-expense') renderExpense();
@@ -2307,7 +2289,7 @@ function showContactModal(type, index = null) {
     document.getElementById('modalTitle').innerText = (index!==null?'Edit ':'Add ') + (type==='client'?'Client':'Supplier');
     document.getElementById('nameLabel').innerText = type==='client'?'Client Name':'Supplier Name';
     if (index !== null) {
-        const data = JSON.parse(localStorage.getItem(type==='client'?'faithClients':'faithSuppliers'))[index];
+        const data = JSON.parse(localStorage.getItem(type==='client'?'ArvinClients':'ArvinSuppliers'))[index];
         document.getElementById('modalName').value = data.name || '';
         document.getElementById('modalAddress').value = data.address || '';
         document.getElementById('modalPerson').value = data.person || '';
@@ -2323,7 +2305,7 @@ function clearModalInputs() {
 }
 function saveContact() {
     const type = document.getElementById('modalType').value, index = document.getElementById('editIndex').value;
-    const storageKey = type === 'client' ? 'faithClients' : 'faithSuppliers';
+    const storageKey = type === 'client' ? 'ArvinClients' : 'ArvinSuppliers';
     const contact = {
         name: document.getElementById('modalName').value.trim(),
         address: document.getElementById('modalAddress').value.trim(),
@@ -2342,15 +2324,15 @@ function saveContact() {
 }
 function deleteContact(type, index) {
     if(confirm("Delete?")) {
-        let list = JSON.parse(localStorage.getItem(type==='client'?'faithClients':'faithSuppliers') || '[]');
+        let list = JSON.parse(localStorage.getItem(type==='client'?'ArvinClients':'ArvinSuppliers') || '[]');
         list.splice(index,1);
-        localStorage.setItem(type==='client'?'faithClients':'faithSuppliers', JSON.stringify(list));
+        localStorage.setItem(type==='client'?'ArvinClients':'ArvinSuppliers', JSON.stringify(list));
         renderContacts(type);
         showToast('Deleted');
     }
 }
 function renderContacts(type) {
-    const storageKey = type === 'client' ? 'faithClients' : 'faithSuppliers';
+    const storageKey = type === 'client' ? 'ArvinClients' : 'ArvinSuppliers';
     const tbody = document.getElementById(type === 'client' ? 'clientTableBody' : 'supplierTableBody');
     const list = JSON.parse(localStorage.getItem(storageKey) || '[]');
     const searchTerm = (document.getElementById(type==='client'?'clientSearch':'supplierSearch')?.value || '').toLowerCase();
@@ -2378,7 +2360,7 @@ function renderContacts(type) {
 
 // ========== PRODUCTS with Stock ==========
 function renderProducts() {
-    const products = JSON.parse(localStorage.getItem('faithProducts') || '[]');
+    const products = JSON.parse(localStorage.getItem('ArvinProducts') || '[]');
     const tbody = document.getElementById('productTableBody');
     if(!tbody) return;
     const searchTerm = document.getElementById('productSearch')?.value.toLowerCase() || '';
@@ -2416,7 +2398,7 @@ function showProductModal() {
 function closeProductModal() { document.getElementById('productModal').style.display = 'none'; }
 function saveProduct() {
     const idx = document.getElementById('editProductIndex').value;
-    let settings = JSON.parse(localStorage.getItem('faithSettings') || '{}');
+    let settings = JSON.parse(localStorage.getItem('ArvinSettings') || '{}');
     const product = {
         name: document.getElementById('productName').value.trim(),
         description: document.getElementById('productDesc').value.trim(),
@@ -2426,13 +2408,13 @@ function saveProduct() {
         currency: settings.currency || '₹'
     };
     if(!product.name) return alert('Name required');
-    let prods = JSON.parse(localStorage.getItem('faithProducts') || '[]');
+    let prods = JSON.parse(localStorage.getItem('ArvinProducts') || '[]');
     if(idx!=='') prods[idx] = product; else prods.push(product);
-    localStorage.setItem('faithProducts', JSON.stringify(prods));
+    localStorage.setItem('ArvinProducts', JSON.stringify(prods));
     renderProducts(); renderInventory(); closeProductModal(); showToast('Product saved');
 }
 function editProduct(idx) {
-    let prods = JSON.parse(localStorage.getItem('faithProducts') || '[]');
+    let prods = JSON.parse(localStorage.getItem('ArvinProducts') || '[]');
     let p = prods[idx];
     document.getElementById('editProductIndex').value = idx;
     document.getElementById('productName').value = p.name;
@@ -2444,16 +2426,16 @@ function editProduct(idx) {
 }
 function deleteProduct(idx) {
     if(confirm('Delete?')){
-        let prods = JSON.parse(localStorage.getItem('faithProducts') || '[]');
+        let prods = JSON.parse(localStorage.getItem('ArvinProducts') || '[]');
         prods.splice(idx,1);
-        localStorage.setItem('faithProducts', JSON.stringify(prods));
+        localStorage.setItem('ArvinProducts', JSON.stringify(prods));
         renderProducts(); renderInventory();
     }
 }
 
 // ========== INVENTORY from Products ==========
 function renderInventory() {
-    const products = JSON.parse(localStorage.getItem('faithProducts') || '[]');
+    const products = JSON.parse(localStorage.getItem('ArvinProducts') || '[]');
     const tbody = document.getElementById('inventoryTableBody');
     const noMsg = document.getElementById('noInventoryMsg');
     if (!tbody) return;
@@ -2483,7 +2465,7 @@ function renderInventory() {
 function showProductSuggestions() {
     const input = document.getElementById('itemName'), query = input.value.toLowerCase(), div = document.getElementById('productSuggestions');
     if (query.length < 1) { div.style.display = 'none'; return; }
-    const products = JSON.parse(localStorage.getItem('faithProducts') || '[]');
+    const products = JSON.parse(localStorage.getItem('ArvinProducts') || '[]');
     const filtered = products.filter(p => p.name.toLowerCase().includes(query));
     if (filtered.length===0) { div.style.display = 'none'; return; }
     div.innerHTML = filtered.map(p => `<div class="suggestion-item" onclick="selectProduct('${p.name.replace(/'/g, "\\'")}', '${p.description.replace(/'/g, "\\'")}', '${p.unit}', ${p.price})"><strong>${p.name}</strong></div>`).join('');
@@ -2506,7 +2488,7 @@ function showClientSuggestions(context) {
     else { inputId='quotationClient'; suggId='clientSuggestions'; }
     const input = document.getElementById(inputId), query = input.value.toLowerCase(), div = document.getElementById(suggId);
     if (query.length < 1) { div.style.display = 'none'; return; }
-    const clients = JSON.parse(localStorage.getItem('faithClients') || '[]');
+    const clients = JSON.parse(localStorage.getItem('ArvinClients') || '[]');
     const filtered = clients.filter(c => c.name.toLowerCase().includes(query));
     if (filtered.length===0) { div.style.display = 'none'; return; }
     div.innerHTML = filtered.map(c => `<div class="suggestion-item" onclick="selectClient('${c.name.replace(/'/g, "\\'")}', '${c.address.replace(/'/g, "\\'")}', '${context}')"><strong>${c.name}</strong></div>`).join('');
@@ -2524,7 +2506,7 @@ function showSupplierSuggestions(context) {
     let input = document.getElementById('poSupplier'), sugg = document.getElementById('poSupplierSuggestions');
     const query = input.value.toLowerCase();
     if(query.length<1) { sugg.style.display='none'; return; }
-    const suppliers = JSON.parse(localStorage.getItem('faithSuppliers') || '[]');
+    const suppliers = JSON.parse(localStorage.getItem('ArvinSuppliers') || '[]');
     const filtered = suppliers.filter(s => s.name.toLowerCase().includes(query));
     if(filtered.length===0) { sugg.style.display='none'; return; }
     sugg.innerHTML = filtered.map(s => `<div class="suggestion-item" onclick="selectSupplier('${s.name.replace(/'/g, "\\'")}', '${s.address.replace(/'/g, "\\'")}')"><strong>${s.name}</strong></div>`).join('');
@@ -2545,7 +2527,7 @@ function showQuotationModal(editIndex = null) {
     document.getElementById('editQuotationIndex').value = editIndex !== null ? editIndex : '';
     document.getElementById('quotationModalTitle').innerText = editIndex !== null ? 'Edit Quotation' : 'New Quotation';
     if (editIndex !== null) {
-        let quotes = JSON.parse(localStorage.getItem('faithQuotations') || '[]');
+        let quotes = JSON.parse(localStorage.getItem('ArvinQuotations') || '[]');
         let q = quotes[editIndex];
         document.getElementById('quotationClient').value = q.client || '';
         document.getElementById('quotationAddress').value = q.address || '';
@@ -2565,7 +2547,7 @@ function showQuotationModal(editIndex = null) {
         document.getElementById('quotationVATPercent').value = 0;
         document.getElementById('quotationAITPercent').value = 0;
         document.getElementById('quotationNotes').value = '';
-        let qList = JSON.parse(localStorage.getItem('faithQuotations') || '[]');
+        let qList = JSON.parse(localStorage.getItem('ArvinQuotations') || '[]');
         let lastIdNum = qList.length > 0 ? parseInt(qList[qList.length-1].id.split('-')[2]) : 100100;
         document.getElementById('quotationId').value = `FE-Q-${lastIdNum+1}`;
         document.getElementById('quotationDate').value = new Date().toISOString().split('T')[0];
@@ -2585,7 +2567,7 @@ function addQuotationItem() {
     document.getElementById('itemModal').style.display='block'; 
 }
 function renderQuotationItems() { 
-    let tbody = document.getElementById('quotationItemsTable'), settings = JSON.parse(localStorage.getItem('faithSettings') || '{}');
+    let tbody = document.getElementById('quotationItemsTable'), settings = JSON.parse(localStorage.getItem('ArvinSettings') || '{}');
     tbody.innerHTML = '';
     if(quotationItems.length===0) { tbody.innerHTML = '<tr><td colspan="8" class="no-data">No items</td></tr>'; return; }
     quotationItems.forEach((item,i)=>{
@@ -2633,40 +2615,36 @@ function saveQuotation() {
         grandTotal: calculateQuotationGrandTotal()
     };
     if(!quotation.client || !quotation.date) return alert("Client and date required");
-    let quotes = JSON.parse(localStorage.getItem('faithQuotations') || '[]');
+    let quotes = JSON.parse(localStorage.getItem('ArvinQuotations') || '[]');
     if(editIdx!=='') quotes[editIdx] = quotation; else quotes.push(quotation);
-    localStorage.setItem('faithQuotations', JSON.stringify(quotes));
+    localStorage.setItem('ArvinQuotations', JSON.stringify(quotes));
     loadQuotations(); closeQuotationModal(); showToast('Quotation saved');
 }
 function loadQuotations() { 
     let container = document.getElementById('quotationsList'), noMsg = document.getElementById('noQuotationsMsg');
-    let quotes = JSON.parse(localStorage.getItem('faithQuotations') || '[]');
+    let quotes = JSON.parse(localStorage.getItem('ArvinQuotations') || '[]');
     container.innerHTML = '';
     if(quotes.length===0) { noMsg.style.display='block'; return; }
     noMsg.style.display='none';
     quotes.slice().reverse().forEach((q, idx)=>{
         let actualIndex = quotes.length-1-idx;
-        let card = document.createElement('div'); card.className = 'quotation-card';
+        let card = document.createElement('div'); card.className = 'doc-card';
+        let settings = JSON.parse(localStorage.getItem('ArvinSettings') || '{}');
+        let currency = settings.currency || '₹';
         card.innerHTML = `
-            <div class="quotation-card-header">
-                <span class="quotation-badge">${q.id}</span>
-                <div class="quotation-id-big">${q.client}</div>
-                <div class="quotation-meta">
-                    <span>📅 ${q.date}</span>
-                    <span>💰 ${(q.grandTotal || 0).toFixed(2)}</span>
-                </div>
+            <h3 style="margin:0 0 8px 0; color:var(--fire-red);">${q.id}</h3>
+            <p style="margin:5px 0; font-size:15px; font-weight:bold;">${q.client}</p>
+            <p style="margin:5px 0; color:#555;">Date: ${q.date} | Total: ${currency}${(q.grandTotal || 0).toFixed(2)}</p>
+            <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+                <button class="action-btn edit-btn" onclick="showQuotationModal(${actualIndex})">Edit</button>
+                <button class="action-btn del-btn" onclick="deleteQuotation(${actualIndex})">Del</button>
+                <button class="action-btn" style="background:var(--success-green);color:white;" onclick="printQuotation(${actualIndex})">Print PDF</button>
             </div>
-            <div class="quotation-right">
-                <div class="quotation-actions">
-                    <button class="action-btn edit-btn" onclick="showQuotationModal(${actualIndex})">Edit</button>
-                    <button class="action-btn del-btn" onclick="deleteQuotation(${actualIndex})">Delete</button>
-                    <button class="action-btn" style="background:var(--success-green);color:white;" onclick="printQuotation(${actualIndex})">Print PDF</button>
-                </div>
-            </div>`;
+        `;
         container.appendChild(card);
     });
 }
-function deleteQuotation(i) { if(confirm('Delete?')){ let q = JSON.parse(localStorage.getItem('faithQuotations')); q.splice(i,1); localStorage.setItem('faithQuotations',JSON.stringify(q)); loadQuotations(); } }
+function deleteQuotation(i) { if(confirm('Delete?')){ let q = JSON.parse(localStorage.getItem('ArvinQuotations')); q.splice(i,1); localStorage.setItem('ArvinQuotations',JSON.stringify(q)); loadQuotations(); } }
 
 // ========== INVOICE - DOWNLOAD BUTTON REMOVED ==========
 let invoiceItems = [];
@@ -2676,7 +2654,7 @@ function showInvoiceModal(editIdx=null) {
     document.getElementById('invoiceModalTitle').innerText = editIdx!==null?'Edit Invoice':'New Invoice';
     document.getElementById('invoiceDate').value = new Date().toISOString().split('T')[0];
     if(editIdx!==null){
-        let invs = JSON.parse(localStorage.getItem('faithInvoices')||'[]');
+        let invs = JSON.parse(localStorage.getItem('ArvinInvoices')||'[]');
         let inv = invs[editIdx];
         document.getElementById('invoiceClient').value = inv.client||'';
         document.getElementById('invoiceAddress').value = inv.address||'';
@@ -2689,7 +2667,7 @@ function showInvoiceModal(editIdx=null) {
         document.getElementById('invoiceNotes').value = inv.notes||'';
         invoiceItems = inv.items?[...inv.items]:[];
     } else {
-        let invList = JSON.parse(localStorage.getItem('faithInvoices')||'[]');
+        let invList = JSON.parse(localStorage.getItem('ArvinInvoices')||'[]');
         let lastNum = invList.length>0? parseInt(invList[invList.length-1].invoiceNo.split('-')[2]) : 100100;
         document.getElementById('invoiceNo').value = `FE-INV-${lastNum+1}`;
         document.getElementById('invoiceClient').value=''; document.getElementById('invoiceAddress').value='';
@@ -2703,7 +2681,7 @@ function showInvoiceModal(editIdx=null) {
 function closeInvoiceModal() { document.getElementById('invoiceModal').style.display='none'; }
 function addInvoiceItem() { document.getElementById('itemContext').value='invoice'; document.getElementById('itemModalTitle').innerText='Add Invoice Item'; document.getElementById('itemPriceGroup').style.display='block'; document.getElementById('itemRemarksGroup').style.display='none'; clearItemFields(); document.getElementById('itemModal').style.display='block'; }
 function renderInvoiceItems() {
-    let tbody = document.getElementById('invoiceItemsTable'), settings = JSON.parse(localStorage.getItem('faithSettings')||'{}'), cur = settings.currency||'₹';
+    let tbody = document.getElementById('invoiceItemsTable'), settings = JSON.parse(localStorage.getItem('ArvinSettings')||'{}'), cur = settings.currency||'₹';
     tbody.innerHTML = '';
     if(invoiceItems.length===0) { tbody.innerHTML = '<tr><td colspan="8" class="no-data">No items</td></tr>'; return; }
     invoiceItems.forEach((it,i)=>{
@@ -2752,13 +2730,13 @@ function saveInvoice() {
         notes: document.getElementById('invoiceNotes').value,
     };
     if(!invoice.client||!invoice.date) return alert('Client and date required');
-    let list = JSON.parse(localStorage.getItem('faithInvoices')||'[]');
+    let list = JSON.parse(localStorage.getItem('ArvinInvoices')||'[]');
     if(idx!=='') list[idx]=invoice; else list.push(invoice);
-    localStorage.setItem('faithInvoices', JSON.stringify(list));
+    localStorage.setItem('ArvinInvoices', JSON.stringify(list));
     loadInvoices(); closeInvoiceModal(); showToast('Invoice saved');
 }
 function loadInvoices() {
-    let invs = JSON.parse(localStorage.getItem('faithInvoices')||'[]');
+    let invs = JSON.parse(localStorage.getItem('ArvinInvoices')||'[]');
     let container = document.getElementById('invoicesList'), noMsg = document.getElementById('noInvoicesMsg');
     container.innerHTML = ''; if(!invs.length) { noMsg.style.display='block'; return; } noMsg.style.display='none';
     invs.slice().reverse().forEach((inv,i)=>{
@@ -2772,7 +2750,7 @@ function loadInvoices() {
         container.appendChild(card);
     });
 }
-function deleteInvoice(i) { let l = JSON.parse(localStorage.getItem('faithInvoices')); l.splice(i,1); localStorage.setItem('faithInvoices',JSON.stringify(l)); loadInvoices(); }
+function deleteInvoice(i) { let l = JSON.parse(localStorage.getItem('ArvinInvoices')); l.splice(i,1); localStorage.setItem('ArvinInvoices',JSON.stringify(l)); loadInvoices(); }
 
 // ========== DELIVERY CHALLAN - DOWNLOAD BUTTON REMOVED ==========
 let deliveryItems = [];
@@ -2781,7 +2759,7 @@ function showDeliveryChallanModal(editIdx=null) {
     document.getElementById('editDeliveryIndex').value = editIdx!==null?editIdx:'';
     document.getElementById('deliveryDate').value = new Date().toISOString().split('T')[0];
     if(editIdx!==null){
-        let dcs = JSON.parse(localStorage.getItem('faithDeliveries')||'[]');
+        let dcs = JSON.parse(localStorage.getItem('ArvinDeliveries')||'[]');
         let dc = dcs[editIdx];
         document.getElementById('deliveryClient').value = dc.client||'';
         document.getElementById('deliveryAddress').value = dc.address||'';
@@ -2791,7 +2769,7 @@ function showDeliveryChallanModal(editIdx=null) {
         document.getElementById('deliveryDate').value = dc.date;
         deliveryItems = dc.items?[...dc.items]:[];
     } else {
-        let list = JSON.parse(localStorage.getItem('faithDeliveries')||'[]');
+        let list = JSON.parse(localStorage.getItem('ArvinDeliveries')||'[]');
         let lastNum = list.length>0? parseInt(list[list.length-1].deliveryNo.split('-')[2]) : 100100;
         document.getElementById('deliveryNo').value = `FE-DC-${lastNum+1}`;
         document.getElementById('deliveryClient').value=''; document.getElementById('deliveryAddress').value='';
@@ -2835,13 +2813,13 @@ function saveDeliveryChallan() {
         items: deliveryItems
     };
     if(!dc.client||!dc.date) return alert('Required');
-    let list = JSON.parse(localStorage.getItem('faithDeliveries')||'[]');
+    let list = JSON.parse(localStorage.getItem('ArvinDeliveries')||'[]');
     if(idx!=='') list[idx]=dc; else list.push(dc);
-    localStorage.setItem('faithDeliveries', JSON.stringify(list));
+    localStorage.setItem('ArvinDeliveries', JSON.stringify(list));
     loadDeliveryChallans(); closeDeliveryModal(); showToast('Challan saved');
 }
 function loadDeliveryChallans() {
-    let dcs = JSON.parse(localStorage.getItem('faithDeliveries')||'[]');
+    let dcs = JSON.parse(localStorage.getItem('ArvinDeliveries')||'[]');
     let container = document.getElementById('deliveryList'), noMsg = document.getElementById('noDeliveryMsg');
     container.innerHTML = ''; if(!dcs.length) { noMsg.style.display='block'; return; } noMsg.style.display='none';
     dcs.slice().reverse().forEach((dc,i)=>{
@@ -2855,7 +2833,7 @@ function loadDeliveryChallans() {
         container.appendChild(card);
     });
 }
-function deleteDelivery(i) { let l = JSON.parse(localStorage.getItem('faithDeliveries')); l.splice(i,1); localStorage.setItem('faithDeliveries',JSON.stringify(l)); loadDeliveryChallans(); }
+function deleteDelivery(i) { let l = JSON.parse(localStorage.getItem('ArvinDeliveries')); l.splice(i,1); localStorage.setItem('ArvinDeliveries',JSON.stringify(l)); loadDeliveryChallans(); }
 
 // ========== PURCHASE ORDER - DOWNLOAD BUTTON REMOVED ==========
 let poItems = [];
@@ -2864,7 +2842,7 @@ function showPurchaseOrderModal(editIdx=null) {
     document.getElementById('editPOIndex').value = editIdx!==null?editIdx:'';
     document.getElementById('poDate').value = new Date().toISOString().split('T')[0];
     if(editIdx!==null){
-        let pos = JSON.parse(localStorage.getItem('faithPO')||'[]');
+        let pos = JSON.parse(localStorage.getItem('ArvinPO')||'[]');
         let po = pos[editIdx];
         document.getElementById('poSupplier').value = po.supplier||'';
         document.getElementById('poAddress').value = po.address||'';
@@ -2874,7 +2852,7 @@ function showPurchaseOrderModal(editIdx=null) {
         document.getElementById('poNotes').value = po.notes||'';
         poItems = po.items?[...po.items]:[];
     } else {
-        let polist = JSON.parse(localStorage.getItem('faithPO')||'[]');
+        let polist = JSON.parse(localStorage.getItem('ArvinPO')||'[]');
         let lastNum = polist.length>0? parseInt(polist[polist.length-1].poId.split('-')[2]) : 100100;
         document.getElementById('poId').value = `FE-PO-${lastNum+1}`;
         document.getElementById('poSupplier').value=''; document.getElementById('poAddress').value='';
@@ -2886,7 +2864,7 @@ function showPurchaseOrderModal(editIdx=null) {
 function closePurchaseModal() { document.getElementById('purchaseModal').style.display='none'; }
 function addPOItem() { document.getElementById('itemContext').value='po'; document.getElementById('itemModalTitle').innerText='Add PO Item'; document.getElementById('itemPriceGroup').style.display='block'; document.getElementById('itemRemarksGroup').style.display='none'; clearItemFields(); document.getElementById('itemModal').style.display='block'; }
 function renderPOItems() {
-    let tbody = document.getElementById('poItemsTable'), settings = JSON.parse(localStorage.getItem('faithSettings')||'{}'), cur = settings.currency||'₹';
+    let tbody = document.getElementById('poItemsTable'), settings = JSON.parse(localStorage.getItem('ArvinSettings')||'{}'), cur = settings.currency||'₹';
     tbody.innerHTML = '';
     if(poItems.length===0) { tbody.innerHTML = '<tr><td colspan="8" class="no-data">No items</td></tr>'; return; }
     poItems.forEach((it,i)=>{
@@ -2925,13 +2903,13 @@ function savePurchaseOrder() {
         notes: document.getElementById('poNotes').value
     };
     if(!po.supplier||!po.date) return alert('Required');
-    let list = JSON.parse(localStorage.getItem('faithPO')||'[]');
+    let list = JSON.parse(localStorage.getItem('ArvinPO')||'[]');
     if(idx!=='') list[idx]=po; else list.push(po);
-    localStorage.setItem('faithPO', JSON.stringify(list));
+    localStorage.setItem('ArvinPO', JSON.stringify(list));
     loadPurchaseOrders(); closePurchaseModal(); showToast('PO saved');
 }
 function loadPurchaseOrders() {
-    let pos = JSON.parse(localStorage.getItem('faithPO')||'[]');
+    let pos = JSON.parse(localStorage.getItem('ArvinPO')||'[]');
     let container = document.getElementById('purchaseOrdersList'), noMsg = document.getElementById('noPurchaseMsg');
     container.innerHTML = ''; if(!pos.length) { noMsg.style.display='block'; return; } noMsg.style.display='none';
     pos.slice().reverse().forEach((po,i)=>{
@@ -2945,7 +2923,7 @@ function loadPurchaseOrders() {
         container.appendChild(card);
     });
 }
-function deletePO(i) { let l = JSON.parse(localStorage.getItem('faithPO')); l.splice(i,1); localStorage.setItem('faithPO',JSON.stringify(l)); loadPurchaseOrders(); }
+function deletePO(i) { let l = JSON.parse(localStorage.getItem('ArvinPO')); l.splice(i,1); localStorage.setItem('ArvinPO',JSON.stringify(l)); loadPurchaseOrders(); }
 
 // ========== MONEY RECEIPT - DOWNLOAD BUTTON REMOVED ==========
 function showMoneyReceiptModal(editIdx=null) {
@@ -2953,7 +2931,7 @@ function showMoneyReceiptModal(editIdx=null) {
     document.getElementById('editReceiptIndex').value = editIdx!==null?editIdx:'';
     document.getElementById('receiptDate').value = new Date().toISOString().split('T')[0];
     if(editIdx!==null){
-        let recs = JSON.parse(localStorage.getItem('faithReceipts')||'[]');
+        let recs = JSON.parse(localStorage.getItem('ArvinReceipts')||'[]');
         let r = recs[editIdx];
         document.getElementById('receiptClient').value = r.client||'';
         document.getElementById('receiptAddress').value = r.address||'';
@@ -2967,7 +2945,7 @@ function showMoneyReceiptModal(editIdx=null) {
         document.getElementById('receiptRemarks').value = r.remarks||'';
         toggleChequeFields();
     } else {
-        let reclist = JSON.parse(localStorage.getItem('faithReceipts')||'[]');
+        let reclist = JSON.parse(localStorage.getItem('ArvinReceipts')||'[]');
         let lastNum = reclist.length>0? parseInt(reclist[reclist.length-1].receiptNo.split('-')[2]) : 100100;
         document.getElementById('receiptNo').value = `FE-MR-${lastNum+1}`;
         document.getElementById('receiptClient').value=''; document.getElementById('receiptAddress').value='';
@@ -3000,13 +2978,13 @@ function saveMoneyReceipt() {
         remarks: document.getElementById('receiptRemarks').value
     };
     if(!rec.client||!rec.date||!rec.amount) return alert('Client, date and amount required');
-    let list = JSON.parse(localStorage.getItem('faithReceipts')||'[]');
+    let list = JSON.parse(localStorage.getItem('ArvinReceipts')||'[]');
     if(idx!=='') list[idx]=rec; else list.push(rec);
-    localStorage.setItem('faithReceipts', JSON.stringify(list));
+    localStorage.setItem('ArvinReceipts', JSON.stringify(list));
     loadMoneyReceipts(); closeReceiptModal(); showToast('Receipt saved');
 }
 function loadMoneyReceipts() {
-    let recs = JSON.parse(localStorage.getItem('faithReceipts')||'[]');
+    let recs = JSON.parse(localStorage.getItem('ArvinReceipts')||'[]');
     let container = document.getElementById('receiptList'), noMsg = document.getElementById('noReceiptMsg');
     container.innerHTML = ''; if(!recs.length) { noMsg.style.display='block'; return; } noMsg.style.display='none';
     recs.slice().reverse().forEach((r,i)=>{
@@ -3020,7 +2998,7 @@ function loadMoneyReceipts() {
         container.appendChild(card);
     });
 }
-function deleteReceipt(i) { let l = JSON.parse(localStorage.getItem('faithReceipts')); l.splice(i,1); localStorage.setItem('faithReceipts',JSON.stringify(l)); loadMoneyReceipts(); }
+function deleteReceipt(i) { let l = JSON.parse(localStorage.getItem('ArvinReceipts')); l.splice(i,1); localStorage.setItem('ArvinReceipts',JSON.stringify(l)); loadMoneyReceipts(); }
 
 // ========== LETTER - DOWNLOAD BUTTON REMOVED ==========
 function showLetterModal(editIdx=null) {
@@ -3028,7 +3006,7 @@ function showLetterModal(editIdx=null) {
     document.getElementById('editLetterIndex').value = editIdx!==null?editIdx:'';
     document.getElementById('letterDate').value = new Date().toISOString().split('T')[0];
     if(editIdx!==null){
-        let lets = JSON.parse(localStorage.getItem('faithLetters')||'[]');
+        let lets = JSON.parse(localStorage.getItem('ArvinLetters')||'[]');
         let l = lets[editIdx];
         document.getElementById('letterTitle').value = l.title||'';
         document.getElementById('letterDate').value = l.date;
@@ -3049,13 +3027,13 @@ function saveLetter() {
         content: document.getElementById('letterContent').value
     };
     if(!letter.title||!letter.date||!letter.content) return alert('Title, date and content required');
-    let list = JSON.parse(localStorage.getItem('faithLetters')||'[]');
+    let list = JSON.parse(localStorage.getItem('ArvinLetters')||'[]');
     if(idx!=='') list[idx]=letter; else list.push(letter);
-    localStorage.setItem('faithLetters', JSON.stringify(list));
+    localStorage.setItem('ArvinLetters', JSON.stringify(list));
     loadLetters(); closeLetterModal(); showToast('Letter saved');
 }
 function loadLetters() {
-    let lets = JSON.parse(localStorage.getItem('faithLetters')||'[]');
+    let lets = JSON.parse(localStorage.getItem('ArvinLetters')||'[]');
     let container = document.getElementById('lettersList'), noMsg = document.getElementById('noLettersMsg');
     container.innerHTML = ''; if(!lets.length) { noMsg.style.display='block'; return; } noMsg.style.display='none';
     lets.slice().reverse().forEach((l,i)=>{
@@ -3069,7 +3047,7 @@ function loadLetters() {
         container.appendChild(card);
     });
 }
-function deleteLetter(i) { let l = JSON.parse(localStorage.getItem('faithLetters')); l.splice(i,1); localStorage.setItem('faithLetters',JSON.stringify(l)); loadLetters(); }
+function deleteLetter(i) { let l = JSON.parse(localStorage.getItem('ArvinLetters')); l.splice(i,1); localStorage.setItem('ArvinLetters',JSON.stringify(l)); loadLetters(); }
 
 // ========== COMMON ITEM SAVE ==========
 function clearItemFields() {
@@ -3138,8 +3116,8 @@ function numberToWords(amount) {
 }
 
 function getQuotationHTML(index) { 
-    let quotes = JSON.parse(localStorage.getItem('faithQuotations') || '[]'), q = quotes[index];
-    let s = JSON.parse(localStorage.getItem('faithSettings') || '{}'), currency = s.currency || '₹';
+    let quotes = JSON.parse(localStorage.getItem('ArvinQuotations') || '[]'), q = quotes[index];
+    let s = JSON.parse(localStorage.getItem('ArvinSettings') || '{}'), currency = s.currency || '₹';
     let subtotal = q.items.reduce((sum,it)=> sum + it.quantity*it.unitPrice,0);
     let vat = subtotal * (q.vatPercent || 0) / 100;
     let ait = subtotal * (q.aitPercent || 0) / 100;
@@ -3168,13 +3146,13 @@ function getQuotationHTML(index) {
         <div class="signature-wrapper" style="margin-top:30px; text-align:right;">
             ${s.signImg ? `<img src="${s.signImg}" style="height:40px; display:inline-block;"><br>` : ''}
             <div style="width:200px; height:1px; background:black; margin:2px 0 0 auto;"></div>
-            <span style="font-size:11px;"><strong>For ${s.name || 'Faith Engineering'}</strong><br><strong>${s.signName||''}</strong><br>${s.signDes||''}</span>
+            <span style="font-size:11px;"><strong>For ${s.name || 'Arvin Controls'}</strong><br><strong>${s.signName||''}</strong><br>${s.signDes||''}</span>
         </div>`;
 }
 
 function printQuotation(index) {
-    let s = JSON.parse(localStorage.getItem('faithSettings') || '{}');
-    document.getElementById('print-comp-name').innerText = s.name || 'Faith Engineering';
+    let s = JSON.parse(localStorage.getItem('ArvinSettings') || '{}');
+    document.getElementById('print-comp-name').innerText = s.name || 'Arvin Controls';
     document.getElementById('print-comp-address').innerText = s.address || '';
     document.getElementById('print-comp-contact').innerText = `Mobile : ${s.mobile||''} | Email : ${s.email||''} | Website : ${s.website||''}`;
     document.getElementById('pdf-title-val').innerText = 'QUOTATION';
@@ -3184,8 +3162,8 @@ function printQuotation(index) {
 }
 
 function getInvoiceHTML(index) {
-    let invs = JSON.parse(localStorage.getItem('faithInvoices')||'[]'), inv = invs[index];
-    let s = JSON.parse(localStorage.getItem('faithSettings')||'{}'), cur = s.currency||'₹';
+    let invs = JSON.parse(localStorage.getItem('ArvinInvoices')||'[]'), inv = invs[index];
+    let s = JSON.parse(localStorage.getItem('ArvinSettings')||'{}'), cur = s.currency||'₹';
     let rows = inv.items.map((it,i)=> `<tr><td style="border:1px solid black;padding:5px;text-align:center;">${i+1}</td><td style="border:1px solid black;padding:5px;text-align:left;">${it.name}</td><td style="border:1px solid black;padding:5px;text-align:left;">${it.description}</td><td style="border:1px solid black;padding:5px;text-align:center;">${it.quantity}</td><td style="border:1px solid black;padding:5px;text-align:center;">${it.unit}</td><td style="border:1px solid black;padding:5px;text-align:center;">${cur}${it.unitPrice.toFixed(2)}</td><td style="border:1px solid black;padding:5px;text-align:center;">${cur}${(it.quantity*it.unitPrice).toFixed(2)}</td></tr>`).join('');
     let formattedDate = formatDateToOrdinal(inv.date);
     return `<div style="display:flex; justify-content:space-between; margin-bottom:10px;"><div><strong>Bill To:</strong><br>${inv.client}<br>${inv.address.replace(/\n/g,'<br>')}</div><div style="text-align:right;"><strong>Invoice:</strong> ${inv.invoiceNo}<br><strong>Date:</strong> ${formattedDate}<br><strong>Order:</strong> ${inv.orderId||''}</div></div>
@@ -3197,13 +3175,13 @@ function getInvoiceHTML(index) {
     </tbody></table>
     <div style="margin-top:10px; font-size:11px;"><strong>Words (Due Amount):</strong> ${numberToWords(inv.due)}</div>
     <div style="margin-top:15px; font-size:11px; white-space:pre-wrap;"><strong>Terms & Conditions:</strong><br>${s.termsInv||'Standard Terms'}</div>
-    <div class="signature-wrapper" style="margin-top:30px; text-align:right;">${s.signImg?`<img src="${s.signImg}" style="height:40px; display:inline-block;"><br>`:''}<div style="width:200px; height:1px; background:black; margin:2px 0 0 auto;"></div><span><strong>For ${s.name || 'Faith Engineering'}</strong><br><strong>${s.signName||''}</strong><br>${s.signDes||''}</span></div>`;
+    <div class="signature-wrapper" style="margin-top:30px; text-align:right;">${s.signImg?`<img src="${s.signImg}" style="height:40px; display:inline-block;"><br>`:''}<div style="width:200px; height:1px; background:black; margin:2px 0 0 auto;"></div><span><strong>For ${s.name || 'Arvin Controls'}</strong><br><strong>${s.signName||''}</strong><br>${s.signDes||''}</span></div>`;
 }
-function printInvoice(index){ let s=JSON.parse(localStorage.getItem('faithSettings')||'{}'); document.getElementById('print-comp-name').innerText=s.name||'Faith Engineering'; document.getElementById('print-comp-address').innerText=s.address||''; document.getElementById('print-comp-contact').innerText=`Mobile : ${s.mobile||''} | Email : ${s.email||''} | Website : ${s.website||''}`; document.getElementById('pdf-title-val').innerText='INVOICE'; document.getElementById('pdf-content-val').innerHTML=getInvoiceHTML(index); document.getElementById('print-footer-slogan').innerText=s.slogan||''; setTimeout(()=>window.print(),300); }
+function printInvoice(index){ let s=JSON.parse(localStorage.getItem('ArvinSettings')||'{}'); document.getElementById('print-comp-name').innerText=s.name||'Arvin Controls'; document.getElementById('print-comp-address').innerText=s.address||''; document.getElementById('print-comp-contact').innerText=`Mobile : ${s.mobile||''} | Email : ${s.email||''} | Website : ${s.website||''}`; document.getElementById('pdf-title-val').innerText='INVOICE'; document.getElementById('pdf-content-val').innerHTML=getInvoiceHTML(index); document.getElementById('print-footer-slogan').innerText=s.slogan||''; setTimeout(()=>window.print(),300); }
 
 function getDeliveryHTML(index){ 
-    let dcs=JSON.parse(localStorage.getItem('faithDeliveries')||'[]'),dc=dcs[index]; 
-    let s=JSON.parse(localStorage.getItem('faithSettings')||'{}'); 
+    let dcs=JSON.parse(localStorage.getItem('ArvinDeliveries')||'[]'),dc=dcs[index]; 
+    let s=JSON.parse(localStorage.getItem('ArvinSettings')||'{}'); 
     let rows=dc.items.map((it,i)=>`<tr><td style="border:1px solid black;padding:5px;text-align:center;">${i+1}</td><td style="border:1px solid black;padding:5px;text-align:left;">${it.name}</td><td style="border:1px solid black;padding:5px;text-align:left;">${it.description}</td><td style="border:1px solid black;padding:5px;text-align:center;">${it.quantity}</td><td style="border:1px solid black;padding:5px;text-align:center;">${it.unit}</td><td style="border:1px solid black;padding:5px;text-align:center;">${it.remarks||''}</td></tr>`).join(''); 
     let formattedDate = formatDateToOrdinal(dc.date);
     return `<div style="display:flex; justify-content:space-between; margin-bottom:10px;"><div><strong>Deliver To:</strong><br>${dc.client}<br>${dc.address.replace(/\n/g,'<br>')}</div><div style="text-align:right;"><strong>Challan No:</strong> ${dc.deliveryNo}<br><strong>Date:</strong> ${formattedDate}<br><strong>Order:</strong> ${dc.orderId||''}<br><strong>Gate Pass:</strong> ${dc.gatePass||''}</div></div>
@@ -3219,15 +3197,15 @@ function getDeliveryHTML(index){
         <div style="text-align:right;">
             ${s.signImg?`<img src="${s.signImg}" style="height:40px; display:inline-block;"><br>`:''}
             <div style="width:200px; height:1px; background:black; margin:2px 0 0 auto;"></div>
-            <span><strong>For ${s.name || 'Faith Engineering'}</strong><br><strong>${s.signName||''}</strong><br>${s.signDes||''}</span>
+            <span><strong>For ${s.name || 'Arvin Controls'}</strong><br><strong>${s.signName||''}</strong><br>${s.signDes||''}</span>
         </div>
     </div>`; 
 }
-function printDeliveryChallan(index){ let s=JSON.parse(localStorage.getItem('faithSettings')||'{}'); document.getElementById('print-comp-name').innerText=s.name||'Faith Engineering'; document.getElementById('print-comp-address').innerText=s.address||''; document.getElementById('print-comp-contact').innerText=`Mobile : ${s.mobile||''} | Email : ${s.email||''} | Website : ${s.website||''}`; document.getElementById('pdf-title-val').innerText='DELIVERY CHALLAN'; document.getElementById('pdf-content-val').innerHTML=getDeliveryHTML(index); document.getElementById('print-footer-slogan').innerText=s.slogan||''; setTimeout(()=>window.print(),300); }
+function printDeliveryChallan(index){ let s=JSON.parse(localStorage.getItem('ArvinSettings')||'{}'); document.getElementById('print-comp-name').innerText=s.name||'Arvin Controls'; document.getElementById('print-comp-address').innerText=s.address||''; document.getElementById('print-comp-contact').innerText=`Mobile : ${s.mobile||''} | Email : ${s.email||''} | Website : ${s.website||''}`; document.getElementById('pdf-title-val').innerText='DELIVERY CHALLAN'; document.getElementById('pdf-content-val').innerHTML=getDeliveryHTML(index); document.getElementById('print-footer-slogan').innerText=s.slogan||''; setTimeout(()=>window.print(),300); }
 
 function getPurchaseHTML(index){ 
-    let pos=JSON.parse(localStorage.getItem('faithPO')||'[]'),po=pos[index]; 
-    let s=JSON.parse(localStorage.getItem('faithSettings')||'{}'),cur=s.currency||'₹'; 
+    let pos=JSON.parse(localStorage.getItem('ArvinPO')||'[]'),po=pos[index]; 
+    let s=JSON.parse(localStorage.getItem('ArvinSettings')||'{}'),cur=s.currency||'₹'; 
     let rows=po.items.map((it,i)=>`<tr><td style="border:1px solid black;padding:5px;text-align:center;">${i+1}</td><td style="border:1px solid black;padding:5px;text-align:left;">${it.name}</td><td style="border:1px solid black;padding:5px;text-align:left;">${it.description}</td><td style="border:1px solid black;padding:5px;text-align:center;">${it.quantity}</td><td style="border:1px solid black;padding:5px;text-align:center;">${it.unit}</td><td style="border:1px solid black;padding:5px;text-align:center;">${cur}${it.unitPrice.toFixed(2)}</td><td style="border:1px solid black;padding:5px;text-align:center;">${cur}${(it.quantity*it.unitPrice).toFixed(2)}</td></tr>`).join(''); 
     let formattedDate = formatDateToOrdinal(po.date);
     return `<div style="display:flex; justify-content:space-between; margin-bottom:10px;">
@@ -3239,13 +3217,13 @@ function getPurchaseHTML(index){
     <tbody>${rows}<tr><td colspan="6" style="border:1px solid black;padding:5px;text-align:right;font-weight:bold;">Grand Total</td><td style="border:1px solid black;padding:5px;text-align:center;font-weight:bold;">${cur}${po.grandTotal.toFixed(2)}</td></tr></tbody></table>
     <div style="margin-top:10px; font-size:11px;"><strong>Words:</strong> ${numberToWords(po.grandTotal)}</div>
     <div style="margin-top:15px; font-size:11px; white-space:pre-wrap;"><strong>Terms & Conditions:</strong><br>${s.termsPO||po.notes||'Standard PO Terms'}</div>
-    <div class="signature-wrapper" style="margin-top:30px; text-align:right;">${s.signImg?`<img src="${s.signImg}" style="height:40px; display:inline-block;"><br>`:''}<div style="width:200px; height:1px; background:black; margin:2px 0 0 auto;"></div><span><strong>For ${s.name || 'Faith Engineering'}</strong><br><strong>${s.signName||''}</strong><br>${s.signDes||''}</span></div>`; 
+    <div class="signature-wrapper" style="margin-top:30px; text-align:right;">${s.signImg?`<img src="${s.signImg}" style="height:40px; display:inline-block;"><br>`:''}<div style="width:200px; height:1px; background:black; margin:2px 0 0 auto;"></div><span><strong>For ${s.name || 'Arvin Controls'}</strong><br><strong>${s.signName||''}</strong><br>${s.signDes||''}</span></div>`; 
 }
-function printPurchaseOrder(index){ let s=JSON.parse(localStorage.getItem('faithSettings')||'{}'); document.getElementById('print-comp-name').innerText=s.name||'Faith Engineering'; document.getElementById('print-comp-address').innerText=s.address||''; document.getElementById('print-comp-contact').innerText=`Mobile : ${s.mobile||''} | Email : ${s.email||''} | Website : ${s.website||''}`; document.getElementById('pdf-title-val').innerText='PURCHASE ORDER'; document.getElementById('pdf-content-val').innerHTML=getPurchaseHTML(index); document.getElementById('print-footer-slogan').innerText=s.slogan||''; setTimeout(()=>window.print(),300); }
+function printPurchaseOrder(index){ let s=JSON.parse(localStorage.getItem('ArvinSettings')||'{}'); document.getElementById('print-comp-name').innerText=s.name||'Arvin Controls'; document.getElementById('print-comp-address').innerText=s.address||''; document.getElementById('print-comp-contact').innerText=`Mobile : ${s.mobile||''} | Email : ${s.email||''} | Website : ${s.website||''}`; document.getElementById('pdf-title-val').innerText='PURCHASE ORDER'; document.getElementById('pdf-content-val').innerHTML=getPurchaseHTML(index); document.getElementById('print-footer-slogan').innerText=s.slogan||''; setTimeout(()=>window.print(),300); }
 
 function getReceiptHTML(index) {
-    let recs = JSON.parse(localStorage.getItem('faithReceipts') || '[]'), r = recs[index];
-    let s = JSON.parse(localStorage.getItem('faithSettings') || '{}'), cur = s.currency || '₹';
+    let recs = JSON.parse(localStorage.getItem('ArvinReceipts') || '[]'), r = recs[index];
+    let s = JSON.parse(localStorage.getItem('ArvinSettings') || '{}'), cur = s.currency || '₹';
     let formattedDate = formatDateToOrdinal(r.date);
     return `
         <div style="border:2px solid #cc0000; padding:20px; border-radius:6px; background:#fff; box-shadow: 0 0 12px rgba(0,0,0,0.05);">
@@ -3286,7 +3264,7 @@ function getReceiptHTML(index) {
                 <div style="text-align:right;">
                     ${s.signImg ? `<img src="${s.signImg}" style="height:45px; margin-bottom:5px;"><br>` : ''}
                     <div style="width:200px; height:1px; background:black; margin:2px 0 0 auto;"></div>
-                    <span style="font-size:12px;"><strong>For ${s.name || 'Faith Engineering'}</strong><br>${s.signName || 'Authorized Signatory'}<br>${s.signDes || ''}</span>
+                    <span style="font-size:12px;"><strong>For ${s.name || 'Arvin Controls'}</strong><br>${s.signName || 'Authorized Signatory'}<br>${s.signDes || ''}</span>
                 </div>
             </div>
             <div style="margin-top:20px; text-align:center; color:#666; font-size:11px; border-top:1px solid #eee; padding-top:8px;">
@@ -3297,8 +3275,8 @@ function getReceiptHTML(index) {
 }
 
 function printMoneyReceipt(index) {
-    let s = JSON.parse(localStorage.getItem('faithSettings') || '{}');
-    document.getElementById('print-comp-name').innerText = s.name || 'Faith Engineering';
+    let s = JSON.parse(localStorage.getItem('ArvinSettings') || '{}');
+    document.getElementById('print-comp-name').innerText = s.name || 'Arvin Controls';
     document.getElementById('print-comp-address').innerText = s.address || '';
     document.getElementById('print-comp-contact').innerText = `Mobile : ${s.mobile || ''} | Email : ${s.email || ''} | Website : ${s.website || ''}`;
     document.getElementById('pdf-title-val').innerText = 'MONEY RECEIPT';
@@ -3308,23 +3286,23 @@ function printMoneyReceipt(index) {
 }
 
 function getLetterHTML(index){ 
-    let lets=JSON.parse(localStorage.getItem('faithLetters')||'[]'),l=lets[index]; 
-    let s=JSON.parse(localStorage.getItem('faithSettings')||'{}'); 
+    let lets=JSON.parse(localStorage.getItem('ArvinLetters')||'[]'),l=lets[index]; 
+    let s=JSON.parse(localStorage.getItem('ArvinSettings')||'{}'); 
     let formattedDate = formatDateToOrdinal(l.date);
     return `<div style="text-align:right;"><strong>Date:</strong> ${formattedDate}<br><strong>Ref:</strong> ${l.ref||''}</div>
     <div style="margin-top:20px; white-space:pre-wrap; text-align:justify;">${l.content}</div>
     <div class="signature-wrapper" style="margin-top:40px; text-align:right;">
         ${s.signImg?`<img src="${s.signImg}" style="height:40px; display:inline-block;"><br>`:''}
         <div style="width:200px; height:1px; background:black; margin:2px 0 0 auto;"></div>
-        <span><strong>For ${s.name || 'Faith Engineering'}</strong><br><strong>${s.signName||''}</strong><br>${s.signDes||''}</span>
+        <span><strong>For ${s.name || 'Arvin Controls'}</strong><br><strong>${s.signName||''}</strong><br>${s.signDes||''}</span>
     </div>`; 
 }
 function printLetter(index){ 
-    let s=JSON.parse(localStorage.getItem('faithSettings')||'{}'); 
-    document.getElementById('print-comp-name').innerText=s.name||'Faith Engineering'; 
+    let s=JSON.parse(localStorage.getItem('ArvinSettings')||'{}'); 
+    document.getElementById('print-comp-name').innerText=s.name||'Arvin Controls'; 
     document.getElementById('print-comp-address').innerText=s.address||''; 
     document.getElementById('print-comp-contact').innerText=`Mobile : ${s.mobile||''} | Email : ${s.email||''} | Website : ${s.website||''}`; 
-    let letter = JSON.parse(localStorage.getItem('faithLetters')||'[]')[index]; 
+    let letter = JSON.parse(localStorage.getItem('ArvinLetters')||'[]')[index]; 
     document.getElementById('pdf-title-val').innerText = letter.title || 'LETTER'; 
     document.getElementById('pdf-content-val').innerHTML = getLetterHTML(index); 
     document.getElementById('print-footer-slogan').innerText=s.slogan||''; 
@@ -3353,11 +3331,11 @@ async function saveSettings() {
         logo: document.getElementById('logoPreview').src,
         signImg: document.getElementById('signPreview').src
     };
-    localStorage.setItem('faithSettings', JSON.stringify(settings));
+    localStorage.setItem('ArvinSettings', JSON.stringify(settings));
     showToast('Settings Saved');
 }
 function loadSettings() {
-    let s = JSON.parse(localStorage.getItem('faithSettings') || '{}');
+    let s = JSON.parse(localStorage.getItem('ArvinSettings') || '{}');
     if(s.name){
         document.getElementById('setCompanyName').value = s.name || '';
         document.getElementById('setSlogan').value = s.slogan || '';
