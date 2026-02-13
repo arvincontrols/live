@@ -2083,7 +2083,15 @@ function saveWorkOrder() {
     showToast('Work Order saved');
 }
 function editWorkOrder(index) { showWorkOrderModal(index); }
-function deleteWorkOrder(index) { if(confirm('Delete?')) { workOrders.splice(index,1); saveWorkOrdersToStorage(); renderWorkOrders(); renderTransactions(); showToast('Deleted'); } }
+function deleteWorkOrder(index) { 
+    if(confirm('Delete this Work Order?')) { 
+        workOrders.splice(index,1); 
+        saveWorkOrdersToStorage(); 
+        renderWorkOrders(); 
+        renderTransactions(); 
+        showToast('Deleted'); 
+    } 
+}
 
 // Render Income Table
 function renderIncome() {
@@ -2139,7 +2147,15 @@ function saveIncome() {
     showToast('Income saved');
 }
 function editIncome(index) { showIncomeModal(index); }
-function deleteIncome(index) { if(confirm('Delete?')) { incomeRecords.splice(index,1); saveIncomeToStorage(); renderIncome(); renderTransactions(); showToast('Deleted'); } }
+function deleteIncome(index) { 
+    if(confirm('Delete this Income Record?')) { 
+        incomeRecords.splice(index,1); 
+        saveIncomeToStorage(); 
+        renderIncome(); 
+        renderTransactions(); 
+        showToast('Deleted'); 
+    } 
+}
 
 // Render Expense Table
 function renderExpense() {
@@ -2195,7 +2211,15 @@ function saveExpense() {
     showToast('Expense saved');
 }
 function editExpense(index) { showExpenseModal(index); }
-function deleteExpense(index) { if(confirm('Delete?')) { expenseRecords.splice(index,1); saveExpenseToStorage(); renderExpense(); renderTransactions(); showToast('Deleted'); } }
+function deleteExpense(index) { 
+    if(confirm('Delete this Expense Record?')) { 
+        expenseRecords.splice(index,1); 
+        saveExpenseToStorage(); 
+        renderExpense(); 
+        renderTransactions(); 
+        showToast('Deleted'); 
+    } 
+}
 
 // Render Transactions (combined from income & expense)
 function renderTransactions() {
@@ -2354,7 +2378,7 @@ function saveContact() {
     showToast((type==='client'?'Client':'Supplier')+' saved!');
 }
 function deleteContact(type, index) {
-    if(confirm("Delete?")) {
+    if(confirm("Delete this " + (type==='client'?'Client':'Supplier') + "?")) {
         let list = JSON.parse(localStorage.getItem(type==='client'?'ArvinClients':'ArvinSuppliers') || '[]');
         list.splice(index,1);
         localStorage.setItem(type==='client'?'ArvinClients':'ArvinSuppliers', JSON.stringify(list));
@@ -2456,11 +2480,12 @@ function editProduct(idx) {
     document.getElementById('productModal').style.display = 'block';
 }
 function deleteProduct(idx) {
-    if(confirm('Delete?')){
+    if(confirm('Delete this Product?')){
         let prods = JSON.parse(localStorage.getItem('ArvinProducts') || '[]');
         prods.splice(idx,1);
         localStorage.setItem('ArvinProducts', JSON.stringify(prods));
         renderProducts(); renderInventory();
+        showToast('Deleted');
     }
 }
 
@@ -2754,7 +2779,15 @@ function loadQuotations() {
         container.appendChild(card);
     });
 }
-function deleteQuotation(i) { if(confirm('Delete?')){ let q = JSON.parse(localStorage.getItem('ArvinQuotations')); q.splice(i,1); localStorage.setItem('ArvinQuotations',JSON.stringify(q)); loadQuotations(); } }
+function deleteQuotation(i) { 
+    if(confirm('Delete this Quotation?')){ 
+        let q = JSON.parse(localStorage.getItem('ArvinQuotations')); 
+        q.splice(i,1); 
+        localStorage.setItem('ArvinQuotations',JSON.stringify(q)); 
+        loadQuotations(); 
+        showToast('Deleted');
+    } 
+}
 
 // ========== INVOICE ==========
 let invoiceItems = [];
@@ -2860,7 +2893,15 @@ function loadInvoices() {
         container.appendChild(card);
     });
 }
-function deleteInvoice(i) { let l = JSON.parse(localStorage.getItem('ArvinInvoices')); l.splice(i,1); localStorage.setItem('ArvinInvoices',JSON.stringify(l)); loadInvoices(); }
+function deleteInvoice(i) { 
+    if(confirm('Delete this Invoice?')) { 
+        let l = JSON.parse(localStorage.getItem('ArvinInvoices')); 
+        l.splice(i,1); 
+        localStorage.setItem('ArvinInvoices',JSON.stringify(l)); 
+        loadInvoices(); 
+        showToast('Deleted');
+    } 
+}
 
 // ========== DELIVERY CHALLAN ==========
 let deliveryItems = [];
@@ -2943,7 +2984,15 @@ function loadDeliveryChallans() {
         container.appendChild(card);
     });
 }
-function deleteDelivery(i) { let l = JSON.parse(localStorage.getItem('ArvinDeliveries')); l.splice(i,1); localStorage.setItem('ArvinDeliveries',JSON.stringify(l)); loadDeliveryChallans(); }
+function deleteDelivery(i) { 
+    if(confirm('Delete this Delivery Challan?')) { 
+        let l = JSON.parse(localStorage.getItem('ArvinDeliveries')); 
+        l.splice(i,1); 
+        localStorage.setItem('ArvinDeliveries',JSON.stringify(l)); 
+        loadDeliveryChallans(); 
+        showToast('Deleted');
+    } 
+}
 
 // ========== PURCHASE ORDER ==========
 let poItems = [];
@@ -3033,7 +3082,15 @@ function loadPurchaseOrders() {
         container.appendChild(card);
     });
 }
-function deletePO(i) { let l = JSON.parse(localStorage.getItem('ArvinPO')); l.splice(i,1); localStorage.setItem('ArvinPO',JSON.stringify(l)); loadPurchaseOrders(); }
+function deletePO(i) { 
+    if(confirm('Delete this Purchase Order?')) { 
+        let l = JSON.parse(localStorage.getItem('ArvinPO')); 
+        l.splice(i,1); 
+        localStorage.setItem('ArvinPO',JSON.stringify(l)); 
+        loadPurchaseOrders(); 
+        showToast('Deleted');
+    } 
+}
 
 // ========== MONEY RECEIPT ==========
 function showMoneyReceiptModal(editIdx=null) {
@@ -3108,7 +3165,15 @@ function loadMoneyReceipts() {
         container.appendChild(card);
     });
 }
-function deleteReceipt(i) { let l = JSON.parse(localStorage.getItem('ArvinReceipts')); l.splice(i,1); localStorage.setItem('ArvinReceipts',JSON.stringify(l)); loadMoneyReceipts(); }
+function deleteReceipt(i) { 
+    if(confirm('Delete this Money Receipt?')) { 
+        let l = JSON.parse(localStorage.getItem('ArvinReceipts')); 
+        l.splice(i,1); 
+        localStorage.setItem('ArvinReceipts',JSON.stringify(l)); 
+        loadMoneyReceipts(); 
+        showToast('Deleted');
+    } 
+}
 
 // ========== LETTER ==========
 function showLetterModal(editIdx=null) {
@@ -3157,7 +3222,15 @@ function loadLetters() {
         container.appendChild(card);
     });
 }
-function deleteLetter(i) { let l = JSON.parse(localStorage.getItem('ArvinLetters')); l.splice(i,1); localStorage.setItem('ArvinLetters',JSON.stringify(l)); loadLetters(); }
+function deleteLetter(i) { 
+    if(confirm('Delete this Letter?')) { 
+        let l = JSON.parse(localStorage.getItem('ArvinLetters')); 
+        l.splice(i,1); 
+        localStorage.setItem('ArvinLetters',JSON.stringify(l)); 
+        loadLetters(); 
+        showToast('Deleted');
+    } 
+}
 
 // ========== COMMON ITEM SAVE ==========
 function clearItemFields() {
