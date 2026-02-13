@@ -687,88 +687,6 @@ table tr:last-child td {
     font-size: 14px;
 }
 
-.quotation-card {
-    background: linear-gradient(145deg, #ffffff, #fcfcfc);
-    border: 1px solid rgba(204,0,0,0.2);
-    border-left: 8px solid var(--fire-red);
-    border-radius: 16px;
-    padding: 24px 20px;
-    margin-bottom: 24px;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.06);
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-}
-.quotation-card:hover {
-    box-shadow: 0 12px 24px rgba(204,0,0,0.12);
-    transform: translateY(-2px);
-}
-.quotation-badge {
-    background: var(--fire-red);
-    color: white;
-    padding: 6px 16px;
-    border-radius: 40px;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    display: inline-block;
-}
-.quotation-id-big {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--charcoal);
-    margin: 8px 0 4px;
-    line-height: 1.2;
-}
-.quotation-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin: 8px 0 0;
-    color: #555;
-    font-size: 14px;
-}
-.quotation-meta span {
-    background: #f0f2f5;
-    padding: 5px 14px;
-    border-radius: 24px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-.quotation-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 0;
-    flex-wrap: wrap;
-    align-items: center;
-}
-.quotation-actions button {
-    border-radius: 30px;
-    padding: 10px 20px;
-    font-size: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-.quotation-card-header {
-    display: flex;
-    flex: 1 1 60%;
-    flex-direction: column;
-}
-.quotation-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-}
-@media (max-width: 640px) {
-    .quotation-card { flex-direction: column; align-items: flex-start; }
-    .quotation-right { align-items: flex-start; width: 100%; margin-top: 12px; }
-    .quotation-actions { width: 100%; justify-content: flex-start; }
-}
-
 .suggestions-dropdown {
     position: absolute;
     background: white;
@@ -2549,7 +2467,7 @@ function showQuotationModal(editIndex = null) {
         document.getElementById('quotationNotes').value = '';
         let qList = JSON.parse(localStorage.getItem('ArvinQuotations') || '[]');
         let lastIdNum = qList.length > 0 ? parseInt(qList[qList.length-1].id.split('-')[2]) : 100100;
-        document.getElementById('quotationId').value = `FE-Q-${lastIdNum+1}`;
+        document.getElementById('quotationId').value = `AC-Q-${lastIdNum+1}`;
         document.getElementById('quotationDate').value = new Date().toISOString().split('T')[0];
         quotationItems = [];
     }
@@ -2669,7 +2587,7 @@ function showInvoiceModal(editIdx=null) {
     } else {
         let invList = JSON.parse(localStorage.getItem('ArvinInvoices')||'[]');
         let lastNum = invList.length>0? parseInt(invList[invList.length-1].invoiceNo.split('-')[2]) : 100100;
-        document.getElementById('invoiceNo').value = `FE-INV-${lastNum+1}`;
+        document.getElementById('invoiceNo').value = `AC-INV-${lastNum+1}`;
         document.getElementById('invoiceClient').value=''; document.getElementById('invoiceAddress').value='';
         document.getElementById('invoiceOrderId').value=''; document.getElementById('invoiceSubject').value='';
         document.getElementById('invoicePaid').value=0; document.getElementById('invoiceDue').value=0;
@@ -2771,7 +2689,7 @@ function showDeliveryChallanModal(editIdx=null) {
     } else {
         let list = JSON.parse(localStorage.getItem('ArvinDeliveries')||'[]');
         let lastNum = list.length>0? parseInt(list[list.length-1].deliveryNo.split('-')[2]) : 100100;
-        document.getElementById('deliveryNo').value = `FE-DC-${lastNum+1}`;
+        document.getElementById('deliveryNo').value = `AC-DC-${lastNum+1}`;
         document.getElementById('deliveryClient').value=''; document.getElementById('deliveryAddress').value='';
         document.getElementById('deliveryOrderId').value=''; document.getElementById('deliveryGatePass').value='';
         deliveryItems = [];
@@ -2854,7 +2772,7 @@ function showPurchaseOrderModal(editIdx=null) {
     } else {
         let polist = JSON.parse(localStorage.getItem('ArvinPO')||'[]');
         let lastNum = polist.length>0? parseInt(polist[polist.length-1].poId.split('-')[2]) : 100100;
-        document.getElementById('poId').value = `FE-PO-${lastNum+1}`;
+        document.getElementById('poId').value = `AC-PO-${lastNum+1}`;
         document.getElementById('poSupplier').value=''; document.getElementById('poAddress').value='';
         document.getElementById('poSubject').value=''; document.getElementById('poNotes').value='';
         poItems = [];
@@ -2947,7 +2865,7 @@ function showMoneyReceiptModal(editIdx=null) {
     } else {
         let reclist = JSON.parse(localStorage.getItem('ArvinReceipts')||'[]');
         let lastNum = reclist.length>0? parseInt(reclist[reclist.length-1].receiptNo.split('-')[2]) : 100100;
-        document.getElementById('receiptNo').value = `FE-MR-${lastNum+1}`;
+        document.getElementById('receiptNo').value = `AC-MR-${lastNum+1}`;
         document.getElementById('receiptClient').value=''; document.getElementById('receiptAddress').value='';
         document.getElementById('receiptAmount').value=''; document.getElementById('receiptWords').value='';
         document.getElementById('receiptMode').value='Cash'; document.getElementById('receiptChequeNo').value=''; document.getElementById('receiptBankName').value=''; document.getElementById('receiptRemarks').value='';
