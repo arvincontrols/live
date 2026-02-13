@@ -1168,7 +1168,6 @@ table tr:last-child td {
         <div id="quotation-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">Back to Dashboard</button>
             <button class="add-new-btn" onclick="showQuotationModal()">+ New Quotation</button>
-            <h2 style="margin-top:0;">Quotation Management</h2>
             <div id="quotationsList"></div>
             <div class="placeholder-msg" id="noQuotationsMsg">
                 <h3>No Quotations Created</h3>
@@ -1180,7 +1179,6 @@ table tr:last-child td {
         <div id="clients-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">← Back</button>
             <button class="add-new-btn" onclick="showContactModal('client')">+ Add Client</button>
-            <h2 style="margin-top:0;">Client Database</h2>
             <div class="search-box">
                 <input type="text" id="clientSearch" placeholder="🔍 Search by name, contact, email..." oninput="debounce('client', renderContacts)()">
             </div>
@@ -1205,7 +1203,6 @@ table tr:last-child td {
         <div id="supplier-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">← Back</button>
             <button class="add-new-btn" onclick="showContactModal('supplier')">+ Add Supplier</button>
-            <h2 style="margin-top:0;">Supplier Portal</h2>
             <div class="search-box">
                 <input type="text" id="supplierSearch" placeholder="🔍 Search by name, contact, email..." oninput="debounce('supplier', renderContacts)()">
             </div>
@@ -1230,7 +1227,6 @@ table tr:last-child td {
         <div id="products-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">← Back</button>
             <button class="add-new-btn" onclick="showProductModal()">+ Add Product</button>
-            <h2 style="margin-top:0;">Product Catalog</h2>
             <div class="search-box">
                 <input type="text" id="productSearch" placeholder="🔍 Search product name, description..." oninput="debounceProduct()">
             </div>
@@ -1255,7 +1251,6 @@ table tr:last-child td {
         <!-- INVENTORY TAB with instant search -->
         <div id="inventory-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">← Back</button>
-            <h2 style="margin-top:0;">Live Inventory (Stock from Products)</h2>
             <div class="search-box">
                 <input type="text" id="inventorySearch" placeholder="🔍 Search product name..." oninput="debounceInventory()">
             </div>
@@ -1279,7 +1274,6 @@ table tr:last-child td {
         <div id="invoice-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">← Back</button>
             <button class="add-new-btn" onclick="showInvoiceModal()">+ New Invoice</button>
-            <h2 style="margin-top:0;">Billing & Invoices</h2>
             <div id="invoicesList"></div>
             <div class="placeholder-msg" id="noInvoicesMsg" style="display:none;"><h3>No Invoices</h3><p>Create your first invoice.</p></div>
         </div>
@@ -1288,7 +1282,6 @@ table tr:last-child td {
         <div id="delivery-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">← Back</button>
             <button class="add-new-btn" onclick="showDeliveryChallanModal()">+ New Delivery Challan</button>
-            <h2 style="margin-top:0;">Delivery Challans</h2>
             <div id="deliveryList"></div>
             <div class="placeholder-msg" id="noDeliveryMsg" style="display:none;"><h3>No Delivery Challans</h3><p>Create first challan.</p></div>
         </div>
@@ -1297,7 +1290,6 @@ table tr:last-child td {
         <div id="purchase-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">← Back</button>
             <button class="add-new-btn" onclick="showPurchaseOrderModal()">+ New Purchase Order</button>
-            <h2 style="margin-top:0;">Purchase Orders</h2>
             <div id="purchaseOrdersList"></div>
             <div class="placeholder-msg" id="noPurchaseMsg" style="display:none;"><h3>No Purchase Orders</h3><p>Create PO using supplier data.</p></div>
         </div>
@@ -1306,7 +1298,6 @@ table tr:last-child td {
         <div id="receipt-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">← Back</button>
             <button class="add-new-btn" onclick="showMoneyReceiptModal()">+ New Money Receipt</button>
-            <h2 style="margin-top:0;">Money Receipts</h2>
             <div id="receiptList"></div>
             <div class="placeholder-msg" id="noReceiptMsg" style="display:none;"><h3>No Money Receipts</h3><p>Create money receipt.</p></div>
         </div>
@@ -1315,7 +1306,6 @@ table tr:last-child td {
         <div id="letter-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">← Back</button>
             <button class="add-new-btn" onclick="showLetterModal()">+ New Letter</button>
-            <h2 style="margin-top:0;">Official Correspondence</h2>
             <div id="lettersList"></div>
             <div class="placeholder-msg" id="noLettersMsg" style="display:none;"><h3>No Letters</h3><p>Draft company letters.</p></div>
         </div>
@@ -1323,7 +1313,6 @@ table tr:last-child td {
         <!-- ========== ACCOUNTS TAB with colorful sub folders - FULLY MOBILE RESPONSIVE, HORIZONTAL SUMMARY ========== -->
         <div id="accounts-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">← Back</button>
-            <h2 style="margin-top:0; color: var(--charcoal);">Accounts & Finance</h2>
             
             <!-- Colorful Sub-Folder Navigation - now triggers popup window -->
             <div class="accounts-sub-nav">
@@ -1478,7 +1467,6 @@ table tr:last-child td {
 
         <div id="settings-tab" class="tab-content">
             <button class="btn-back" onclick="closeTabs()">Back to Dashboard</button>
-            <h2 style="color:var(--charcoal); margin-top: 0;">System Configuration</h2>
             
             <div class="section-divider">Company Information</div>
             <div class="grid-2">
