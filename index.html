@@ -2667,7 +2667,7 @@ function showQuotationModal(editIndex = null) {
         document.getElementById('quotationNotes').value = '';
         let qList = quotations;
         let lastIdNum = qList.length > 0 ? parseInt(qList[qList.length-1].id.split('-')[2]) : 100100;
-        document.getElementById('quotationId').value = `FE-Q-${lastIdNum+1}`;
+        document.getElementById('quotationId').value = `AC-Q-${lastIdNum+1}`;
         document.getElementById('quotationDate').value = new Date().toISOString().split('T')[0];
         quotationItems = [];
     }
@@ -2754,7 +2754,7 @@ function convertQuotationToInvoice(quotationIndex) {
         unitPrice: item.unitPrice
     }));
     let lastNum = invoices.length > 0 ? parseInt(invoices[invoices.length-1].invoiceNo.split('-')[2]) : 100100;
-    let newInvoiceNo = `FE-INV-${lastNum+1}`;
+    let newInvoiceNo = `AC-INV-${lastNum+1}`;
     let invoice = {
         client: q.client,
         address: q.address,
@@ -2783,7 +2783,7 @@ function convertQuotationToDelivery(quotationIndex) {
         remarks: ''
     }));
     let lastNum = deliveries.length > 0 ? parseInt(deliveries[deliveries.length-1].deliveryNo.split('-')[2]) : 100100;
-    let newDeliveryNo = `FE-DC-${lastNum+1}`;
+    let newDeliveryNo = `AC-DC-${lastNum+1}`;
     let delivery = {
         client: q.client,
         address: q.address,
@@ -2856,7 +2856,7 @@ function showInvoiceModal(editIdx=null) {
     } else {
         let invList = invoices;
         let lastNum = invList.length>0? parseInt(invList[invList.length-1].invoiceNo.split('-')[2]) : 100100;
-        document.getElementById('invoiceNo').value = `FE-INV-${lastNum+1}`;
+        document.getElementById('invoiceNo').value = `AC-INV-${lastNum+1}`;
         document.getElementById('invoiceClient').value=''; document.getElementById('invoiceAddress').value='';
         document.getElementById('invoiceOrderId').value=''; document.getElementById('invoiceSubject').value='';
         document.getElementById('invoicePaid').value=0; document.getElementById('invoiceDue').value=0;
@@ -2968,7 +2968,7 @@ function showDeliveryChallanModal(editIdx=null) {
     } else {
         let list = deliveries;
         let lastNum = list.length>0? parseInt(list[list.length-1].deliveryNo.split('-')[2]) : 100100;
-        document.getElementById('deliveryNo').value = `FE-DC-${lastNum+1}`;
+        document.getElementById('deliveryNo').value = `AC-DC-${lastNum+1}`;
         document.getElementById('deliveryClient').value=''; document.getElementById('deliveryAddress').value='';
         document.getElementById('deliveryOrderId').value=''; document.getElementById('deliveryGatePass').value='';
         deliveryItems = [];
@@ -3061,7 +3061,7 @@ function showPurchaseOrderModal(editIdx=null) {
     } else {
         let polist = purchaseOrders;
         let lastNum = polist.length>0? parseInt(polist[polist.length-1].poId.split('-')[2]) : 100100;
-        document.getElementById('poId').value = `FE-PO-${lastNum+1}`;
+        document.getElementById('poId').value = `AC-PO-${lastNum+1}`;
         document.getElementById('poSupplier').value=''; document.getElementById('poAddress').value='';
         document.getElementById('poSubject').value=''; document.getElementById('poNotes').value='';
         poItems = [];
@@ -3164,7 +3164,7 @@ function showMoneyReceiptModal(editIdx=null) {
     } else {
         let reclist = receipts;
         let lastNum = reclist.length>0? parseInt(reclist[reclist.length-1].receiptNo.split('-')[2]) : 100100;
-        document.getElementById('receiptNo').value = `FE-MR-${lastNum+1}`;
+        document.getElementById('receiptNo').value = `AC-MR-${lastNum+1}`;
         document.getElementById('receiptClient').value=''; document.getElementById('receiptAddress').value='';
         document.getElementById('receiptAmount').value=''; document.getElementById('receiptWords').value='';
         document.getElementById('receiptMode').value='Cash'; document.getElementById('receiptChequeNo').value=''; document.getElementById('receiptBankName').value=''; document.getElementById('receiptRemarks').value='';
