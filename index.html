@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ARVIN CONTROLS | Fire Safety Engineering</title>
+    <!-- Firebase SDKs (must be loaded before our script) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+    <script>
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAr2YhR3Ces3Kqkra8-th-PD8Sz2G7fWCc",
+  authDomain: "arvin-controls.firebaseapp.com",
+  databaseURL: "https://arvin-controls-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "arvin-controls",
+  storageBucket: "arvin-controls.firebasestorage.app",
+  messagingSenderId: "895487545903",
+  appId: "1:895487545903:web:45d65a1d96ba4355c06cda",
+  measurementId: "G-WSTKDWD6NP"
+};
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+    </script>
     <script>
         // Offline/online resilience: load CDN resources, but if they fail, we already have inline backup via styled content
         document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" onerror="this.onerror=null;this.href=\'data:text/css;base64,LmZhLXh4e306ZGVmYXVsdHt9\'" />');
@@ -55,7 +75,6 @@
         .suggestion-name { font-weight: 600; font-size: 13px; color: #1f2937; display: block; }
         .suggestion-sub { font-size: 11px; color: #ef4444; display: block; margin-top: 1px; }
         .suggestion-desc { font-size: 11px; color: #f59e0b; display: block; margin-top: 1px; }
-
         .move-top-btn {
             position: fixed; bottom: 30px; left: 30px; z-index: 999;
             background: linear-gradient(145deg, #667eea, #764ba2);
@@ -74,7 +93,6 @@
             100% { transform: translateY(0px); }
         }
         #moveTopBtn { display: none; }
-
         #loginOverlay {
             position: fixed; inset:0; background: white; z-index:10000;
             display: flex; align-items: center; justify-content: center;
@@ -101,9 +119,7 @@
         .logout-btn:hover { background:#b91c1c; transform: scale(1.02); }
         body.logged-in #loginOverlay { display: none; }
         body:not(.logged-in) .logout-btn-container { display: none; }
-
         nav { position: sticky; top: 0; z-index: 50; background: white; }
-
         .stats-scroll-x {
             display: flex;
             flex-wrap: nowrap;
@@ -141,7 +157,6 @@
             z-index: 101;
             position: relative;
         }
-
         .img-delete-icon { cursor: pointer; color: #dc2626; font-size: 12px; margin-left: 6px; }
         .img-delete-icon:hover { color: #b91c1c; }
         
@@ -199,7 +214,6 @@
                 font-size: 12px;
             }
         }
-
         .developer-credit {
             text-align: center;
             font-size: 10px;
@@ -264,11 +278,9 @@
         td .financial-input {
             background: transparent;
         }
-
         #pdf-template {
             display: none;
         }
-
         #pdf-inner-content {
             position: relative;
             width: 210mm;
@@ -279,7 +291,6 @@
             box-sizing: border-box;
             padding: 20px;
         }
-
         #quotationItemsBody td:nth-child(2) { max-width: 150px; min-width: 120px; word-break: break-word; }
         #quotationItemsBody td:nth-child(3) { max-width: 180px; min-width: 140px; word-break: break-word; }
         #quotationItemsBody td:nth-child(4) { text-align: center; }
@@ -294,7 +305,6 @@
         #purchaseItemsBody td:nth-child(6) { text-align: right; }
         #purchaseItemsBody td:nth-child(7) { text-align: right; font-weight: bold; }
         #purchaseItemsBody td:nth-child(8) { text-align: center; }
-
         /* Invoice table styling with proper column widths for action visibility */
         #invoiceItemsBody td:nth-child(1) { min-width: 40px; }  /* SL */
         #invoiceItemsBody td:nth-child(2) { min-width: 150px; } /* Item */
@@ -305,7 +315,6 @@
         
         #invoiceItemsBody td:last-child { position: sticky; right: 0; background: white; z-index: 5; }
         #invoiceItemsBody td:last-child::before { content: ''; position: absolute; left: -5px; top: 0; bottom: 0; width: 5px; background: linear-gradient(to left, rgba(0,0,0,0.1), transparent); pointer-events: none; }
-
         @media screen and (orientation: landscape) {
             html {
                 transform: rotate(0deg);
@@ -314,7 +323,6 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
-
     <div id="loginOverlay">
         <div class="login-card">
             <div class="login-logo"><i class="fas fa-fire-extinguisher"></i></div>
@@ -326,11 +334,9 @@
             <p class="text-center text-[10px] text-gray-400 mt-4">authorised personnel only</p>
         </div>
     </div>
-
     <button id="moveTopBtn" class="move-top-btn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
         <i class="fas fa-arrow-up"></i> <span>TOP</span>
     </button>
-
     <nav class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 py-10">
             <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
@@ -393,14 +399,13 @@
             <div class="logout-btn-container">
                 <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
-
             <div class="developer-credit">
                 Developed By Jakaria Ahmed<br>
                 <span class="phone">+8801717106984</span>
             </div>
         </div>
     </nav>
-
+    
     <main class="w-full">
         <div id="clients" class="tab-content bg-white">
             <div class="flex items-center p-6 border-b border-red-100">
@@ -418,7 +423,6 @@
                 </div>
             </div>
         </div>
-
         <div id="suppliers" class="tab-content bg-white">
             <div class="flex items-center p-6 border-b border-blue-100">
                 <div class="flex-none"><button onclick="showDashboard()" class="btn-back flex items-center gap-2 bg-gray-100 hover:bg-blue-600 hover:text-white px-4 py-2 rounded-full transition-all text-xs font-bold uppercase"><i class="fas fa-arrow-left"></i> Back</button></div>
@@ -435,7 +439,6 @@
                 </div>
             </div>
         </div>
-
         <div id="products" class="tab-content bg-white">
             <div class="flex items-center p-6 border-b border-orange-100">
                 <div class="flex-none"><button onclick="showDashboard()" class="btn-back flex items-center gap-2 bg-gray-100 hover:bg-orange-600 hover:text-white px-4 py-2 rounded-full transition-all text-xs font-bold uppercase"><i class="fas fa-arrow-left"></i> Back</button></div>
@@ -452,7 +455,6 @@
                 </div>
             </div>
         </div>
-
         <div id="inventory" class="tab-content bg-white">
             <div class="flex items-center p-6 border-b border-emerald-100">
                 <div class="flex-none"><button onclick="showDashboard()" class="btn-back flex items-center gap-2 bg-gray-100 hover:bg-emerald-600 hover:text-white px-4 py-2 rounded-full transition-all text-xs font-bold uppercase"><i class="fas fa-arrow-left"></i> Back</button></div>
@@ -482,7 +484,6 @@
                 </div>
             </div>
         </div>
-
         <div id="quotation" class="tab-content bg-white">
             <div class="flex flex-col md:flex-row items-center p-4 border-b border-indigo-100 gap-4">
                 <button onclick="showDashboard()" class="btn-back bg-gray-100 px-4 py-2 rounded-full text-xs font-bold uppercase"><i class="fas fa-arrow-left"></i> BACK</button>
@@ -529,7 +530,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="px-6 pb-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-gray-700 uppercase text-xs tracking-widest">Quotation Items</h3>
@@ -573,12 +573,10 @@
                     </div>
                 </div>
             </div>
-
             <div id="quotation-saved" class="quotation-sub-tab p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="savedQuotationsList"></div>
             </div>
         </div>
-
         <div id="invoice" class="tab-content bg-white">
             <div class="flex flex-col md:flex-row items-center p-4 border-b border-yellow-100 gap-4">
                 <button onclick="showDashboard()" class="btn-back bg-gray-100 px-4 py-2 rounded-full text-xs font-bold uppercase"><i class="fas fa-arrow-left"></i> BACK</button>
@@ -625,7 +623,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="px-6 pb-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-gray-700 uppercase text-xs tracking-widest">Billing Items</h3>
@@ -664,12 +661,10 @@
                     </div>
                 </div>
             </div>
-
             <div id="invoice-saved" class="invoice-sub-tab p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="savedInvoicesList"></div>
             </div>
         </div>
-
         <div id="delivery" class="tab-content bg-white">
             <div class="flex flex-col md:flex-row items-center p-4 border-b border-teal-100 gap-4">
                 <button onclick="showDashboard()" class="btn-back bg-gray-100 px-4 py-2 rounded-full text-xs font-bold uppercase"><i class="fas fa-arrow-left"></i> BACK</button>
@@ -718,7 +713,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="px-6 pb-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-gray-700 uppercase text-xs tracking-widest">Delivery Items</h3>
@@ -743,12 +737,10 @@
                     </div>
                 </div>
             </div>
-
             <div id="delivery-saved" class="delivery-sub-tab p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="savedDeliveriesList"></div>
             </div>
         </div>
-
         <div id="purchase" class="tab-content bg-white">
             <div class="flex flex-col md:flex-row items-center p-4 border-b border-amber-100 gap-4">
                 <button onclick="showDashboard()" class="btn-back bg-gray-100 px-4 py-2 rounded-full text-xs font-bold uppercase"><i class="fas fa-arrow-left"></i> BACK</button>
@@ -795,7 +787,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="px-6 pb-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-gray-700 uppercase text-xs tracking-widest">Purchase Items</h3>
@@ -820,12 +811,10 @@
                     </div>
                 </div>
             </div>
-
             <div id="purchase-saved" class="purchase-sub-tab p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="savedPurchasesList"></div>
             </div>
         </div>
-
         <div id="moneyreceipt" class="tab-content bg-white">
             <div class="flex flex-col md:flex-row items-center p-4 border-b border-rose-100 gap-4">
                 <button onclick="showDashboard()" class="btn-back bg-gray-100 px-4 py-2 rounded-full text-xs font-bold uppercase"><i class="fas fa-arrow-left"></i> BACK</button>
@@ -895,7 +884,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="px-6 pb-6">
                     <div class="bg-white border rounded-xl p-6">
                         <h3 class="font-bold text-gray-700 uppercase text-xs tracking-widest mb-4">Receipt Details</h3>
@@ -903,12 +891,10 @@
                     </div>
                 </div>
             </div>
-
             <div id="moneyreceipt-saved" class="moneyreceipt-sub-tab p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="savedMoneyReceiptsList"></div>
             </div>
         </div>
-
         <div id="documents" class="tab-content bg-white">
             <div class="flex flex-col md:flex-row items-center p-4 border-b border-stone-100 gap-4">
                 <button onclick="showDashboard()" class="btn-back bg-gray-100 px-4 py-2 rounded-full text-xs font-bold uppercase"><i class="fas fa-arrow-left"></i> BACK</button>
@@ -944,7 +930,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="px-6 pb-6">
                     <div class="bg-white border rounded-xl p-6">
                         <h3 class="font-bold text-gray-700 uppercase text-xs tracking-widest mb-4">Document Preview</h3>
@@ -954,12 +939,10 @@
                     </div>
                 </div>
             </div>
-
             <div id="documents-saved" class="documents-sub-tab p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="savedDocumentsList"></div>
             </div>
         </div>
-
         <div id="accounts" class="tab-content bg-white">
             <div class="flex flex-col md:flex-row items-center p-4 border-b border-purple-100 gap-4">
                 <button onclick="showDashboard()" class="btn-back bg-gray-100 px-4 py-2 rounded-full text-xs font-bold uppercase"><i class="fas fa-arrow-left"></i> BACK</button>
@@ -985,7 +968,6 @@
                 <div class="flex-grow"></div>
                 <button id="addAccBtn" class="bg-purple-600 text-white px-6 py-2 rounded-lg text-xs font-bold shadow-md hover:bg-purple-700 uppercase"><i class="fas fa-plus mr-1"></i> Add Entry</button>
             </div>
-
             <div class="p-6">
                 <div id="accounts-stats" class="stats-scroll-x mb-6">
                     <div id="statCard1" class="p-3 rounded-xl border">
@@ -1001,7 +983,6 @@
                         <p id="statVal3" class="stat-value font-black">0.00</p>
                     </div>
                 </div>
-
                 <div id="accounts-income" class="accounts-sub-tab">
                     <div class="table-container bg-gray-50 rounded-xl p-4 text-sm">
                         <table class="w-full text-left border-collapse">
@@ -1010,7 +991,6 @@
                         </table>
                     </div>
                 </div>
-
                 <div id="accounts-expense" class="accounts-sub-tab">
                     <div class="table-container bg-gray-50 rounded-xl p-4 text-sm">
                         <table class="w-full text-left border-collapse">
@@ -1019,7 +999,6 @@
                         </table>
                     </div>
                 </div>
-
                 <div id="accounts-transactions" class="accounts-sub-tab active">
                     <div class="table-container bg-gray-50 rounded-xl p-4 text-sm">
                         <table class="w-full text-left border-collapse">
@@ -1028,7 +1007,6 @@
                         </table>
                     </div>
                 </div>
-
                 <div id="accounts-orders" class="accounts-sub-tab">
                     <div class="table-container bg-gray-50 rounded-xl p-4 text-sm">
                         <table class="w-full text-left border-collapse">
@@ -1039,14 +1017,12 @@
                 </div>
             </div>
         </div>
-
         <div id="settings" class="tab-content bg-white">
             <div class="p-6">
                 <div class="flex items-center mb-6">
                     <button onclick="showDashboard()" class="btn-back flex items-center gap-2 bg-gray-100 hover:bg-gray-600 hover:text-white px-4 py-2 rounded-full transition-all text-xs font-bold uppercase"><i class="fas fa-arrow-left"></i> Back</button>
                     <h2 class="ml-4 text-xl font-bold text-gray-700 uppercase tracking-widest"><i class="fas fa-cogs mr-2 text-red-600"></i> Company Settings</h2>
                 </div>
-
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div class="space-y-6 bg-blue-50 p-6 rounded-2xl border border-blue-100">
                         <h3 class="font-bold text-blue-700 border-b border-blue-200 pb-2 uppercase text-xs tracking-wider">GENERAL INFORMATION</h3>
@@ -1070,7 +1046,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="space-y-6 bg-purple-50 p-6 rounded-2xl border border-purple-100">
                         <h3 class="font-bold text-purple-700 border-b border-purple-200 pb-2 uppercase text-xs tracking-wider">AUTHORIZATION & SIGNATORY</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1098,7 +1073,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="lg:col-span-2 space-y-6 bg-gray-50 p-6 rounded-2xl border border-gray-200">
                         <h3 class="font-bold text-gray-700 border-b border-gray-300 pb-2 uppercase text-xs tracking-wider">TERMS & CONDITIONS</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1109,7 +1083,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="mt-8 flex justify-center">
                     <button onclick="saveSettings()" class="bg-green-600 text-white px-12 py-3 rounded-xl font-bold shadow-xl hover:bg-green-700 hover:scale-105 transition-all uppercase tracking-widest">
                         <i class="fas fa-save mr-2"></i> Save All Settings
@@ -1118,7 +1091,7 @@
             </div>
         </div>
     </main>
-
+    
     <div id="itemModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[150] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-md maxh-[95vh] overflow-y-auto">
             <div class="bg-yellow-500 p-4 text-white flex justify-between items-center sticky top-0 z-10 shadow-sm">
@@ -1159,7 +1132,6 @@
             </form>
         </div>
     </div>
-
     <div id="quotItemModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[150] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-md maxh-[95vh] overflow-y-auto">
             <div class="bg-indigo-500 p-4 text-white flex justify-between items-center sticky top-0 z-10 shadow-sm">
@@ -1200,7 +1172,6 @@
             </form>
         </div>
     </div>
-
     <div id="delItemModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[150] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-md maxh-[95vh] overflow-y-auto">
             <div class="bg-teal-500 p-4 text-white flex justify-between items-center sticky top-0 z-10 shadow-sm">
@@ -1229,7 +1200,6 @@
             </form>
         </div>
     </div>
-
     <div id="purItemModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[150] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-md maxh-[95vh] overflow-y-auto">
             <div class="bg-amber-500 p-4 text-white flex justify-between items-center sticky top-0 z-10 shadow-sm">
@@ -1270,7 +1240,6 @@
             </form>
         </div>
     </div>
-
     <div id="clientModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-md maxh-[90vh] overflow-y-auto">
             <div class="bg-red-600 p-4 text-white flex justify-between items-center sticky top-0 z-10">
@@ -1290,7 +1259,6 @@
             </form>
         </div>
     </div>
-
     <div id="productModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-md maxh-[90vh] overflow-y-auto">
             <div class="bg-orange-600 p-4 text-white flex justify-between items-center sticky top-0 z-10">
@@ -1309,7 +1277,6 @@
             </form>
         </div>
     </div>
-
     <div id="supplierModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-md maxh-[90vh] overflow-y-auto">
             <div class="bg-blue-600 p-4 text-white flex justify-between items-center sticky top-0 z-10">
@@ -1330,7 +1297,6 @@
             </form>
         </div>
     </div>
-
     <div id="accModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-md maxh-[90vh] overflow-y-auto">
             <div id="accModalHeader" class="p-4 text-white flex justify-between items-center sticky top-0 z-10"><h3 id="accModalTitle" class="font-bold uppercase">Add Entry</h3><button onclick="toggleAccModal(false)" class="text-white hover:text-gray-200 text-2xl modal-close-btn">×</button></div>
@@ -1344,7 +1310,6 @@
             </form>
         </div>
     </div>
-
     <div id="orderModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-md maxh-[90vh] overflow-y-auto">
             <div class="bg-orange-600 p-4 text-white flex justify-between items-center sticky top-0 z-10"><h3 class="font-bold uppercase">Work Order</h3><button onclick="toggleOrderModal(false)" class="text-white hover:text-gray-200 text-2xl modal-close-btn">×</button></div>
@@ -1359,20 +1324,17 @@
             </form>
         </div>
     </div>
-
     <div id="pdf-template">
         <div id="pdf-inner-content">
             <div id="pdf-header-container" style="text-align: center; border-bottom: 2px solid #FF0000; padding-bottom: 2px; margin-bottom: 8px;">
                 <div id="pdf-logo-wrapper" style="margin-bottom: 0px; display: none; text-align: center;">
                     <img id="pdf-company-logo" style="max-height: 70px; max-width: 100px; margin: 0 auto; display: block;">
                 </div>
-                <h1 id="pdf-company-name" style="margin: 0; font-size: 26px; text-transform: uppercase; color: #FF0000; font-weight: bold; line-height: 1.1;">ARVIN CONTROLS</h1>
+                <h1 id="pdf-company-name" style="margin: 0; font-size: 26px; text-transform: uppercase; color: #FF0000; font-weight: bold; line-height: 1.1;">FAITH ENGINEERING</h1>
                 <p id="pdf-company-address" style="margin: 0; font-size: 12px; color: #0000FF; font-weight: 500; line-height: 1.2;"></p>
                 <p id="pdf-company-contact" style="margin: 0; font-size: 12px; color: #0000FF; line-height: 1.2;"></p>
             </div>
-
             <h2 id="pdf-receipt-title" style="text-align: center; font-size: 16pt; color: #0000FF; margin: 10px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; display: inline-block; padding: 4px 20px; left: 50%; transform: translateX(-50%); position: relative;">Money Receipt</h2>
-
             <div id="pdf-receipt-container" style="margin-top: 5px; width: 100%;">
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 12px;">
                     <tr>
@@ -1386,18 +1348,15 @@
                         </td>
                     </tr>
                 </table>
-
                 <div style="border: 2px solid #0000FF; padding: 20px; border-radius: 4px; background: #fff;">
                     <div style="margin-bottom: 12px; border-bottom: 1px dashed #000000; padding-bottom: 8px;">
                         <span style="font-size: 10px; font-weight: bold; color: #0000FF;">RECEIVED FROM:</span>
                         <div id="pdf-client-name" style="font-size: 15px; font-weight: bold; margin-top: 3px; color: #000000;"></div>
                     </div>
-
                     <div style="margin-bottom: 12px; border-bottom: 1px dashed #000000; padding-bottom: 8px;">
                         <span style="font-size: 10px; font-weight: bold; color: #0000FF;">ADDRESS:</span>
                         <div id="pdf-client-address" style="font-size: 11px; margin-top: 3px; color: #000000;"></div>
                     </div>
-
                     <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                         <tr>
                             <td style="padding: 10px; background: #f8fafc; border: 1px solid #000000; width: 40%;">
@@ -1413,14 +1372,12 @@
                             </td>
                         </tr>
                     </table>
-
                     <div style="margin-top: 20px; padding: 12px; border-left: 4px solid #0000FF; background: #f1f5f9;">
                         <span style="font-size: 9px; font-weight: bold; color: #000000; text-transform: uppercase;">Amount in Words:</span>
                         <div id="pdf-amount-words" style="font-size: 11px; font-weight: bold; color: #000000; margin-top: 3px; font-style: italic;"></div>
                     </div>
                 </div>
             </div>
-
             <div id="pdf-sig-wrapper" style="margin-top: 40px; display: flex; justify-content: flex-end;">
                 <div style="text-align: center; position: relative;">
                     <div id="pdf-seal-container" style="position: absolute; left: -85px; bottom: 10px; display: none;">
@@ -1436,62 +1393,48 @@
                     </div>
                 </div>
             </div>
-
             <div style="margin-top: 30px; text-align: center;">
                 <p style="font-size: 9px; color: #777; font-style: italic; border: 1px dashed #ccc; display: inline-block; padding: 5px 15px; border-radius: 20px;">
                     <i class="fas fa-info-circle"></i> This is a software generated money receipt & doesn't require signature.
                 </p>
             </div>
-
             <div id="pdf-footer" style="position: absolute; bottom: 15px; left: 20px; right: 20px; text-align: center;">
                 <div style="font-size: 11px; color: #0000FF; font-weight: bold; text-transform: uppercase; border-top: 2px solid #CC0000; padding-top: 8px; width: 80%; margin: 0 auto;" id="pdf-footer-text"></div>
             </div>
         </div>
     </div>
-
+    
     <script>
-        // --- LOGIN SYSTEM ---
-        function performLogin() {
-            const loginId = document.getElementById('loginId').value.trim();
-            const loginPass = document.getElementById('loginPass').value.trim();
-            if (loginId === '1234@' && loginPass === '@1234') {
-                document.body.classList.add('logged-in');
-                localStorage.setItem('faith_logged_in', 'yes');
-                loadAllData();
-            } else {
-                alert('Invalid credentials');
-            }
-        }
-        function logout() {
-            document.body.classList.remove('logged-in');
-            localStorage.removeItem('faith_logged_in');
-            document.getElementById('loginId').value = '';
-            document.getElementById('loginPass').value = '';
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById('nav-grid').classList.remove('hidden');
-            document.getElementById('moveTopBtn').style.display = 'none';
-        }
-        window.onload = function() {
-            if (localStorage.getItem('faith_logged_in') === 'yes') {
-                document.body.classList.add('logged-in');
-                loadAllData();
-            } 
-        };
-        function loadAllData() {
-            clients = JSON.parse(localStorage.getItem('faith_clients_list')) || [];
-            products = JSON.parse(localStorage.getItem('faith_products_list')) || [];
-            suppliers = JSON.parse(localStorage.getItem('faith_suppliers_list')) || [];
-            invoices = JSON.parse(localStorage.getItem('faith_invoices_list')) || [];
-            quotations = JSON.parse(localStorage.getItem('faith_quotations_list')) || [];
-            deliveries = JSON.parse(localStorage.getItem('faith_deliveries_list')) || [];
-            purchases = JSON.parse(localStorage.getItem('faith_purchases_list')) || [];
-            moneyReceipts = JSON.parse(localStorage.getItem('faith_moneyreceipts_list')) || [];
-            documents = JSON.parse(localStorage.getItem('faith_documents_list')) || [];
-            income = JSON.parse(localStorage.getItem('faith_income_list')) || [];
-            expense = JSON.parse(localStorage.getItem('faith_expense_list')) || [];
-            orders = JSON.parse(localStorage.getItem('faith_orders_list')) || [];
-            settings = JSON.parse(localStorage.getItem('faith_settings')) || {
-                company: 'ARVIN CONTROLS',
+        // ========== FIREBASE INTEGRATION ==========
+        // Replace all localStorage operations with Firebase RTDB sync.
+        // We keep the in‑memory arrays, but push changes to firebase and listen.
+        // Also maintain localStorage as backup.
+        const fbRef = database.ref('faithv5'); // root
+
+        let clients = [], products = [], suppliers = [], invoices = [], quotations = [], deliveries = [], purchases = [], moneyReceipts = [], documents = [], income = [], expense = [], orders = [];
+        let settings = {};
+
+        let currentInvoiceItems = [], currentQuotationItems = [], currentDeliveryItems = [], currentPurchaseItems = [];
+        let selectedClientIndex = -1, selectedSupplierIndex = -1;
+        let activeAccountsTab = 'transactions';
+
+        // ----- Firebase sync -----
+        function loadFromFirebase(snapshot) {
+            const data = snapshot.val() || {};
+            clients = data.clients || [];
+            products = data.products || [];
+            suppliers = data.suppliers || [];
+            invoices = data.invoices || [];
+            quotations = data.quotations || [];
+            deliveries = data.deliveries || [];
+            purchases = data.purchases || [];
+            moneyReceipts = data.moneyReceipts || [];
+            documents = data.documents || [];
+            income = data.income || [];
+            expense = data.expense || [];
+            orders = data.orders || [];
+            settings = data.settings || {
+                company: 'FAITH ENGINEERING',
                 slogan: 'FIRE SAFETY ENGINEERING & CONSULTANT',
                 address: 'Dhaka, Bangladesh',
                 email: '', mobile: '', website: '',
@@ -1503,13 +1446,7 @@
                 terms_challan: '1. Goods received in good condition. 2. Shortage claims must be made within 24 hours.',
                 terms_po: '1. Delivery must be made on or before the delivery date. 2. Payment terms: 30 days from invoice.'
             };
-            currentInvoiceItems = [];
-            currentQuotationItems = [];
-            currentDeliveryItems = [];
-            currentPurchaseItems = [];
-            selectedClientIndex = -1;
-            selectedSupplierIndex = -1;
-            activeAccountsTab = 'transactions';
+            // re-render everything
             renderClients();
             renderProducts();
             renderSuppliers();
@@ -1521,14 +1458,66 @@
             renderSavedDocuments();
             loadSettingsFields();
             updateUINames();
-            showDashboard();
+            // accounts
+            renderAccounts();
         }
 
-        let clients = [], products = [], suppliers = [], invoices = [], quotations = [], deliveries = [], purchases = [], moneyReceipts = [], documents = [], income = [], expense = [], orders = [];
-        let settings = {};
-        let currentInvoiceItems = [], currentQuotationItems = [], currentDeliveryItems = [], currentPurchaseItems = [];
-        let selectedClientIndex = -1, selectedSupplierIndex = -1;
-        let activeAccountsTab = 'transactions';
+        fbRef.on('value', loadFromFirebase, err => console.warn('Firebase read failed, using localStorage fallback', err));
+
+        // Helper to push updates (for any data change)
+        function pushToFirebase() {
+            const allData = {
+                clients, products, suppliers, invoices, quotations, deliveries, purchases,
+                moneyReceipts, documents, income, expense, orders, settings
+            };
+            fbRef.set(allData).catch(e => console.warn('Firebase write failed', e));
+            // also keep localStorage as fallback
+            localStorage.setItem('faith_clients_list', JSON.stringify(clients));
+            localStorage.setItem('faith_products_list', JSON.stringify(products));
+            localStorage.setItem('faith_suppliers_list', JSON.stringify(suppliers));
+            localStorage.setItem('faith_invoices_list', JSON.stringify(invoices));
+            localStorage.setItem('faith_quotations_list', JSON.stringify(quotations));
+            localStorage.setItem('faith_deliveries_list', JSON.stringify(deliveries));
+            localStorage.setItem('faith_purchases_list', JSON.stringify(purchases));
+            localStorage.setItem('faith_moneyreceipts_list', JSON.stringify(moneyReceipts));
+            localStorage.setItem('faith_documents_list', JSON.stringify(documents));
+            localStorage.setItem('faith_income_list', JSON.stringify(income));
+            localStorage.setItem('faith_expense_list', JSON.stringify(expense));
+            localStorage.setItem('faith_orders_list', JSON.stringify(orders));
+            localStorage.setItem('faith_settings', JSON.stringify(settings));
+        }
+
+        // ----- LOGIN SYSTEM -----
+        function performLogin() {
+            const loginId = document.getElementById('loginId').value.trim();
+            const loginPass = document.getElementById('loginPass').value.trim();
+            if (loginId === '1234@' && loginPass === '@1234') {
+                document.body.classList.add('logged-in');
+                localStorage.setItem('faith_logged_in', 'yes');
+                // No need to loadAllData separately, firebase will trigger loadFromFirebase
+            } else {
+                alert('Invalid credentials');
+            }
+        }
+
+        function logout() {
+            document.body.classList.remove('logged-in');
+            localStorage.removeItem('faith_logged_in');
+            document.getElementById('loginId').value = '';
+            document.getElementById('loginPass').value = '';
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('nav-grid').classList.remove('hidden');
+            document.getElementById('moveTopBtn').style.display = 'none';
+        }
+
+        window.onload = function() {
+            if (localStorage.getItem('faith_logged_in') === 'yes') {
+                document.body.classList.add('logged-in');
+                // firebase will already be listening and populate
+            } else {
+                // keep overlay
+            }
+        };
 
         // --- Utility functions ---
         function formatFriendlyDate(dateStr) {
@@ -1547,7 +1536,7 @@
         }
 
         function updateUINames() {
-            document.getElementById('nav-company-name').innerText = settings.company || 'ARVIN CONTROLS';
+            document.getElementById('nav-company-name').innerText = settings.company || 'FAITH ENGINEERING';
         }
 
         // --- Settings Logic ---
@@ -1565,7 +1554,6 @@
             document.getElementById('termsInvoice').value = settings.terms_inv || '';
             document.getElementById('termsChallan').value = settings.terms_challan || '';
             document.getElementById('termsPO').value = settings.terms_po || '';
-
             if(settings.logo) document.getElementById('logoPreview').innerHTML = `<img src="${settings.logo}" class="h-full w-full object-contain">`; else document.getElementById('logoPreview').innerHTML = '<i class="fas fa-image text-gray-300"></i>';
             if(settings.seal) document.getElementById('sealPreview').innerHTML = `<img src="${settings.seal}" class="h-full w-full object-contain">`; else document.getElementById('sealPreview').innerHTML = '<i class="fas fa-stamp text-gray-300"></i>';
             if(settings.sign) document.getElementById('signPreview').innerHTML = `<img src="${settings.sign}" class="h-full w-full object-contain">`; else document.getElementById('signPreview').innerHTML = '<i class="fas fa-signature text-gray-300"></i>';
@@ -1601,16 +1589,13 @@
             settings.terms_inv = document.getElementById('termsInvoice').value;
             settings.terms_challan = document.getElementById('termsChallan').value;
             settings.terms_po = document.getElementById('termsPO').value;
-
             const logoFile = document.getElementById('setLogo').files[0];
             const sealFile = document.getElementById('setSeal').files[0];
             const signFile = document.getElementById('setSign').files[0];
-
             if(logoFile) settings.logo = await toBase64(logoFile);
             if(sealFile) settings.seal = await toBase64(sealFile);
             if(signFile) settings.sign = await toBase64(signFile);
-
-            localStorage.setItem('faith_settings', JSON.stringify(settings));
+            pushToFirebase(); // sync after settings change
             updateUINames();
             alert("Settings Saved Successfully!");
         }
@@ -1644,7 +1629,7 @@
             document.getElementById('moveTopBtn').style.display = 'none';
         }
 
-        // --- Supplier Logic ---
+        // --- Supplier Logic --- (all pushToFirebase after modifications)
         function toggleSupplierModal(s, idx=-1) {
             document.getElementById('supplierModal').classList.toggle('hidden', !s);
             if(s && idx > -1) {
@@ -1678,14 +1663,15 @@
                 email: document.getElementById('suppEmail').value || ''
             };
             if(idx > -1) suppliers[idx] = data; else suppliers.push(data);
-            localStorage.setItem('faith_suppliers_list', JSON.stringify(suppliers));
+            pushToFirebase();
             renderSuppliers(); toggleSupplierModal(false);
         };
 
         function renderSuppliers() {
             document.getElementById('supplierTableBody').innerHTML = suppliers.map((s, i) => `<tr class="border-b"><td class="p-3 font-bold text-blue-600">${i+1}</td><td class="p-3 font-bold">${s.name}</td><td class="p-3">${s.address || ''}</td><td class="p-3">${s.type || ''}</td><td class="p-3">${s.person || ''}</td><td class="p-3">${s.designation || ''}</td><td class="p-3">${s.mobile || ''}</td><td class="p-3">${s.email || ''}</td><td class="p-3 text-center"><button onclick="toggleSupplierModal(true, ${i})" class="text-blue-500 mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteSupp(${i})" class="text-red-400"><i class="fas fa-trash"></i></button></td></tr>`).join('');
         }
-        function deleteSupp(i) { if(confirm('Delete?')) { suppliers.splice(i,1); localStorage.setItem('faith_suppliers_list', JSON.stringify(suppliers)); renderSuppliers(); }}
+
+        function deleteSupp(i) { if(confirm('Delete?')) { suppliers.splice(i,1); pushToFirebase(); renderSuppliers(); }}
 
         // --- Inventory Logic ---
         function renderInventory() {
@@ -1702,12 +1688,11 @@
             document.getElementById('outStockCount').innerText = out;
         }
 
-        // --- ACCOUNTS LOGIC ---
+        // --- ACCOUNTS LOGIC --- (with pushToFirebase)
         function switchAccountsTab(sub) {
             activeAccountsTab = sub;
             document.querySelectorAll('.accounts-sub-tab').forEach(t => t.classList.remove('active'));
             document.getElementById('accounts-' + sub).classList.add('active');
-            
             const subTabs = ['income', 'expense', 'transactions', 'orders'];
             subTabs.forEach(id => {
                 const btn = document.getElementById('tab-' + id);
@@ -1717,7 +1702,6 @@
                     btn.classList.remove('ring-2', 'ring-purple-400', 'bg-white');
                 }
             });
-
             const addBtn = document.getElementById('addAccBtn');
             if(sub === 'transactions') addBtn.classList.add('hidden');
             else {
@@ -1734,16 +1718,13 @@
             const modal = document.getElementById('accModal');
             modal.classList.toggle('hidden', !show);
             if(!show) return;
-
             document.getElementById('accForm').reset();
             document.getElementById('accDate').valueAsDate = new Date();
             document.getElementById('accType').value = type;
             document.getElementById('editAccIndex').value = idx;
-            
             const header = document.getElementById('accModalHeader');
             const submit = document.getElementById('accSubmitBtn');
             const title = document.getElementById('accModalTitle');
-
             if(type === 'income') {
                 header.className = 'p-4 text-white flex justify-between items-center bg-green-600 sticky top-0 z-10';
                 submit.className = 'w-full bg-green-600 text-white font-bold py-3 rounded-lg uppercase shadow-lg';
@@ -1753,7 +1734,6 @@
                 submit.className = 'w-full bg-red-600 text-white font-bold py-3 rounded-lg uppercase shadow-lg';
                 title.innerText = idx > -1 ? 'Edit Expense' : 'Add Expense';
             }
-
             if(idx > -1) {
                 const list = type === 'income' ? income : expense;
                 const item = list[idx];
@@ -1772,14 +1752,12 @@
                 amount: parseFloat(document.getElementById('accAmount').value),
                 purpose: document.getElementById('accPurpose').value
             };
-
             if(type === 'income') {
                 if(idx > -1) income[idx] = data; else income.push(data);
-                localStorage.setItem('faith_income_list', JSON.stringify(income));
             } else {
                 if(idx > -1) expense[idx] = data; else expense.push(data);
-                localStorage.setItem('faith_expense_list', JSON.stringify(expense));
             }
+            pushToFirebase();
             renderAccounts();
             toggleAccModal(false);
         };
@@ -1788,11 +1766,9 @@
             const modal = document.getElementById('orderModal');
             modal.classList.toggle('hidden', !show);
             if(!show) return;
-
             document.getElementById('orderForm').reset();
             document.getElementById('editOrderIndex').value = idx;
             document.getElementById('orderDate').valueAsDate = new Date();
-
             if(idx > -1) {
                 const item = orders[idx];
                 document.getElementById('orderClient').value = item.client;
@@ -1816,18 +1792,18 @@
                 cost: cost,
                 profit: val - cost
             };
-
             if(idx > -1) orders[idx] = data; else orders.push(data);
-            localStorage.setItem('faith_orders_list', JSON.stringify(orders));
+            pushToFirebase();
             renderAccounts();
             toggleOrderModal(false);
         };
 
         function deleteAcc(type, idx) {
             if(!confirm('Delete this entry?')) return;
-            if(type === 'income') { income.splice(idx, 1); localStorage.setItem('faith_income_list', JSON.stringify(income)); }
-            else if(type === 'expense') { expense.splice(idx, 1); localStorage.setItem('faith_expense_list', JSON.stringify(expense)); }
-            else if(type === 'order') { orders.splice(idx, 1); localStorage.setItem('faith_orders_list', JSON.stringify(orders)); }
+            if(type === 'income') { income.splice(idx, 1); }
+            else if(type === 'expense') { expense.splice(idx, 1); }
+            else if(type === 'order') { orders.splice(idx, 1); }
+            pushToFirebase();
             renderAccounts();
         }
 
@@ -1835,7 +1811,6 @@
             const now = new Date();
             const thisYear = now.getFullYear();
             const thisMonth = now.getMonth();
-
             const sortedIncome = [...income].sort((a,b) => new Date(b.date) - new Date(a.date));
             document.getElementById('incomeTableBody').innerHTML = sortedIncome.map((item, i) => `
                 <tr class="border-b">
@@ -1849,7 +1824,6 @@
                     </td>
                 </tr>
             `).join('');
-
             const sortedExpense = [...expense].sort((a,b) => new Date(b.date) - new Date(a.date));
             document.getElementById('expenseTableBody').innerHTML = sortedExpense.map((item, i) => `
                 <tr class="border-b">
@@ -1863,12 +1837,10 @@
                     </td>
                 </tr>
             `).join('');
-
             let combined = [
                 ...income.map(i => ({...i, type: 'INCOME', color: 'text-green-600'})),
                 ...expense.map(e => ({...e, type: 'EXPENSE', color: 'text-red-600'}))
             ].sort((a, b) => new Date(b.date) - new Date(a.date));
-
             document.getElementById('transactionsTableBody').innerHTML = combined.map(tr => `
                 <tr class="border-b">
                     <td class="p-3 text-xs">${formatFriendlyDate(tr.date)}</td>
@@ -1877,7 +1849,6 @@
                     <td class="p-3 font-bold ${tr.color}">${tr.amount.toFixed(2)}</td>
                 </tr>
             `).join('');
-
             const sortedOrders = [...orders].sort((a,b) => new Date(b.date) - new Date(a.date));
             document.getElementById('ordersTableBody').innerHTML = sortedOrders.map((item, i) => `
                 <tr class="border-b">
@@ -1894,24 +1865,19 @@
                     </td>
                 </tr>
             `).join('');
-
             const totalInc = income.reduce((s, i) => s + i.amount, 0);
             const totalExp = expense.reduce((s, e) => s + e.amount, 0);
-
             if (activeAccountsTab === 'income') {
                 const yearInc = income.filter(i => new Date(i.date).getFullYear() === thisYear).reduce((s, i) => s + i.amount, 0);
                 const monthInc = income.filter(i => { const d = new Date(i.date); return d.getFullYear() === thisYear && d.getMonth() === thisMonth; }).reduce((s, i) => s + i.amount, 0);
                 updateStatsUI('INCOME', 'text-green-600', 'bg-green-50', 'border-green-100', 'Total Income', totalInc, 'This Year', yearInc, 'This Month', monthInc);
-            } 
-            else if (activeAccountsTab === 'expense') {
+            } else if (activeAccountsTab === 'expense') {
                 const yearExp = expense.filter(e => new Date(e.date).getFullYear() === thisYear).reduce((s, e) => s + e.amount, 0);
                 const monthExp = expense.filter(e => { const d = new Date(e.date); return d.getFullYear() === thisYear && d.getMonth() === thisMonth; }).reduce((s, e) => s + e.amount, 0);
                 updateStatsUI('EXPENSE', 'text-red-600', 'bg-red-50', 'border-red-100', 'Total Expense', totalExp, 'This Year', yearExp, 'This Month', monthExp);
-            }
-            else if (activeAccountsTab === 'transactions') {
+            } else if (activeAccountsTab === 'transactions') {
                 updateStatsUI('TRANSACTIONS', 'text-blue-600', 'bg-blue-50', 'border-blue-100', 'Total Income', totalInc, 'Total Expense', totalExp, 'Net Balance', totalInc - totalExp);
-            }
-            else if (activeAccountsTab === 'orders') {
+            } else if (activeAccountsTab === 'orders') {
                 const totValue = orders.reduce((s, o) => s + o.value, 0);
                 const totCost = orders.reduce((s, o) => s + o.cost, 0);
                 const totProf = orders.reduce((s, o) => s + o.profit, 0);
@@ -1926,7 +1892,6 @@
             document.getElementById('statVal2').innerText = v2.toFixed(2);
             document.getElementById('statLabel3').innerText = l3;
             document.getElementById('statVal3').innerText = v3.toFixed(2);
-            
             const cards = ['statCard1', 'statCard2', 'statCard3'];
             cards.forEach(id => {
                 const el = document.getElementById(id);
@@ -1938,7 +1903,7 @@
             });
         }
 
-        // --- INVOICE LOGIC ---
+        // --- INVOICE LOGIC --- (with pushToFirebase)
         function switchInvoiceSubTab(sub) {
             document.querySelectorAll('.invoice-sub-tab').forEach(t => t.classList.remove('active'));
             document.getElementById('invoice-' + sub).classList.add('active');
@@ -1997,7 +1962,7 @@
                 email: document.getElementById('email').value||''
             }; 
             if(idx>-1) clients[idx]=data; else clients.push(data); 
-            localStorage.setItem('faith_clients_list', JSON.stringify(clients)); 
+            pushToFirebase(); 
             renderClients(); toggleClientModal(false); 
         };
 
@@ -2037,11 +2002,11 @@
                 stock: document.getElementById('stockQty').value||0 
             }; 
             if(idx>-1) products[idx]=data; else products.push(data); 
-            localStorage.setItem('faith_products_list', JSON.stringify(products)); 
+            pushToFirebase(); 
             renderProducts(); toggleProductModal(false); 
         };
 
-        function deleteItem(t, i) { if(confirm('Delete?')) { if(t==='clients') clients.splice(i,1); else products.splice(i,1); localStorage.setItem('faith_'+t+'_list', JSON.stringify(t==='clients'?clients:products)); t==='clients'?renderClients():renderProducts(); }}
+        function deleteItem(t, i) { if(confirm('Delete?')) { if(t==='clients') clients.splice(i,1); else products.splice(i,1); pushToFirebase(); t==='clients'?renderClients():renderProducts(); }}
 
         function filterTable(tbodyId, val) {
             const rows = document.getElementById(tbodyId).getElementsByTagName('tr');
@@ -2123,6 +2088,7 @@
                 document.getElementById('itemTotal').value = "0.00";
             } 
         }
+
         function calcItemTotal() { const q = document.getElementById('itemQty').value || 0; const p = document.getElementById('itemPrice').value || 0; document.getElementById('itemTotal').value = (q * p).toFixed(2); }
 
         function addItemToInvoice() {
@@ -2151,6 +2117,7 @@
         }
 
         function removeItemFromInv(i) { currentInvoiceItems.splice(i, 1); renderInvoiceItems(); }
+
         function calculateBalance() { const g = parseFloat(document.getElementById('invGrandTotal').innerText) || 0; const p = parseFloat(document.getElementById('invPaid').value) || 0; document.getElementById('invDue').value = (g - p).toFixed(2); }
 
         function saveInvoice() {
@@ -2159,7 +2126,7 @@
             if(!clientName || currentInvoiceItems.length === 0) return alert("Fill all details");
             const inv = { id: document.getElementById('invNo').value, client: clientName, orderId: document.getElementById('invOrderId').value, subject: document.getElementById('invSubject').value || '', date: document.getElementById('invDate').value, total: document.getElementById('invGrandTotal').innerText, paid: document.getElementById('invPaid').value, due: document.getElementById('invDue').value, items: JSON.parse(JSON.stringify(currentInvoiceItems)) };
             if(editIdx > -1) { invoices[editIdx] = inv; alert("Invoice Updated!"); } else { invoices.push(inv); alert("Invoice Saved!"); }
-            localStorage.setItem('faith_invoices_list', JSON.stringify(invoices));
+            pushToFirebase();
             initInvoiceFields(); switchInvoiceSubTab('saved');
         }
 
@@ -2198,7 +2165,7 @@
             renderInvoiceItems(); switchInvoiceSubTab('create');
         }
 
-        function deleteInvoice(i) { if(confirm('Delete?')) { invoices.splice(i, 1); localStorage.setItem('faith_invoices_list', JSON.stringify(invoices)); renderSavedInvoices(); }}
+        function deleteInvoice(i) { if(confirm('Delete?')) { invoices.splice(i, 1); pushToFirebase(); renderSavedInvoices(); }}
 
         function numberToWords(num) {
             if (!num || isNaN(num) || num === 0) return "Zero Taka Only";
@@ -2241,21 +2208,21 @@
             return result.charAt(0).toUpperCase() + result.slice(1) + ' Only';
         }
 
-        // --- Invoice PDF ---
+        // --- Invoice PDF (unchanged) ---
         function downloadInvoicePDF(index) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'mm', 'a4');
             const inv = invoices[index];
             const clientData = clients.find(c => c.name === inv.client) || { address: 'N/A', mobile: 'N/A' };
-            const footerMargin = 20; // reduced to allow content closer to footer
+            const footerMargin = 20;
             const pageHeight = doc.internal.pageSize.height;
             let currentY = 46;
-            let isFirstPage = true;  // track first page
+            let isFirstPage = true;
             function checkPageBreak(y, neededSpace = 10) {
                 if (y + neededSpace > pageHeight - footerMargin) {
                     doc.addPage(); 
                     addHeaderAndFooter(); 
-                    isFirstPage = false; // after first page, title not repeated
+                    isFirstPage = false;
                     return 46;
                 }
                 return y;
@@ -2269,7 +2236,6 @@
                 doc.text(settings.address, 105, 26, { align: "center" });
                 const contactLine = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`;
                 doc.text(contactLine, 105, 30, { align: "center" });
-                // only show title on first page
                 if (isFirstPage) {
                     doc.setFontSize(12); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "bold");
                     doc.text("INVOICE", 105, 42, { align: "center" });
@@ -2302,7 +2268,6 @@
                     doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 22, { align: "center" });
                     doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, 26, { align: "center" });
                     const cl = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(cl, 105, 30, { align: "center" });
-                    // first page title already added, subsequent pages no title
                     doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
                     doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
                 }
@@ -2326,7 +2291,7 @@
             doc.save(`${inv.id}_${inv.client}.pdf`);
         }
 
-        // --- QUOTATION LOGIC ---
+        // --- QUOTATION LOGIC (with pushToFirebase) ---
         function switchQuotationSubTab(sub) {
             document.querySelectorAll('.quotation-sub-tab').forEach(t => t.classList.remove('active'));
             document.getElementById('quotation-' + sub).classList.add('active');
@@ -2344,7 +2309,9 @@
                 renderSavedQuotations();
             }
         }
+
         function startNewQuotationTab() { initQuotationFields(); switchQuotationSubTab('create'); }
+
         function initQuotationFields() {
             const nextNo = 100100 + quotations.length;
             document.getElementById('quotNo').value = `FE-Q-${nextNo}`;
@@ -2361,6 +2328,7 @@
             document.getElementById('quotAit').value = 0;
             renderQuotationItems();
         }
+
         function showClientSuggestionsQuot() {
             const val = document.getElementById('quotClientInput').value.toLowerCase();
             const list = document.getElementById('clientSuggestionsQuot');
@@ -2371,6 +2339,7 @@
                 list.style.display = 'block';
             } else { list.style.display = 'none'; }
         }
+
         function selectClientQuot(name) {
             const cIdx = clients.findIndex(c => c.name === name);
             if(cIdx > -1) {
@@ -2380,6 +2349,7 @@
                 document.getElementById('clientSuggestionsQuot').style.display = 'none';
             }
         }
+
         function toggleQuotItemModal(s) { 
             document.getElementById('quotItemModal').classList.toggle('hidden', !s); 
             if(s) { 
@@ -2392,6 +2362,7 @@
                 document.getElementById('quotItemTotal').value = "0.00";
             } 
         }
+
         function showProductSuggestionsQuot() {
             const val = document.getElementById('quotProductInput').value.toLowerCase();
             const list = document.getElementById('productSuggestionsQuot');
@@ -2402,6 +2373,7 @@
                 list.style.display = 'block';
             } else { list.style.display = 'none'; }
         }
+
         function selectProductQuot(item) {
             const pIdx = products.findIndex(p => p.item === item);
             if(pIdx > -1) {
@@ -2414,7 +2386,9 @@
                 document.getElementById('productSuggestionsQuot').style.display = 'none';
             }
         }
+
         function calcQuotItemTotal() { const q = document.getElementById('quotItemQty').value || 0; const p = document.getElementById('quotItemPrice').value || 0; document.getElementById('quotItemTotal').value = (q * p).toFixed(2); }
+
         function addItemToQuotation() {
             const name = document.getElementById('quotProductInput').value;
             if(!name) return alert("Select a product");
@@ -2424,13 +2398,16 @@
             currentQuotationItems.push({ name: name, desc: document.getElementById('quotItemDesc').value || '', unit: document.getElementById('quotItemUnit').value || 'Pcs', qty: qty, price: price, total: (qty * price).toFixed(2) });
             renderQuotationItems(); toggleQuotItemModal(false);
         }
+
         function renderQuotationItems() {
             let g = 0;
             document.getElementById('quotationItemsBody').innerHTML = currentQuotationItems.map((it, i) => { g += parseFloat(it.total); return `<tr class="border-b"><td class="p-3">${i+1}</td><td class="p-3"><b>${it.name}</b></td><td class="p-3">${it.desc}</td><td class="p-3">${it.qty}</td><td class="p-3">${it.price}</td><td class="p-3 font-bold">${it.total}</td><td class="p-3"><button onclick="removeQuotItem(${i})" class="text-red-400"><i class="fas fa-times"></i></button></td></tr>`; }).join('');
             document.getElementById('quotGrandTotal').innerText = g.toFixed(2);
             calculateQuotTotal();
         }
+
         function removeQuotItem(i) { currentQuotationItems.splice(i, 1); renderQuotationItems(); }
+
         function calculateQuotTotal() { 
             const g = parseFloat(document.getElementById('quotGrandTotal').innerText) || 0; 
             const vat = parseFloat(document.getElementById('quotVat').value) || 0; 
@@ -2438,15 +2415,17 @@
             const v = g * vat / 100; const a = g * ait / 100;
             document.getElementById('quotNetTotal').innerText = (g + v + a).toFixed(2); 
         }
+
         function saveQuotation() {
             const clientName = document.getElementById('quotClientInput').value;
             const editIdx = parseInt(document.getElementById('editQuotationIndex').value);
             if(!clientName || currentQuotationItems.length === 0) return alert("Fill all details");
             const quot = { id: document.getElementById('quotNo').value, client: clientName, refNo: document.getElementById('quotRefNo').value, subject: document.getElementById('quotSubject').value || '', date: document.getElementById('quotDate').value, total: document.getElementById('quotGrandTotal').innerText, vat: document.getElementById('quotVat').value, ait: document.getElementById('quotAit').value, netTotal: document.getElementById('quotNetTotal').innerText, items: JSON.parse(JSON.stringify(currentQuotationItems)) };
             if(editIdx > -1) { quotations[editIdx] = quot; alert("Quotation Updated!"); } else { quotations.push(quot); alert("Quotation Saved!"); }
-            localStorage.setItem('faith_quotations_list', JSON.stringify(quotations));
+            pushToFirebase();
             initQuotationFields(); switchQuotationSubTab('saved');
         }
+
         function renderSavedQuotations() {
             const container = document.getElementById('savedQuotationsList');
             if(quotations.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">No saved quotations yet.</div>'; return; }
@@ -2467,6 +2446,7 @@
                 </div>
             `).join('');
         }
+
         function convertQuotationToInvoice(index) {
             const quot = quotations[index];
             currentInvoiceItems = quot.items.map(it => ({ name: it.name, desc: it.desc || '', unit: it.unit || 'Pcs', qty: it.qty, price: it.price, total: (it.qty * it.price).toFixed(2) }));
@@ -2481,6 +2461,7 @@
             document.getElementById('saveInvoiceBtn').innerText = "SAVE INVOICE";
             renderInvoiceItems(); openTab('invoice'); switchInvoiceSubTab('create');
         }
+
         function convertQuotationToDelivery(index) {
             const quot = quotations[index];
             currentDeliveryItems = quot.items.map(it => ({ name: it.name, desc: it.desc || '', qty: it.qty, remarks: '' }));
@@ -2495,6 +2476,7 @@
             document.getElementById('saveDeliveryBtn').innerText = "SAVE CHALLAN";
             renderDeliveryItems(); openTab('delivery'); switchDeliverySubTab('create');
         }
+
         function editQuotation(i) {
             const quot = quotations[i];
             document.getElementById('editQuotationIndex').value = i;
@@ -2511,14 +2493,15 @@
             document.getElementById('saveQuotationBtn').innerText = "UPDATE QUOTATION";
             renderQuotationItems(); switchQuotationSubTab('create');
         }
-        function deleteQuotation(i) { if(confirm('Delete?')) { quotations.splice(i, 1); localStorage.setItem('faith_quotations_list', JSON.stringify(quotations)); renderSavedQuotations(); }}
+
+        function deleteQuotation(i) { if(confirm('Delete?')) { quotations.splice(i, 1); pushToFirebase(); renderSavedQuotations(); }}
 
         function downloadQuotationPDF(index) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'mm', 'a4');
             const quot = quotations[index];
             const clientData = clients.find(c => c.name === quot.client) || { address: 'N/A', mobile: 'N/A' };
-            const footerMargin = 20; // reduced margin
+            const footerMargin = 20;
             const pageHeight = doc.internal.pageSize.height;
             let currentY = 46;
             let isFirstPage = true;
@@ -2565,7 +2548,6 @@
                     doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 22, { align: "center" });
                     doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, 26, { align: "center" });
                     const clLine = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(clLine, 105, 30, { align: "center" });
-                    // title only on first page
                     doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
                     doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
                 }
@@ -2597,7 +2579,7 @@
             doc.save(`${quot.id}_${quot.client}.pdf`);
         }
 
-        // --- DELIVERY CHALLAN LOGIC ---
+        // --- DELIVERY CHALLAN LOGIC (with pushToFirebase) ---
         function switchDeliverySubTab(sub) {
             document.querySelectorAll('.delivery-sub-tab').forEach(t => t.classList.remove('active'));
             document.getElementById('delivery-' + sub).classList.add('active');
@@ -2615,7 +2597,9 @@
                 renderSavedDeliveries();
             }
         }
+
         function startNewDeliveryTab() { initDeliveryFields(); switchDeliverySubTab('create'); }
+
         function initDeliveryFields() {
             const nextNo = 10050 + deliveries.length;
             document.getElementById('delNo').value = `FE-DC-${nextNo}`;
@@ -2628,6 +2612,7 @@
             document.getElementById('saveDeliveryBtn').innerText = "SAVE CHALLAN";
             selectedClientIndex = -1; currentDeliveryItems = []; renderDeliveryItems();
         }
+
         function showClientSuggestionsDel() {
             const val = document.getElementById('delClientInput').value.toLowerCase();
             const list = document.getElementById('clientSuggestionsDel');
@@ -2638,6 +2623,7 @@
                 list.style.display = 'block';
             } else { list.style.display = 'none'; }
         }
+
         function selectClientDel(name) {
             const cIdx = clients.findIndex(c => c.name === name);
             if(cIdx > -1) {
@@ -2647,6 +2633,7 @@
                 document.getElementById('clientSuggestionsDel').style.display = 'none';
             }
         }
+
         function toggleDelItemModal(s) { 
             document.getElementById('delItemModal').classList.toggle('hidden', !s); 
             if(s) { 
@@ -2657,6 +2644,7 @@
                 document.getElementById('delItemRemarks').value = "";
             } 
         }
+
         function showProductSuggestionsDel() {
             const val = document.getElementById('delProductInput').value.toLowerCase();
             const list = document.getElementById('productSuggestionsDel');
@@ -2667,6 +2655,7 @@
                 list.style.display = 'block';
             } else { list.style.display = 'none'; }
         }
+
         function selectProductDel(item) {
             const pIdx = products.findIndex(p => p.item === item);
             if(pIdx > -1) {
@@ -2676,6 +2665,7 @@
                 document.getElementById('productSuggestionsDel').style.display = 'none';
             }
         }
+
         function addItemToDelivery() {
             const name = document.getElementById('delProductInput').value;
             if(!name) return alert("Select a product");
@@ -2684,21 +2674,25 @@
             currentDeliveryItems.push({ name: name, desc: document.getElementById('delItemDesc').value || '', qty: qty, remarks: document.getElementById('delItemRemarks').value || '' });
             renderDeliveryItems(); toggleDelItemModal(false);
         }
+
         function renderDeliveryItems() {
             let totalQty = 0;
             document.getElementById('deliveryItemsBody').innerHTML = currentDeliveryItems.map((it, i) => { totalQty += it.qty; return `<tr class="border-b"><td class="p-3">${i+1}</td><td class="p-3"><b>${it.name}</b></td><td class="p-3">${it.desc}</td><td class="p-3">${it.qty}</td><td class="p-3">${it.remarks || ''}</td><td class="p-3"><button onclick="removeDelItem(${i})" class="text-red-400"><i class="fas fa-times"></i></button></td></tr>`; }).join('');
             document.getElementById('delTotalQty').innerText = totalQty;
         }
+
         function removeDelItem(i) { currentDeliveryItems.splice(i, 1); renderDeliveryItems(); }
+
         function saveDelivery() {
             const clientName = document.getElementById('delClientInput').value;
             const editIdx = parseInt(document.getElementById('editDeliveryIndex').value);
             if(!clientName || currentDeliveryItems.length === 0) return alert("Fill all details");
             const del = { id: document.getElementById('delNo').value, client: clientName, orderId: document.getElementById('delOrderId').value, gatePassNo: document.getElementById('delGatePassNo').value, address: document.getElementById('delAddress').value, date: document.getElementById('delDate').value, totalQty: document.getElementById('delTotalQty').innerText, items: JSON.parse(JSON.stringify(currentDeliveryItems)) };
             if(editIdx > -1) { deliveries[editIdx] = del; alert("Delivery Challan Updated!"); } else { deliveries.push(del); alert("Delivery Challan Saved!"); }
-            localStorage.setItem('faith_deliveries_list', JSON.stringify(deliveries));
+            pushToFirebase();
             initDeliveryFields(); switchDeliverySubTab('saved');
         }
+
         function renderSavedDeliveries() {
             const container = document.getElementById('savedDeliveriesList');
             if(deliveries.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">No saved delivery challans yet.</div>'; return; }
@@ -2717,6 +2711,7 @@
                 </div>
             `).join('');
         }
+
         function editDelivery(i) {
             const del = deliveries[i];
             document.getElementById('editDeliveryIndex').value = i;
@@ -2730,7 +2725,8 @@
             document.getElementById('saveDeliveryBtn').innerText = "UPDATE CHALLAN";
             renderDeliveryItems(); switchDeliverySubTab('create');
         }
-        function deleteDelivery(i) { if(confirm('Delete?')) { deliveries.splice(i, 1); localStorage.setItem('faith_deliveries_list', JSON.stringify(deliveries)); renderSavedDeliveries(); }}
+
+        function deleteDelivery(i) { if(confirm('Delete?')) { deliveries.splice(i, 1); pushToFirebase(); renderSavedDeliveries(); }}
 
         function downloadDeliveryPDF(index) {
             const { jsPDF } = window.jspdf;
@@ -2803,7 +2799,7 @@
             doc.save(`${del.id}_${del.client}.pdf`);
         }
 
-        // --- PURCHASE ORDER LOGIC ---
+        // --- PURCHASE ORDER LOGIC (with pushToFirebase) ---
         function switchPurchaseSubTab(sub) {
             document.querySelectorAll('.purchase-sub-tab').forEach(t => t.classList.remove('active'));
             document.getElementById('purchase-' + sub).classList.add('active');
@@ -2821,7 +2817,9 @@
                 renderSavedPurchases();
             }
         }
+
         function startNewPurchaseTab() { initPurchaseFields(); switchPurchaseSubTab('create'); }
+
         function showSupplierSuggestions() {
             const val = document.getElementById('purSupplierInput').value.toLowerCase();
             const list = document.getElementById('supplierSuggestions');
@@ -2832,6 +2830,7 @@
                 list.style.display = 'block';
             } else { list.style.display = 'none'; }
         }
+
         function selectSupplier(name) {
             const sIdx = suppliers.findIndex(s => s.name === name);
             if(sIdx > -1) {
@@ -2841,6 +2840,7 @@
                 document.getElementById('supplierSuggestions').style.display = 'none';
             }
         }
+
         function initPurchaseFields() {
             const nextNo = 100100 + purchases.length;
             document.getElementById('purNo').value = `FE-PO-${nextNo}`;
@@ -2853,6 +2853,7 @@
             document.getElementById('savePurchaseBtn').innerText = "SAVE PO";
             selectedSupplierIndex = -1; currentPurchaseItems = []; renderPurchaseItems();
         }
+
         function togglePurItemModal(s) { 
             document.getElementById('purItemModal').classList.toggle('hidden', !s); 
             if(s) { 
@@ -2865,6 +2866,7 @@
                 document.getElementById('purItemTotal').value = "0.00";
             } 
         }
+
         function showProductSuggestionsPur() {
             const val = document.getElementById('purProductInput').value.toLowerCase();
             const list = document.getElementById('productSuggestionsPur');
@@ -2875,6 +2877,7 @@
                 list.style.display = 'block';
             } else { list.style.display = 'none'; }
         }
+
         function selectProductPur(item) {
             const pIdx = products.findIndex(p => p.item === item);
             if(pIdx > -1) {
@@ -2887,7 +2890,9 @@
                 document.getElementById('productSuggestionsPur').style.display = 'none';
             }
         }
+
         function calcPurItemTotal() { const q = document.getElementById('purItemQty').value || 0; const p = document.getElementById('purItemPrice').value || 0; document.getElementById('purItemTotal').value = (q * p).toFixed(2); }
+
         function addItemToPurchase() {
             const name = document.getElementById('purProductInput').value;
             if(!name) return alert("Select a product");
@@ -2897,21 +2902,25 @@
             currentPurchaseItems.push({ name: name, desc: document.getElementById('purItemDesc').value || '', unit: document.getElementById('purItemUnit').value || 'Pcs', qty: qty, price: price, total: (qty * price).toFixed(2) });
             renderPurchaseItems(); togglePurItemModal(false);
         }
+
         function renderPurchaseItems() {
             let g = 0;
             document.getElementById('purchaseItemsBody').innerHTML = currentPurchaseItems.map((it, i) => { g += parseFloat(it.total); return `<tr class="border-b"><td class="p-3">${i+1}</td><td class="p-3"><b>${it.name}</b></td><td class="p-3">${it.desc}</td><td class="p-3">${it.qty}</td><td class="p-3">${it.unit}</td><td class="p-3">${it.price}</td><td class="p-3 font-bold">${it.total}</td><td class="p-3"><button onclick="removePurItem(${i})" class="text-red-400"><i class="fas fa-times"></i></button></td></tr>`; }).join('');
             document.getElementById('purGrandTotal').innerText = g.toFixed(2);
         }
+
         function removePurItem(i) { currentPurchaseItems.splice(i, 1); renderPurchaseItems(); }
+
         function savePurchase() {
             const supplierName = document.getElementById('purSupplierInput').value;
             const editIdx = parseInt(document.getElementById('editPurchaseIndex').value);
             if(!supplierName || currentPurchaseItems.length === 0) return alert("Fill all details");
             const pur = { id: document.getElementById('purNo').value, supplier: supplierName, refNo: document.getElementById('purRefNo').value, subject: document.getElementById('purSubject').value || '', date: document.getElementById('purDate').value, total: document.getElementById('purGrandTotal').innerText, items: JSON.parse(JSON.stringify(currentPurchaseItems)) };
             if(editIdx > -1) { purchases[editIdx] = pur; alert("Purchase Order Updated!"); } else { purchases.push(pur); alert("Purchase Order Saved!"); }
-            localStorage.setItem('faith_purchases_list', JSON.stringify(purchases));
+            pushToFirebase();
             initPurchaseFields(); switchPurchaseSubTab('saved');
         }
+
         function renderSavedPurchases() {
             const container = document.getElementById('savedPurchasesList');
             if(purchases.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">No saved purchase orders yet.</div>'; return; }
@@ -2930,6 +2939,7 @@
                 </div>
             `).join('');
         }
+
         function editPurchase(i) {
             const pur = purchases[i];
             document.getElementById('editPurchaseIndex').value = i;
@@ -2944,7 +2954,8 @@
             document.getElementById('savePurchaseBtn').innerText = "UPDATE PO";
             renderPurchaseItems(); switchPurchaseSubTab('create');
         }
-        function deletePurchase(i) { if(confirm('Delete?')) { purchases.splice(i, 1); localStorage.setItem('faith_purchases_list', JSON.stringify(purchases)); renderSavedPurchases(); }}
+
+        function deletePurchase(i) { if(confirm('Delete?')) { purchases.splice(i, 1); pushToFirebase(); renderSavedPurchases(); }}
 
         function downloadPurchasePDF(index) {
             const { jsPDF } = window.jspdf;
@@ -3014,7 +3025,7 @@
             doc.save(`${pur.id}_${pur.supplier}.pdf`);
         }
 
-        // --- MONEY RECEIPT LOGIC ---
+        // --- MONEY RECEIPT LOGIC (with pushToFirebase) ---
         function switchMoneyReceiptSubTab(sub) {
             document.querySelectorAll('.moneyreceipt-sub-tab').forEach(t => t.classList.remove('active'));
             document.getElementById('moneyreceipt-' + sub).classList.add('active');
@@ -3032,7 +3043,9 @@
                 renderSavedMoneyReceipts();
             }
         }
+
         function startNewMoneyReceiptTab() { initMoneyReceiptFields(); switchMoneyReceiptSubTab('create'); }
+
         function initMoneyReceiptFields() {
             const nextNo = 100100 + moneyReceipts.length;
             document.getElementById('mrNo').value = `FE-MR-${nextNo}`;
@@ -3049,6 +3062,7 @@
             selectedClientIndex = -1;
             document.getElementById('chequeDetails').style.display = 'none';
         }
+
         function showClientSuggestionsMR() {
             const val = document.getElementById('mrClientInput').value.toLowerCase();
             const list = document.getElementById('clientSuggestionsMR');
@@ -3059,6 +3073,7 @@
                 list.style.display = 'block';
             } else { list.style.display = 'none'; }
         }
+
         function selectClientMR(name) {
             const cIdx = clients.findIndex(c => c.name === name);
             if(cIdx > -1) {
@@ -3068,14 +3083,17 @@
                 document.getElementById('clientSuggestionsMR').style.display = 'none';
             }
         }
+
         function toggleChequeFields() {
             const mode = document.getElementById('mrPaymentMode').value;
             document.getElementById('chequeDetails').style.display = (mode === 'Cheque') ? 'block' : 'none';
         }
+
         function updateAmountWords() {
             const amount = parseFloat(document.getElementById('mrAmount').value) || 0;
             document.getElementById('mrAmountWords').value = numberToWords(Math.round(amount));
         }
+
         function saveMoneyReceipt() {
             const clientName = document.getElementById('mrClientInput').value;
             const editIdx = parseInt(document.getElementById('editMoneyReceiptIndex').value);
@@ -3084,9 +3102,10 @@
             const mr = { id: document.getElementById('mrNo').value, client: clientName, date: document.getElementById('mrDate').value, amount: document.getElementById('mrAmount').value, amountWords: document.getElementById('mrAmountWords').value, paymentMode: document.getElementById('mrPaymentMode').value, chequeNo: document.getElementById('mrChequeNo').value, bankName: document.getElementById('mrBankName').value, address: document.getElementById('mrAddress').value };
             if(editIdx > -1) { moneyReceipts[editIdx] = mr; alert("Money Receipt Updated!"); } 
             else { moneyReceipts.push(mr); alert("Money Receipt Saved!"); }
-            localStorage.setItem('faith_moneyreceipts_list', JSON.stringify(moneyReceipts));
+            pushToFirebase();
             initMoneyReceiptFields(); switchMoneyReceiptSubTab('create');
         }
+
         function renderSavedMoneyReceipts() {
             const container = document.getElementById('savedMoneyReceiptsList');
             if(moneyReceipts.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">No saved money receipts yet.</div>'; return; }
@@ -3106,6 +3125,7 @@
                 </div>
             `).join('');
         }
+
         function editMoneyReceipt(i) {
             const mr = moneyReceipts[i];
             document.getElementById('editMoneyReceiptIndex').value = i;
@@ -3121,21 +3141,18 @@
             document.getElementById('saveMoneyReceiptBtn').innerText = "UPDATE RECEIPT";
             toggleChequeFields(); switchMoneyReceiptSubTab('create');
         }
-        function deleteMoneyReceipt(i) { if(confirm('Delete?')) { moneyReceipts.splice(i, 1); localStorage.setItem('faith_moneyreceipts_list', JSON.stringify(moneyReceipts)); renderSavedMoneyReceipts(); }}
+
+        function deleteMoneyReceipt(i) { if(confirm('Delete?')) { moneyReceipts.splice(i, 1); pushToFirebase(); renderSavedMoneyReceipts(); }}
 
         async function downloadMoneyReceiptPDF(index) {
             const receipt = moneyReceipts[index];
             if (!receipt) return;
             const element = document.getElementById('pdf-template');
             element.style.display = 'block';
-            
-            // Header Data
-            document.getElementById('pdf-company-name').textContent = settings.company || 'ARVIN CONTROLS';
+            document.getElementById('pdf-company-name').textContent = settings.company || 'FAITH ENGINEERING';
             document.getElementById('pdf-company-address').textContent = settings.address || '';
             document.getElementById('pdf-company-contact').textContent = `Mobile: ${settings.mobile || ''} | Email: ${settings.email || ''} | Website: ${settings.website || ''}`;
             document.getElementById('pdf-footer-text').textContent = settings.slogan || '';
-            
-            // Receipt Content
             document.getElementById('pdf-client-name').textContent = receipt.client;
             document.getElementById('pdf-client-address').textContent = receipt.address || '';
             document.getElementById('pdf-receipt-id').textContent = receipt.id;
@@ -3144,12 +3161,9 @@
             document.getElementById('pdf-amount').textContent = parseFloat(receipt.amount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('pdf-amount-words').textContent = receipt.amountWords || numberToWords(receipt.amount);
             document.getElementById('pdf-currency').textContent = settings.currency || '৳';
-            
             if (receipt.paymentMode === 'Cheque' && receipt.chequeNo) {
                 document.getElementById('pdf-cheque-details').innerHTML = `<span style="font-weight: bold; color: #000000;">Cheque No:</span> ${receipt.chequeNo}    <span style="font-weight: bold; color: #000000;">Bank:</span> ${receipt.bankName || ''}`;
             } else { document.getElementById('pdf-cheque-details').innerHTML = ''; }
-            
-            // Branding and Signature
             if (settings.logo) { 
                 document.getElementById('pdf-company-logo').src = settings.logo; 
                 document.getElementById('pdf-logo-wrapper').style.display = 'block'; 
@@ -3158,10 +3172,8 @@
             }
             if (settings.seal) { document.getElementById('pdf-company-seal').src = settings.seal; document.getElementById('pdf-seal-container').style.display = 'block'; } else { document.getElementById('pdf-seal-container').style.display = 'none'; }
             if (settings.sign) { document.getElementById('pdf-signature').src = settings.sign; document.getElementById('pdf-signature').style.display = 'block'; } else { document.getElementById('pdf-signature').style.display = 'none'; }
-            
             document.getElementById('pdf-signatory-name').textContent = settings.signatory || '';
             document.getElementById('pdf-signatory-designation').textContent = settings.designation || '';
-
             const opt = { 
                 margin: [0, 0, 0, 0], 
                 filename: `${receipt.id}.pdf`, 
@@ -3172,7 +3184,7 @@
             html2pdf().set(opt).from(element).save().then(() => { element.style.display = 'none'; });
         }
 
-        // --- DOCUMENTS LOGIC ---
+        // --- DOCUMENTS LOGIC (with pushToFirebase) ---
         function switchDocumentsSubTab(sub) {
             document.querySelectorAll('.documents-sub-tab').forEach(t => t.classList.remove('active'));
             document.getElementById('documents-' + sub).classList.add('active');
@@ -3190,7 +3202,9 @@
                 renderSavedDocuments();
             }
         }
+
         function startNewDocumentTab() { initDocumentFields(); switchDocumentsSubTab('create'); }
+
         function initDocumentFields() {
             const nextNo = 100100 + documents.length;
             document.getElementById('docNo').value = `FE-DOC-${nextNo}`;
@@ -3200,9 +3214,11 @@
             document.getElementById('editDocumentIndex').value = "-1";
             document.getElementById('saveDocumentBtn').innerText = "SAVE DOCUMENT";
         }
+
         document.getElementById('docContent').addEventListener('input', function() {
             document.getElementById('docPreview').innerHTML = this.value.replace(/\n/g, '<br>') || 'Document content will appear here...';
         });
+
         function saveDocument() {
             const title = document.getElementById('docTitle').value; const content = document.getElementById('docContent').value;
             const editIdx = parseInt(document.getElementById('editDocumentIndex').value);
@@ -3210,9 +3226,10 @@
             const doc = { id: document.getElementById('docNo').value, title: title, date: document.getElementById('docDate').value, content: content };
             if(editIdx > -1) { documents[editIdx] = doc; alert("Document Updated!"); } 
             else { documents.push(doc); alert("Document Saved!"); }
-            localStorage.setItem('faith_documents_list', JSON.stringify(documents));
+            pushToFirebase();
             initDocumentFields(); switchDocumentsSubTab('saved');
         }
+
         function renderSavedDocuments() {
             const container = document.getElementById('savedDocumentsList');
             if(documents.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">No saved documents yet.</div>'; return; }
@@ -3231,6 +3248,7 @@
                 </div>
             `).join('');
         }
+
         function editDocument(i) {
             const doc = documents[i];
             document.getElementById('editDocumentIndex').value = i;
@@ -3242,7 +3260,8 @@
             document.getElementById('saveDocumentBtn').innerText = "UPDATE DOCUMENT";
             switchDocumentsSubTab('create');
         }
-        function deleteDocument(i) { if(confirm('Delete?')) { documents.splice(i, 1); localStorage.setItem('faith_documents_list', JSON.stringify(documents)); renderSavedDocuments(); }}
+
+        function deleteDocument(i) { if(confirm('Delete?')) { documents.splice(i, 1); pushToFirebase(); renderSavedDocuments(); }}
 
         function downloadDocumentPDF(index) {
             const { jsPDF } = window.jspdf; const doc = new jsPDF('p', 'mm', 'a4');
@@ -3258,7 +3277,6 @@
                 doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 22, { align: "center" });
                 doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, 26, { align: "center" });
                 const cl = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(cl, 105, 30, { align: "center" });
-                // title not added for generic documents? but keep same pattern.
                 doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
                 doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
             };
@@ -3272,12 +3290,10 @@
             doc.setFont("helvetica", "bold"); doc.text("Date:", 145, currentY); 
             doc.setFont("helvetica", "normal"); doc.text(formatFriendlyDate(documentData.date), 196, currentY, { align: "right" }); 
             currentY += 12;
-
             const cL = doc.splitTextToSize(documentData.content, 180);
             for (let i = 0; i < cL.length; i++) {
                 currentY = checkPageBreak(currentY, 5); doc.text(cL[i], 14, currentY); currentY += 5;
             }
-            
             currentY += 15; currentY = checkPageBreak(currentY, 30);
             if(settings.seal) { try { doc.addImage(settings.seal, 'PNG', 105, currentY - 3, 18, 18); } catch(e){} }
             if(settings.sign) { try { doc.addImage(settings.sign, 'PNG', 155, currentY - 5, 30, 10); } catch(e){} }
