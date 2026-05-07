@@ -1330,7 +1330,7 @@ const firebaseConfig = {
                 <div id="pdf-logo-wrapper" style="margin-bottom: 0px; display: none; text-align: center;">
                     <img id="pdf-company-logo" style="max-height: 70px; max-width: 100px; margin: 0 auto; display: block;">
                 </div>
-                <h1 id="pdf-company-name" style="margin: 0; font-size: 26px; text-transform: uppercase; color: #FF0000; font-weight: bold; line-height: 1.1;">FAITH ENGINEERING</h1>
+                <h1 id="pdf-company-name" style="margin: 0; font-size: 26px; text-transform: uppercase; color: #FF0000; font-weight: bold; line-height: 1.1;">ARVIN CONTROLS</h1>
                 <p id="pdf-company-address" style="margin: 0; font-size: 12px; color: #0000FF; font-weight: 500; line-height: 1.2;"></p>
                 <p id="pdf-company-contact" style="margin: 0; font-size: 12px; color: #0000FF; line-height: 1.2;"></p>
             </div>
@@ -1434,7 +1434,7 @@ const firebaseConfig = {
             expense = data.expense || [];
             orders = data.orders || [];
             settings = data.settings || {
-                company: 'FAITH ENGINEERING',
+                company: 'ARVIN CONTROLS',
                 slogan: 'FIRE SAFETY ENGINEERING & CONSULTANT',
                 address: 'Dhaka, Bangladesh',
                 email: '', mobile: '', website: '',
@@ -1536,7 +1536,7 @@ const firebaseConfig = {
         }
 
         function updateUINames() {
-            document.getElementById('nav-company-name').innerText = settings.company || 'FAITH ENGINEERING';
+            document.getElementById('nav-company-name').innerText = settings.company || 'ARVIN CONTROLS';
         }
 
         // --- Settings Logic ---
@@ -2167,7 +2167,7 @@ const firebaseConfig = {
 
         function deleteInvoice(i) { if(confirm('Delete?')) { invoices.splice(i, 1); pushToFirebase(); renderSavedInvoices(); }}
 
-        function numberToWords(num) {
+        function numberToWords(num, exactFraction) {
             if (!num || isNaN(num) || num === 0) return "Zero Taka Only";
             const numStr = parseFloat(num).toFixed(2);
             const [integerPart, decimalPart] = numStr.split('.');
@@ -2216,33 +2216,31 @@ const firebaseConfig = {
             const clientData = clients.find(c => c.name === inv.client) || { address: 'N/A', mobile: 'N/A' };
             const footerMargin = 20;
             const pageHeight = doc.internal.pageSize.height;
-            let currentY = 46;
+            let currentY = 49;
             let isFirstPage = true;
             function checkPageBreak(y, neededSpace = 10) {
                 if (y + neededSpace > pageHeight - footerMargin) {
                     doc.addPage(); 
                     addHeaderAndFooter(); 
                     isFirstPage = false;
-                    return 46;
+                    return 49;
                 }
                 return y;
             }
             const addHeaderAndFooter = () => {
-                doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 34, 196, 34);
-                if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 95, 3, 15, 15); } catch(e){} }
-                doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); 
-                doc.text(settings.company, 105, 22, { align: "center" });
-                doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); 
-                doc.text(settings.address, 105, 26, { align: "center" });
-                const contactLine = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`;
-                doc.text(contactLine, 105, 30, { align: "center" });
+                if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 92, 1, 26, 26); } catch(e){} }
+                doc.setFontSize(28); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); 
+                doc.text(settings.company, 105, 32, { align: "center" });
+                doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 37, 196, 37);
                 if (isFirstPage) {
                     doc.setFontSize(12); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "bold");
-                    doc.text("INVOICE", 105, 42, { align: "center" });
+                    doc.text("INVOICE", 105, 45, { align: "center" });
                 }
                 doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
                 doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); 
-                doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
+                doc.text(settings.address, 105, pageHeight - 17, { align: "center" });
+                const contactLine = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`;
+                doc.text(contactLine, 105, pageHeight - 13, { align: "center" });
             };
             addHeaderAndFooter();
             doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.setTextColor(0,0,0); doc.text("To,", 14, currentY); currentY += 5;
@@ -2250,10 +2248,10 @@ const firebaseConfig = {
             doc.setFont("helvetica", "normal"); 
             const addressLines = doc.splitTextToSize(clientData.address, 80); doc.text(addressLines, 14, currentY);
             currentY += (addressLines.length * 5) + 2;
-            doc.setFont("helvetica", "bold"); doc.text("Invoice No:", 130, 47); doc.setFont("helvetica", "normal"); doc.text(inv.id, 160, 47);
-            doc.setFont("helvetica", "bold"); doc.text("Date:", 130, 52); doc.setFont("helvetica", "normal"); doc.text(formatFriendlyDate(inv.date), 160, 52);
-            doc.setFont("helvetica", "bold"); doc.text("Order ID:", 130, 57); doc.setFont("helvetica", "normal"); doc.text(inv.orderId || 'N/A', 160, 57);
-            currentY = Math.max(currentY, 70);
+            doc.setFont("helvetica", "bold"); doc.text("Invoice No:", 130, 50); doc.setFont("helvetica", "normal"); doc.text(inv.id, 160, 50);
+            doc.setFont("helvetica", "bold"); doc.text("Date:", 130, 55); doc.setFont("helvetica", "normal"); doc.text(formatFriendlyDate(inv.date), 160, 55);
+            doc.setFont("helvetica", "bold"); doc.text("Order ID:", 130, 60); doc.setFont("helvetica", "normal"); doc.text(inv.orderId || 'N/A', 160, 60);
+            currentY = Math.max(currentY, 73);
             if (inv.subject) { currentY = checkPageBreak(currentY, 6); doc.setFont("helvetica", "bold"); doc.text("Subject: " + inv.subject, 14, currentY, { maxWidth: 180 }); currentY += 6; }
             const tableData = inv.items.map((item, i) => [i + 1, item.name, item.desc || 'N/A', item.unit || 'Pcs', item.price, item.total]);
             doc.autoTable({
@@ -2261,20 +2259,19 @@ const firebaseConfig = {
                 styles: { textColor: [0, 0, 0], fontSize: 9, lineColor: [0, 0, 0], lineWidth: 0.1 },
                 headStyles: { fillColor: false, textColor: [0, 0, 0], fontStyle: 'bold', lineWidth: 0.1, lineColor: [0, 0, 0], halign: 'center' },
                 columnStyles: { 0: { halign: 'center' }, 3: { halign: 'center' }, 4: { halign: 'center' }, 5: { halign: 'center' } },
-                margin: { top: 38, bottom: footerMargin + 10 },
+                margin: { top: 42, bottom: footerMargin + 10 },
                 didDrawPage: (data) => {
-                    doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 34, 196, 34);
-                    if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 95, 3, 15, 15); } catch(e){} }
-                    doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 22, { align: "center" });
-                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, 26, { align: "center" });
-                    const cl = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(cl, 105, 30, { align: "center" });
+                    if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 92, 1, 26, 26); } catch(e){} }
+                    doc.setFontSize(28); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 32, { align: "center" });
+                    doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 37, 196, 37);
                     doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
-                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
+                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, pageHeight - 17, { align: "center" });
+                    const cl = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(cl, 105, pageHeight - 13, { align: "center" });
                 }
             });
             let finalY = doc.lastAutoTable.finalY + 6; finalY = checkPageBreak(finalY, 30);
             doc.setFont("helvetica", "bold"); doc.setTextColor(0,0,0); doc.text("Amount in Words:", 14, finalY);
-            doc.setFont("helvetica", "normal"); const words = numberToWords(Math.round(parseFloat(inv.total)));
+            doc.setFont("helvetica", "normal"); const words = numberToWords(parseFloat(inv.due || 0));
             const wordsLines = doc.splitTextToSize(words, 100); doc.text(wordsLines, 14, finalY + 5);
             let wordsY = finalY + 5 + (wordsLines.length * 5);
             doc.setFont("helvetica", "bold"); doc.text("Grand Total:", 140, finalY); doc.text(inv.total, 196, finalY, { align: "right" });
@@ -2314,7 +2311,7 @@ const firebaseConfig = {
 
         function initQuotationFields() {
             const nextNo = 100100 + quotations.length;
-            document.getElementById('quotNo').value = `FE-Q-${nextNo}`;
+            document.getElementById('quotNo').value = `AC-Q-${nextNo}`;
             document.getElementById('quotDate').valueAsDate = new Date();
             document.getElementById('quotClientInput').value = "";
             document.getElementById('quotRefNo').value = "";
@@ -2465,7 +2462,7 @@ const firebaseConfig = {
         function convertQuotationToDelivery(index) {
             const quot = quotations[index];
             currentDeliveryItems = quot.items.map(it => ({ name: it.name, desc: it.desc || '', qty: it.qty, remarks: '' }));
-            document.getElementById('delNo').value = `FE-DC-${10050 + deliveries.length}`;
+            document.getElementById('delNo').value = `AC-DC-${10050 + deliveries.length}`;
             document.getElementById('delDate').value = quot.date;
             document.getElementById('delClientInput').value = quot.client;
             document.getElementById('delOrderId').value = quot.refNo || '';
@@ -2503,37 +2500,35 @@ const firebaseConfig = {
             const clientData = clients.find(c => c.name === quot.client) || { address: 'N/A', mobile: 'N/A' };
             const footerMargin = 20;
             const pageHeight = doc.internal.pageSize.height;
-            let currentY = 46;
+            let currentY = 49;
             let isFirstPage = true;
             function checkPageBreak(y, neededSpace = 10) {
-                if (y + neededSpace > pageHeight - footerMargin) { doc.addPage(); addHeaderAndFooter(); isFirstPage = false; return 46; } return y;
+                if (y + neededSpace > pageHeight - footerMargin) { doc.addPage(); addHeaderAndFooter(); isFirstPage = false; return 49; } return y;
             }
             const addHeaderAndFooter = () => {
-                doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 34, 196, 34);
-                if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 95, 3, 15, 15); } catch(e){} }
-                doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); 
-                doc.text(settings.company, 105, 22, { align: "center" });
-                doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); 
-                doc.text(settings.address, 105, 26, { align: "center" });
-                const cl = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`;
-                doc.text(cl, 105, 30, { align: "center" });
+                if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 92, 1, 26, 26); } catch(e){} }
+                doc.setFontSize(28); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); 
+                doc.text(settings.company, 105, 32, { align: "center" });
+                doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 37, 196, 37);
                 if (isFirstPage) {
                     doc.setFontSize(12); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "bold");
-                    doc.text("QUOTATION", 105, 42, { align: "center" });
+                    doc.text("QUOTATION", 105, 45, { align: "center" });
                 }
                 doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
                 doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); 
-                doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
+                doc.text(settings.address, 105, pageHeight - 17, { align: "center" });
+                const cl = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`;
+                doc.text(cl, 105, pageHeight - 13, { align: "center" });
             };
             addHeaderAndFooter();
             doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.setTextColor(0,0,0); doc.text("To,", 14, currentY); currentY += 5;
             doc.setFont("helvetica", "bold"); doc.setTextColor(0,0,0); doc.text(quot.client, 14, currentY); currentY += 5;
             doc.setFont("helvetica", "normal"); const addr = doc.splitTextToSize(clientData.address, 80); doc.text(addr, 14, currentY);
             currentY += (addr.length * 5) + 2;
-            doc.setFont("helvetica", "bold"); doc.text("Quotation No:", 130, 47); doc.setFont("helvetica", "normal"); doc.text(quot.id, 160, 47);
-            doc.setFont("helvetica", "bold"); doc.text("Date:", 130, 52); doc.setFont("helvetica", "normal"); doc.text(formatFriendlyDate(quot.date), 160, 52);
-            doc.setFont("helvetica", "bold"); doc.text("Ref No:", 130, 57); doc.setFont("helvetica", "normal"); doc.text(quot.refNo || 'N/A', 160, 57);
-            currentY = Math.max(currentY, 70);
+            doc.setFont("helvetica", "bold"); doc.text("Quotation No:", 130, 50); doc.setFont("helvetica", "normal"); doc.text(quot.id, 160, 50);
+            doc.setFont("helvetica", "bold"); doc.text("Date:", 130, 55); doc.setFont("helvetica", "normal"); doc.text(formatFriendlyDate(quot.date), 160, 55);
+            doc.setFont("helvetica", "bold"); doc.text("Ref No:", 130, 60); doc.setFont("helvetica", "normal"); doc.text(quot.refNo || 'N/A', 160, 60);
+            currentY = Math.max(currentY, 73);
             if (quot.subject) { currentY = checkPageBreak(currentY, 6); doc.setFont("helvetica", "bold"); doc.text("Subject: " + quot.subject, 14, currentY, { maxWidth: 180 }); currentY += 6; }
             const tableData = quot.items.map((item, i) => [i + 1, item.name, item.desc || 'N/A', item.qty, item.unit || 'Pcs', item.price, item.total]);
             doc.autoTable({
@@ -2541,20 +2536,19 @@ const firebaseConfig = {
                 styles: { textColor: [0, 0, 0], fontSize: 9, lineColor: [0, 0, 0], lineWidth: 0.1 },
                 headStyles: { fillColor: false, textColor: [0, 0, 0], fontStyle: 'bold', lineWidth: 0.1, lineColor: [0, 0, 0], halign: 'center' },
                 columnStyles: { 0: { halign: 'center' }, 3: { halign: 'center' }, 4: { halign: 'center' }, 5: { halign: 'center' }, 6: { halign: 'right' } },
-                margin: { top: 38, bottom: footerMargin + 10 },
+                margin: { top: 42, bottom: footerMargin + 10 },
                 didDrawPage: (data) => {
-                    doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 34, 196, 34);
-                    if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 95, 3, 15, 15); } catch(e){} }
-                    doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 22, { align: "center" });
-                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, 26, { align: "center" });
-                    const clLine = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(clLine, 105, 30, { align: "center" });
+                    if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 92, 1, 26, 26); } catch(e){} }
+                    doc.setFontSize(28); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 32, { align: "center" });
+                    doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 37, 196, 37);
                     doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
-                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
+                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, pageHeight - 17, { align: "center" });
+                    const clLine = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(clLine, 105, pageHeight - 13, { align: "center" });
                 }
             });
             let finalY = doc.lastAutoTable.finalY + 6; finalY = checkPageBreak(finalY, 30);
             doc.setFont("helvetica", "bold"); doc.setTextColor(0,0,0); doc.text("Amount in Words:", 14, finalY);
-            doc.setFont("helvetica", "normal"); const words = numberToWords(Math.round(parseFloat(quot.netTotal)));
+            doc.setFont("helvetica", "normal"); const words = numberToWords(parseFloat(quot.netTotal), true);
             const wordsLines = doc.splitTextToSize(words, 100); doc.text(wordsLines, 14, finalY + 5);
             let wordsY = finalY + 5 + (wordsLines.length * 5);
             doc.setFont("helvetica", "bold"); doc.text("Sub Total:", 140, finalY); doc.text(quot.total, 196, finalY, { align: "right" });
@@ -2602,7 +2596,7 @@ const firebaseConfig = {
 
         function initDeliveryFields() {
             const nextNo = 10050 + deliveries.length;
-            document.getElementById('delNo').value = `FE-DC-${nextNo}`;
+            document.getElementById('delNo').value = `AC-DC-${nextNo}`;
             document.getElementById('delDate').valueAsDate = new Date();
             document.getElementById('delClientInput').value = "";
             document.getElementById('delOrderId').value = "";
@@ -2735,52 +2729,49 @@ const firebaseConfig = {
             const clientData = clients.find(c => c.name === del.client) || { address: 'N/A', mobile: 'N/A' };
             const footerMargin = 20;
             const pageHeight = doc.internal.pageSize.height;
-            let currentY = 46;
+            let currentY = 49;
             let isFirstPage = true;
             function checkPageBreak(y, neededSpace = 10) {
-                if (y + neededSpace > pageHeight - footerMargin) { doc.addPage(); addHeaderAndFooter(); isFirstPage = false; return 46; } return y;
+                if (y + neededSpace > pageHeight - footerMargin) { doc.addPage(); addHeaderAndFooter(); isFirstPage = false; return 49; } return y;
             }
             const addHeaderAndFooter = () => {
-                doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 34, 196, 34);
-                if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 95, 3, 15, 15); } catch(e){} }
-                doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); 
-                doc.text(settings.company, 105, 22, { align: "center" });
-                doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); 
-                doc.text(settings.address, 105, 26, { align: "center" });
-                const clLine = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`;
-                doc.text(clLine, 105, 30, { align: "center" });
+                if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 92, 1, 26, 26); } catch(e){} }
+                doc.setFontSize(28); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); 
+                doc.text(settings.company, 105, 32, { align: "center" });
+                doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 37, 196, 37);
                 if (isFirstPage) {
                     doc.setFontSize(12); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "bold");
-                    doc.text("DELIVERY CHALLAN", 105, 42, { align: "center" });
+                    doc.text("DELIVERY CHALLAN", 105, 45, { align: "center" });
                 }
                 doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
                 doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); 
-                doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
+                doc.text(settings.address, 105, pageHeight - 17, { align: "center" });
+                const clLine = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`;
+                doc.text(clLine, 105, pageHeight - 13, { align: "center" });
             };
             addHeaderAndFooter();
             doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.setTextColor(0,0,0); doc.text("To,", 14, currentY); currentY += 5;
             doc.setFont("helvetica", "bold"); doc.text(del.client, 14, currentY); currentY += 5;
             doc.setFont("helvetica", "normal"); const addr = doc.splitTextToSize(del.address || clientData.address, 80); doc.text(addr, 14, currentY);
             currentY += (addr.length * 5) + 2;
-            doc.setFont("helvetica", "bold"); doc.text("Challan No:", 130, 47); doc.setFont("helvetica", "normal"); doc.text(del.id, 160, 47);
-            doc.setFont("helvetica", "bold"); doc.text("Date:", 130, 52); doc.setFont("helvetica", "normal"); doc.text(formatFriendlyDate(del.date), 160, 52);
-            doc.setFont("helvetica", "bold"); doc.text("Order ID:", 130, 57); doc.setFont("helvetica", "normal"); doc.text(del.orderId || 'N/A', 160, 57);
-            doc.setFont("helvetica", "bold"); doc.text("Gate Pass No:", 130, 62); doc.setFont("helvetica", "normal"); doc.text(del.gatePassNo || 'N/A', 160, 62);
+            doc.setFont("helvetica", "bold"); doc.text("Challan No:", 130, 50); doc.setFont("helvetica", "normal"); doc.text(del.id, 160, 50);
+            doc.setFont("helvetica", "bold"); doc.text("Date:", 130, 55); doc.setFont("helvetica", "normal"); doc.text(formatFriendlyDate(del.date), 160, 55);
+            doc.setFont("helvetica", "bold"); doc.text("Order ID:", 130, 60); doc.setFont("helvetica", "normal"); doc.text(del.orderId || 'N/A', 160, 60);
+            doc.setFont("helvetica", "bold"); doc.text("Gate Pass No:", 130, 65); doc.setFont("helvetica", "normal"); doc.text(del.gatePassNo || 'N/A', 160, 65);
             const tableData = del.items.map((item, i) => [i + 1, item.name, item.desc || 'N/A', item.qty, item.remarks || '']);
             doc.autoTable({
-                startY: 70, head: [['SL', 'Items', 'Description', 'Qty', 'Remarks']], body: tableData, theme: 'grid',
+                startY: 73, head: [['SL', 'Items', 'Description', 'Qty', 'Remarks']], body: tableData, theme: 'grid',
                 styles: { textColor: [0, 0, 0], fontSize: 9, lineColor: [0, 0, 0], lineWidth: 0.1 },
                 headStyles: { fillColor: false, textColor: [0, 0, 0], fontStyle: 'bold', lineWidth: 0.1, lineColor: [0, 0, 0], halign: 'center' },
                 columnStyles: { 0: { halign: 'center' }, 3: { halign: 'center' } },
-                margin: { top: 38, bottom: footerMargin + 10 },
+                margin: { top: 42, bottom: footerMargin + 10 },
                 didDrawPage: (data) => {
-                    doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 34, 196, 34);
-                    if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 95, 3, 15, 15); } catch(e){} }
-                    doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 22, { align: "center" });
-                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, 26, { align: "center" });
-                    const clLn = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(clLn, 105, 30, { align: "center" });
+                    if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 92, 1, 26, 26); } catch(e){} }
+                    doc.setFontSize(28); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 32, { align: "center" });
+                    doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 37, 196, 37);
                     doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
-                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
+                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, pageHeight - 17, { align: "center" });
+                    const clLn = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(clLn, 105, pageHeight - 13, { align: "center" });
                 }
             });
             let finalY = doc.lastAutoTable.finalY + 6; finalY = checkPageBreak(finalY, 20);
@@ -2843,7 +2834,7 @@ const firebaseConfig = {
 
         function initPurchaseFields() {
             const nextNo = 100100 + purchases.length;
-            document.getElementById('purNo').value = `FE-PO-${nextNo}`;
+            document.getElementById('purNo').value = `AC-PO-${nextNo}`;
             document.getElementById('purDate').valueAsDate = new Date();
             document.getElementById('purSupplierInput').value = "";
             document.getElementById('purRefNo').value = "";
@@ -2964,32 +2955,31 @@ const firebaseConfig = {
             const supplierData = suppliers.find(s => s.name === pur.supplier) || { address: 'N/A', mobile: 'N/A' };
             const footerMargin = 20;
             const pageHeight = doc.internal.pageSize.height;
-            let currentY = 46;
+            let currentY = 49;
             let isFirstPage = true;
             function checkPageBreak(y, neededSpace = 10) {
-                if (y + neededSpace > pageHeight - footerMargin) { doc.addPage(); addHeaderAndFooter(); isFirstPage = false; return 46; } return y;
+                if (y + neededSpace > pageHeight - footerMargin) { doc.addPage(); addHeaderAndFooter(); isFirstPage = false; return 49; } return y;
             }
             const addHeaderAndFooter = () => {
-                doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 34, 196, 34);
-                if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 95, 3, 15, 15); } catch(e){} }
-                doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 22, { align: "center" });
-                doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, 26, { align: "center" });
-                const cl = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(cl, 105, 30, { align: "center" });
+                if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 92, 1, 26, 26); } catch(e){} }
+                doc.setFontSize(28); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 32, { align: "center" });
+                doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 37, 196, 37);
                 if (isFirstPage) {
-                    doc.setFontSize(12); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "bold"); doc.text("PURCHASE ORDER", 105, 42, { align: "center" });
+                    doc.setFontSize(12); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "bold"); doc.text("PURCHASE ORDER", 105, 45, { align: "center" });
                 }
                 doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
-                doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
+                doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, pageHeight - 17, { align: "center" });
+                const cl = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(cl, 105, pageHeight - 13, { align: "center" });
             };
             addHeaderAndFooter();
             doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.setTextColor(0,0,0); doc.text("To,", 14, currentY); currentY += 5;
             doc.setFont("helvetica", "bold"); doc.text(pur.supplier, 14, currentY); currentY += 5;
             doc.setFont("helvetica", "normal"); const addr = doc.splitTextToSize(supplierData.address, 80); doc.text(addr, 14, currentY);
             currentY += (addr.length * 5) + 2;
-            doc.setFont("helvetica", "bold"); doc.text("PO No:", 130, 47); doc.setFont("helvetica", "normal"); doc.text(pur.id, 160, 47);
-            doc.setFont("helvetica", "bold"); doc.text("Date:", 130, 52); doc.setFont("helvetica", "normal"); doc.text(formatFriendlyDate(pur.date), 160, 52);
-            doc.setFont("helvetica", "bold"); doc.text("Ref No:", 130, 57); doc.setFont("helvetica", "normal"); doc.text(pur.refNo || 'N/A', 160, 57);
-            currentY = Math.max(currentY, 70);
+            doc.setFont("helvetica", "bold"); doc.text("PO No:", 130, 50); doc.setFont("helvetica", "normal"); doc.text(pur.id, 160, 50);
+            doc.setFont("helvetica", "bold"); doc.text("Date:", 130, 55); doc.setFont("helvetica", "normal"); doc.text(formatFriendlyDate(pur.date), 160, 55);
+            doc.setFont("helvetica", "bold"); doc.text("Ref No:", 130, 60); doc.setFont("helvetica", "normal"); doc.text(pur.refNo || 'N/A', 160, 60);
+            currentY = Math.max(currentY, 73);
             if (pur.subject) { currentY = checkPageBreak(currentY, 6); doc.setFont("helvetica", "bold"); doc.text("Subject: " + pur.subject, 14, currentY, { maxWidth: 180 }); currentY += 6; }
             const tableData = pur.items.map((item, i) => [i + 1, item.name, item.desc || 'N/A', item.qty, item.unit || 'Pcs', item.price, item.total]);
             doc.autoTable({
@@ -2997,15 +2987,14 @@ const firebaseConfig = {
                 styles: { textColor: [0, 0, 0], fontSize: 9, lineColor: [0, 0, 0], lineWidth: 0.1 },
                 headStyles: { fillColor: false, textColor: [0, 0, 0], fontStyle: 'bold', lineWidth: 0.1, lineColor: [0, 0, 0], halign: 'center' },
                 columnStyles: { 0: { halign: 'center' }, 3: { halign: 'center' }, 5: { halign: 'right' }, 6: { halign: 'right' } },
-                margin: { top: 38, bottom: footerMargin + 10 },
+                margin: { top: 42, bottom: footerMargin + 10 },
                 didDrawPage: (data) => {
-                    doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 34, 196, 34);
-                    if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 95, 3, 15, 15); } catch(e){} }
-                    doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 22, { align: "center" });
-                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, 26, { align: "center" });
-                    const clLn = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(clLn, 105, 30, { align: "center" });
+                    if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 92, 1, 26, 26); } catch(e){} }
+                    doc.setFontSize(28); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 32, { align: "center" });
+                    doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 37, 196, 37);
                     doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
-                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
+                    doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, pageHeight - 17, { align: "center" });
+                    const clLn = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(clLn, 105, pageHeight - 13, { align: "center" });
                 }
             });
             let finalY = doc.lastAutoTable.finalY + 6; finalY = checkPageBreak(finalY, 30);
@@ -3048,7 +3037,7 @@ const firebaseConfig = {
 
         function initMoneyReceiptFields() {
             const nextNo = 100100 + moneyReceipts.length;
-            document.getElementById('mrNo').value = `FE-MR-${nextNo}`;
+            document.getElementById('mrNo').value = `AC-MR-${nextNo}`;
             document.getElementById('mrDate').valueAsDate = new Date();
             document.getElementById('mrClientInput').value = "";
             document.getElementById('mrPaymentMode').value = "Cash";
@@ -3149,7 +3138,7 @@ const firebaseConfig = {
             if (!receipt) return;
             const element = document.getElementById('pdf-template');
             element.style.display = 'block';
-            document.getElementById('pdf-company-name').textContent = settings.company || 'FAITH ENGINEERING';
+            document.getElementById('pdf-company-name').textContent = settings.company || 'ARVIN CONTROLS';
             document.getElementById('pdf-company-address').textContent = settings.address || '';
             document.getElementById('pdf-company-contact').textContent = `Mobile: ${settings.mobile || ''} | Email: ${settings.email || ''} | Website: ${settings.website || ''}`;
             document.getElementById('pdf-footer-text').textContent = settings.slogan || '';
@@ -3207,7 +3196,7 @@ const firebaseConfig = {
 
         function initDocumentFields() {
             const nextNo = 100100 + documents.length;
-            document.getElementById('docNo').value = `FE-DOC-${nextNo}`;
+            document.getElementById('docNo').value = `AC-DOC-${nextNo}`;
             document.getElementById('docDate').valueAsDate = new Date();
             document.getElementById('docTitle').value = ""; document.getElementById('docContent').value = "";
             document.getElementById('docPreview').innerHTML = "Document content will appear here...";
@@ -3266,19 +3255,18 @@ const firebaseConfig = {
         function downloadDocumentPDF(index) {
             const { jsPDF } = window.jspdf; const doc = new jsPDF('p', 'mm', 'a4');
             const documentData = documents[index]; const footerMargin = 20; const pageHeight = doc.internal.pageSize.height;
-            let currentY = 46;
+            let currentY = 49;
             let isFirstPage = true;
             function checkPageBreak(y, neededSpace = 10) {
-                if (y + neededSpace > pageHeight - footerMargin) { doc.addPage(); addHeaderAndFooter(); return 46; } return y;
+                if (y + neededSpace > pageHeight - footerMargin) { doc.addPage(); addHeaderAndFooter(); return 49; } return y;
             }
             const addHeaderAndFooter = () => {
-                doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 34, 196, 34);
-                if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 95, 3, 15, 15); } catch(e){} }
-                doc.setFontSize(16); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 22, { align: "center" });
-                doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, 26, { align: "center" });
-                const cl = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(cl, 105, 30, { align: "center" });
+                if(settings.logo) { try { doc.addImage(settings.logo, 'PNG', 92, 1, 26, 26); } catch(e){} }
+                doc.setFontSize(28); doc.setTextColor(204, 0, 0); doc.setFont("helvetica", "bold"); doc.text(settings.company, 105, 32, { align: "center" });
+                doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, 37, 196, 37);
                 doc.setDrawColor(204, 0, 0); doc.setLineWidth(0.8); doc.line(14, pageHeight - 22, 196, pageHeight - 22);
-                doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.slogan || "Excellence in Service", 105, pageHeight - 17, { align: "center" });
+                doc.setFontSize(8); doc.setTextColor(0, 0, 255); doc.setFont("helvetica", "normal"); doc.text(settings.address, 105, pageHeight - 17, { align: "center" });
+                const cl = `Mobile: ${settings.mobile || 'N/A'} | Email: ${settings.email || 'N/A'} | Website: ${settings.website || 'N/A'}`; doc.text(cl, 105, pageHeight - 13, { align: "center" });
             };
             addHeaderAndFooter();
             doc.setFontSize(14); doc.setFont("helvetica", "bold"); doc.setTextColor(0, 0, 255); doc.text(documentData.title, 105, currentY, { align: "center" });
